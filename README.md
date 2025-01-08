@@ -112,6 +112,7 @@ The ProFolio database schema includes the following tables:
 | avatarUrl    | String  | Profile picture URL     |
 | resumeUrl    | String  | Resume URL (optional)   |
 | socialLinks  | JSON    | Social media links      |
+| themePreference | String | Social media links   |
 
 ---
 

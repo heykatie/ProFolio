@@ -223,6 +223,188 @@ Creates a new user, logs them in as the current user, and returns the current us
 
 ---
 
+Here are the API endpoints for user profile, including theme preference in markdown format:
+
+## **User Profile API Endpoints**
+
+### **1. Get User Profile Information**
+
+Returns the current user's profile information, including their theme preference.
+
+- **Require Authentication:** true
+- **Request:**
+  - **Method:** GET
+  - **Route path:** `/api/users/:id`
+  - **Body:** none
+
+- **Successful Response:**
+  - **Status Code:** 200
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "user": {
+        "id": 1,
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "john.doe@gmail.com",
+        "username": "JohnDoe",
+        "bio": "Web developer passionate about design",
+        "avatarUrl": "https://cdn.example.com/avatar.png",
+        "socialLinks": {
+          "github": "https://github.com/johndoe",
+          "linkedin": "https://linkedin.com/in/johndoe"
+        },
+        "resumeUrl": "https://cdn.example.com/resume.pdf",
+        "themePreference": "dark",
+        "createdAt": "2025-01-01T12:00:00Z",
+        "updatedAt": "2025-01-03T14:00:00Z"
+      }
+    }
+    ```
+
+---
+
+### **2. Update User Profile Information**
+
+Allows the user to update their profile information, including their theme preference.
+
+- **Require Authentication:** true
+- **Request:**
+  - **Method:** PUT
+  - **Route path:** `/api/users/:id`
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "firstName": "John",
+      "lastName": "Doe",
+      "bio": "Updated bio about my portfolio journey",
+      "avatarUrl": "https://cdn.example.com/new-avatar.png",
+      "resumeUrl": "https://cdn.example.com/new-resume.pdf",
+      "socialLinks": {
+        "github": "https://github.com/johndoe",
+        "linkedin": "https://linkedin.com/in/johndoe"
+      },
+      "themePreference": "light"
+    }
+    ```
+
+- **Successful Response:**
+  - **Status Code:** 200
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "User profile updated successfully",
+      "user": {
+        "id": 1,
+        "firstName": "John",
+        "lastName": "Doe",
+        "bio": "Updated bio about my portfolio journey",
+        "avatarUrl": "https://cdn.example.com/new-avatar.png",
+        "resumeUrl": "https://cdn.example.com/new-resume.pdf",
+        "socialLinks": {
+          "github": "https://github.com/johndoe",
+          "linkedin": "https://linkedin.com/in/johndoe"
+        },
+        "themePreference": "light",
+        "updatedAt": "2025-01-05T15:30:00Z"
+      }
+    }
+    ```
+
+---
+
+### **3. Update Theme Preference Only**
+
+Allows the user to update only their theme preference.
+
+- **Require Authentication:** true
+- **Request:**
+  - **Method:** PATCH
+  - **Route path:** `/api/users/:id/theme`
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "themePreference": "dark"
+    }
+    ```
+
+- **Successful Response:**
+  - **Status Code:** 200
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "Theme preference updated successfully",
+      "themePreference": "dark"
+    }
+    ```
+
+---
+
+### **4. Delete User Profile**
+
+Deletes the current user profile.
+
+- **Require Authentication:** true
+- **Request:**
+  - **Method:** DELETE
+  - **Route path:** `/api/users/:id`
+  - **Body:** none
+
+- **Successful Response:**
+  - **Status Code:** 200
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "User profile deleted successfully"
+    }
+    ```
+
+---
+
+### **Error Responses**
+
+**1. Unauthorized Access**
+- **Status Code:** 401
+- **Body:**
+  ```json
+  {
+    "message": "Authentication required"
+  }
+  ```
+
+**2. Forbidden Access**
+- **Status Code:** 403
+- **Body:**
+  ```json
+  {
+    "message": "Forbidden"
+  }
+  ```
+
+
+**3. Not Found**
+- **Status Code:** 404
+- **Body:
+  ```json
+  {
+    "message": "User not found"
+  }
+  ```
+  
+---
+
 ## **Projects**
 
 ### **Get all Projects**

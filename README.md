@@ -369,9 +369,6 @@ Let me know if you'd like more updates or edits!
 
 ---
 
-This section provides the steps for deploying both the **backend** and **frontend** of **ProFolio**. Let me know if you'd like additional notes or troubleshooting tips!
-
-
 ## **Contributing**
 
 Contributions are welcome! To contribute:

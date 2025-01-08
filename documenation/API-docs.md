@@ -1018,3 +1018,193 @@ Deletes an existing custom section.
       "message": "Custom section couldn't be found"
     }
     ```
+
+## **Badges**
+
+### **Get all Available Badges**
+
+Returns a list of all available badges in the system.
+
+- **Require Authentication:** false
+- **Request:**
+  - **Method:** GET
+  - **Route path:** `/api/badges`
+  - **Body:** none
+
+- **Successful Response:**
+  - **Status Code:** 200
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "Badges": [
+        {
+          "id": 1,
+          "title": "First Project Added",
+          "description": "Awarded for adding your first project!",
+          "iconUrl": "https://cdn.example.com/badges/first-project.png",
+          "criteria": {
+            "requiredActions": "Add a project",
+            "requiredCount": 1
+          },
+          "createdAt": "2025-01-01T12:00:00Z",
+          "updatedAt": "2025-01-01T12:00:00Z"
+        },
+        {
+          "id": 2,
+          "title": "Profile Completed",
+          "description": "Awarded for completing your profile information.",
+          "iconUrl": "https://cdn.example.com/badges/profile-completed.png",
+          "criteria": {
+            "requiredActions": "Complete profile details",
+            "requiredCount": 1
+          },
+          "createdAt": "2025-01-02T15:00:00Z",
+          "updatedAt": "2025-01-02T15:00:00Z"
+        }
+      ]
+    }
+    ```
+
+---
+
+### **Award a Badge to a User**
+
+Assigns a badge to a user after they meet the criteria.
+
+- **Require Authentication:** true
+- **Request:**
+  - **Method:** POST
+  - **Route path:** `/api/user_badges`
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "userId": 1,
+      "badgeId": 2
+    }
+    ```
+
+- **Successful Response:**
+  - **Status Code:** 201
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "id": 1,
+      "userId": 1,
+      "badgeId": 2,
+      "dateEarned": "2025-01-07T14:00:00Z",
+      "message": "Badge awarded successfully."
+    }
+    ```
+
+- **Error Response:** Validation errors
+  - **Status Code:** 400
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "Bad Request",
+      "errors": {
+        "userId": "User ID is required",
+        "badgeId": "Badge ID is required"
+      }
+    }
+    ```
+
+---
+
+### **Get All Badges Earned by a User**
+
+Returns all badges that the specified user has earned.
+
+- **Require Authentication:** true
+- **Request:**
+  - **Method:** GET
+  - **Route path:** `/api/user_badges/:userId`
+  - **Body:** none
+
+- **Successful Response:**
+  - **Status Code:** 200
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "UserBadges": [
+        {
+          "id": 1,
+          "userId": 1,
+          "badgeId": 1,
+          "dateEarned": "2025-01-07T12:30:00Z",
+          "badge": {
+            "title": "First Project Added",
+            "description": "Awarded for adding your first project!",
+            "iconUrl": "https://cdn.example.com/badges/first-project.png"
+          }
+        },
+        {
+          "id": 2,
+          "userId": 1,
+          "badgeId": 2,
+          "dateEarned": "2025-01-07T14:00:00Z",
+          "badge": {
+            "title": "Profile Completed",
+            "description": "Awarded for completing your profile information.",
+            "iconUrl": "https://cdn.example.com/badges/profile-completed.png"
+          }
+        }
+      ]
+    }
+    ```
+
+- **Error Response:** User not found
+  - **Status Code:** 404
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "User couldn't be found"
+    }
+    ```
+
+---
+
+### **Delete a Badge from a User**
+
+Removes an earned badge from a user.
+
+- **Require Authentication:** true
+- **Require proper authorization:** The badge must belong to the current user.
+- **Request:**
+  - **Method:** DELETE
+  - **Route path:** `/api/user_badges/:id`
+  - **Body:** none
+
+- **Successful Response:**
+  - **Status Code:** 200
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "Successfully deleted"
+    }
+    ```
+
+- **Error Response:** Badge not found
+  - **Status Code:** 404
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "Badge couldn't be found"
+    }
+    ```

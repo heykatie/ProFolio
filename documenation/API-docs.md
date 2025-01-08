@@ -832,3 +832,189 @@ Deletes an existing feedback comment.
     }
     ```
 
+## **Custom Sections**
+
+### **Get all Custom Sections for a User**
+
+Returns all custom sections for the specified user.
+
+- **Require Authentication:** true
+- **Request:**
+  - **Method:** GET
+  - **Route path:** `/api/custom_sections/:userId`
+  - **Body:** none
+
+- **Successful Response:**
+  - **Status Code:** 200
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "CustomSections": [
+        {
+          "id": 1,
+          "userId": 1,
+          "sectionTitle": "Certifications",
+          "content": "AWS Certified Solutions Architect",
+          "sectionType": "list",
+          "orderIndex": 1,
+          "createdAt": "2025-01-07T12:00:00Z",
+          "updatedAt": "2025-01-07T12:30:00Z"
+        },
+        {
+          "id": 2,
+          "userId": 1,
+          "sectionTitle": "Volunteer Work",
+          "content": "Taught coding to underprivileged youth.",
+          "sectionType": "text",
+          "orderIndex": 2,
+          "createdAt": "2025-01-07T12:05:00Z",
+          "updatedAt": "2025-01-07T12:35:00Z"
+        }
+      ]
+    }
+    ```
+
+---
+
+### **Create a Custom Section**
+
+Creates and returns a new custom section for the user.
+
+- **Require Authentication:** true
+- **Request:**
+  - **Method:** POST
+  - **Route path:** `/api/custom_sections`
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "userId": 1,
+      "sectionTitle": "Awards",
+      "content": "Received Hackathon MVP Award.",
+      "sectionType": "text",
+      "orderIndex": 3
+    }
+    ```
+
+- **Successful Response:**
+  - **Status Code:** 201
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "id": 3,
+      "userId": 1,
+      "sectionTitle": "Awards",
+      "content": "Received Hackathon MVP Award.",
+      "sectionType": "text",
+      "orderIndex": 3,
+      "createdAt": "2025-01-07T14:00:00Z",
+      "updatedAt": "2025-01-07T14:00:00Z"
+    }
+    ```
+
+- **Error Response:** Body validation errors
+  - **Status Code:** 400
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "Bad Request",
+      "errors": {
+        "sectionTitle": "Section title is required",
+        "content": "Content is required",
+        "sectionType": "Section type must be either 'text', 'list', or 'gallery'"
+      }
+    }
+    ```
+
+---
+
+### **Update a Custom Section**
+
+Updates and returns an existing custom section.
+
+- **Require Authentication:** true
+- **Require proper authorization:** The section must belong to the current user.
+- **Request:**
+  - **Method:** PUT
+  - **Route path:** `/api/custom_sections/:id/edit`
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "sectionTitle": "Updated Section Title",
+      "content": "Updated content for the custom section.",
+      "sectionType": "text"
+    }
+    ```
+
+- **Successful Response:**
+  - **Status Code:** 200
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "id": 1,
+      "userId": 1,
+      "sectionTitle": "Updated Section Title",
+      "content": "Updated content for the custom section.",
+      "sectionType": "text",
+      "orderIndex": 1,
+      "createdAt": "2025-01-07T12:00:00Z",
+      "updatedAt": "2025-01-07T15:00:00Z"
+    }
+    ```
+
+- **Error Response:** Custom section not found
+  - **Status Code:** 404
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "Custom section couldn't be found"
+    }
+    ```
+
+---
+
+### **Delete a Custom Section**
+
+Deletes an existing custom section.
+
+- **Require Authentication:** true
+- **Require proper authorization:** The section must belong to the current user.
+- **Request:**
+  - **Method:** DELETE
+  - **Route path:** `/api/custom_sections/:id`
+  - **Body:** none
+
+- **Successful Response:**
+  - **Status Code:** 200
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "Successfully deleted"
+    }
+    ```
+
+- **Error Response:** Custom section not found
+  - **Status Code:** 404
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "Custom section couldn't be found"
+    }
+    ```

@@ -337,8 +337,6 @@ Full API documentation for **ProFolio** is available [here](./api-docs.md). Belo
 
 ---
 
-Let me know if you'd like more updates or edits!
-
 ### **3. Deploy the Backend**
 - Deploy your **Express** backend to a service like **Render**:
   1. Create a new web service in Render.

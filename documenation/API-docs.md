@@ -700,6 +700,202 @@ Returns all feedback comments for a specific portfolio.
     }
     ```
 
+## **Templates**
+
+### **Get all Templates for the Current User**
+
+Returns all templates created by or available to the logged-in user.
+
+- **Require Authentication:** true
+- **Request:**
+  - **Method:** GET
+  - **Route path:** `/api/templates`
+  - **Body:** none
+
+- **Successful Response:**
+  - **Status Code:** 200
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "Templates": [
+        {
+          "id": 1,
+          "userId": 1,
+          "templateType": "Modern",
+          "primaryColor": "#3498db",
+          "secondaryColor": "#2ecc71",
+          "fontStyle": "Roboto",
+          "animationSettings": "fade-in",
+          "careerType": "developer",
+          "createdAt": "2025-01-07T12:00:00Z",
+          "updatedAt": "2025-01-07T12:30:00Z"
+        },
+        {
+          "id": 2,
+          "userId": null,
+          "templateType": "Minimalist",
+          "primaryColor": "#000000",
+          "secondaryColor": "#ffffff",
+          "fontStyle": "Montserrat",
+          "animationSettings": "slide-in",
+          "careerType": "designer",
+          "createdAt": "2025-01-07T14:00:00Z",
+          "updatedAt": "2025-01-07T14:30:00Z"
+        }
+      ]
+    }
+    ```
+
+---
+
+### **Create a New Template**
+
+Creates a new custom template for the user.
+
+- **Require Authentication:** true
+- **Request:**
+  - **Method:** POST
+  - **Route path:** `/api/templates`
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "templateType": "Custom Design",
+      "primaryColor": "#ff5733",
+      "secondaryColor": "#333333",
+      "fontStyle": "Lato",
+      "animationSettings": "zoom-in",
+      "careerType": "photographer"
+    }
+    ```
+
+- **Successful Response:**
+  - **Status Code:** 201
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "id": 3,
+      "userId": 1,
+      "templateType": "Custom Design",
+      "primaryColor": "#ff5733",
+      "secondaryColor": "#333333",
+      "fontStyle": "Lato",
+      "animationSettings": "zoom-in",
+      "careerType": "photographer",
+      "createdAt": "2025-01-07T15:00:00Z",
+      "updatedAt": "2025-01-07T15:00:00Z"
+    }
+    ```
+
+- **Error Response:** Body validation errors
+  - **Status Code:** 400
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "Bad Request",
+      "errors": {
+        "templateType": "Template type is required",
+        "primaryColor": "Primary color is required",
+        "fontStyle": "Font style is required"
+      }
+    }
+    ```
+
+---
+
+### **Update a Template**
+
+Updates an existing template for the user.
+
+- **Require Authentication:** true
+- **Require proper authorization:** The template must belong to the current user.
+- **Request:**
+  - **Method:** PUT
+  - **Route path:** `/api/templates/:id/edit`
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "templateType": "Updated Custom Design",
+      "primaryColor": "#333333",
+      "fontStyle": "Arial"
+    }
+    ```
+
+- **Successful Response:**
+  - **Status Code:** 200
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "id": 3,
+      "userId": 1,
+      "templateType": "Updated Custom Design",
+      "primaryColor": "#333333",
+      "secondaryColor": "#333333",
+      "fontStyle": "Arial",
+      "animationSettings": "zoom-in",
+      "careerType": "photographer",
+      "createdAt": "2025-01-07T15:00:00Z",
+      "updatedAt": "2025-01-07T16:00:00Z"
+    }
+    ```
+
+- **Error Response:** Template not found
+  - **Status Code:** 404
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "Template couldn't be found"
+    }
+    ```
+
+---
+
+### **Delete a Template**
+
+Deletes an existing template.
+
+- **Require Authentication:** true
+- **Require proper authorization:** The template must belong to the current user.
+- **Request:**
+  - **Method:** DELETE
+  - **Route path:** `/api/templates/:id`
+  - **Body:** none
+
+- **Successful Response:**
+  - **Status Code:** 200
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "Successfully deleted"
+    }
+    ```
+
+- **Error Response:** Template not found
+  - **Status Code:** 404
+  - **Headers:**
+    - Content-Type: `application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "Template couldn't be found"
+    }
+    ```
+
 ---
 
 ### **Create Feedback for a Portfolio**

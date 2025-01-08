@@ -2,7 +2,7 @@ ProFolio - solo capstone project
 
 # **ProFolio**
 
-**ProFolio** is a customizable and professional portfolio-building platform that empowers users across all professions to showcase their achievements and projects in a modern, interactive, and personalized way. With ProFolio, users can build and share their portfolios using dynamic templates, integrated project insights, and interactive features like feedback, badges, and analytics.
+**ProFolio** is a customizable and professional portfolio-building platform that empowers users across all professions to showcase their achievements and projects in a modern, interactive, and personalized way.  With ProFolio, users can build and share their portfolios using dynamic templates, integrated project insights, and interactive features like feedback, badges, and analytics.
 
 ---
 

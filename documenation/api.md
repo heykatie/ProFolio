@@ -10,6 +10,12 @@
 
 ---
 
+[ProFolio Figma Wireframes](https://www.figma.com/design/5SOScinJ5QQJw72G2z1dOI/ProFolio?node-id=0-1&t=fI1y21OmCpM40MZ3-1)
+
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/design/5SOScinJ5QQJw72G2z1dOI/ProFolio?node-id=0-1&embed-host=share" allowfullscreen></iframe>
+
+---
+
 ## API Documentation
 
 ## **USER AUTHENTICATION/AUTHORIZATION**

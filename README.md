@@ -12,12 +12,13 @@ ProFolio - solo capstone project
 3. [Getting Started](#getting-started)
 4. [Environment Variables](#environment-variables)
 5. [Database Schema](#database-schema)
-6. [API Documentation](#api-documentation)
-7. [Run Locally](#run-locally)
-8. [Deployment](#deployment)
-9. [Contributing](#contributing)
-10. [Future Improvements](#future-improvements)
-11. [Acknowledgments](#acknowledgments)
+6. [Wireframes](#wireframes)
+7. [API Documentation](#api-documentation)
+8. [Run Locally](#run-locally)
+9. [Deployment](#deployment)
+10. [Contributing](#contributing)
+11. [Future Improvements](#future-improvements)
+12. [Acknowledgments](#acknowledgments)
 
 ---
 
@@ -87,6 +88,12 @@ GOOGLE_ANALYTICS_ID=your_analytics_id
 ---
 
 ## **Database Schema**
+
+![ProFolio Database Diagram](./documenation//dbschema.png)
+
+[ProFolio Database Diagram](https://drawsql.app/teams/otter-logic/diagrams/profolio/embed)
+
+<iframe width="100%" height="500" src="https://drawsql.app/teams/otter-logic/diagrams/profolio/embed" frameborder="0" allowfullscreen></iframe>
 
 The ProFolio database schema includes the following tables:
 - **Users:** Stores user information (e.g., username, email, avatar).
@@ -197,6 +204,14 @@ The ProFolio database schema includes the following tables:
 | content      | String  | Content for the custom section       |
 | orderIndex   | Integer | Display order of the section         |
 | sectionType  | String  | Type of section (e.g., "text", "list") |
+
+---
+
+## **Wireframes**
+
+[ProFolio Figma Wireframes](https://www.figma.com/design/5SOScinJ5QQJw72G2z1dOI/ProFolio?node-id=0-1&t=fI1y21OmCpM40MZ3-1)
+
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/design/5SOScinJ5QQJw72G2z1dOI/ProFolio?node-id=0-1&embed-host=share" allowfullscreen></iframe>
 
 ---
 

@@ -66,6 +66,12 @@ Make sure you have the following installed:
 ---
 
 ## **Environment Variables**
+Here’s the properly formatted content you requested in markdown:
+
+---
+
+## **Environment Variables**
+
 Create a `.env` file in the root directory with the following:
 ```env
 PORT=4000
@@ -76,18 +82,23 @@ AWS_ACCESS_KEY_ID=your_access_key
 AWS_SECRET_ACCESS_KEY=your_secret_key
 GITHUB_API_KEY=your_github_api_key
 GOOGLE_ANALYTICS_ID=your_analytics_id
+```
+
+---
 
 ## **Database Schema**
 
 The ProFolio database schema includes the following tables:
-	•	Users: Stores user information (e.g., username, email, avatar).
-	•	Projects: Stores user-added projects with descriptions, tags, and GitHub data.
-	•	Portfolios: Manages public and private portfolios for each user.
-	•	Feedback: Stores viewer comments and notes.
-	•	Badges: Stores badge achievements.
-	•	User Badges: Tracks which badges each user has earned.
-	•	Templates: Stores pre-defined portfolio templates.
-	•	Custom Sections: Stores user-customized sections (e.g., “About Me,” “Awards”).
+- **Users:** Stores user information (e.g., username, email, avatar).
+- **Projects:** Stores user-added projects with descriptions, tags, and GitHub data.
+- **Portfolios:** Manages public and private portfolios for each user.
+- **Feedback:** Stores viewer comments and notes.
+- **Badges:** Stores badge achievements.
+- **User Badges:** Tracks which badges each user has earned.
+- **Templates:** Stores pre-defined portfolio templates.
+- **Custom Sections:** Stores user-customized sections (e.g., “About Me,” “Awards”).
+
+---
 
 ### **1. Users Table**
 | Column Name | Type    | Description             |
@@ -308,125 +319,69 @@ Full API documentation for **ProFolio** is available [here](./api-docs.md). Belo
     }
     ```
 
-- **PUT /api/portfolios/:id**
-  - **Description:** Update an existing portfolio.
-  - **Request Body:**
-    ```json
-    {
-      "isPublished": false,
-      "tags": "Updated Tags"
-    }
-    ```
-  - **Response:**
-    ```json
-    {
-      "id": 1,
-      "userId": 1,
-      "publicUrl": "https://profolio.example.com/johndoe",
-      "isPublished": false,
-      "tags": "Updated Tags",
-      "updatedAt": "2025-01-03T14:00:00Z"
-    }
-    ```
+---
 
-- **DELETE /api/portfolios/:id**
-  - **Description:** Delete a portfolio.
-  - **Response:**
-    ```json
-    {
-      "message": "Successfully deleted"
-    }
-    ```
+Let me know if you'd like more updates or edits!
+
+### **3. Deploy the Backend**
+- Deploy your **Express** backend to a service like **Render**:
+  1. Create a new web service in Render.
+  2. Connect your GitHub repository.
+  3. Specify the start command:
+     ```bash
+     npm run start
+     ```
+  4. Add your environment variables in Render's settings.
+  5. Deploy and wait for the service to build and run.
+
+### **4. Deploy the Frontend**
+- Deploy your **React** frontend to **Netlify** or **Vercel**:
+  1. Log in to Netlify or Vercel.
+  2. Create a new site and link it to your GitHub repository.
+  3. Specify the build command and output directory:
+     ```bash
+     npm run build
+     ```
+     Output directory: `dist`
+  4. Add any necessary environment variables for the frontend (e.g., API URL).
+  5. Deploy the site and confirm it is live.
+
+### **5. Final Steps**
+- Make sure the frontend can connect to the backend API by updating the API base URL in the frontend.
+- Test the deployed application for any issues with authentication, database connections, or API requests.
+- Add your custom domain if applicable (Netlify and Vercel allow this).
 
 ---
 
-### **Project Endpoints**
+This section provides the steps for deploying both the **backend** and **frontend** of **ProFolio**. Let me know if you'd like additional notes or troubleshooting tips!
 
-- **GET /api/projects**
-  - **Description:** Get all projects created by the logged-in user.
-  - **Response:**
-    ```json
-    {
-      "projects": [
-        {
-          "id": 1,
-          "userId": 1,
-          "title": "Personal Portfolio",
-          "description": "A React-based personal portfolio project",
-          "githubRepo": "https://github.com/johndoe/portfolio",
-          "projectLink": "https://johndoeportfolio.com",
-          "imageUrl": "https://cdn.example.com/project-image.png",
-          "tags": "React, Portfolio",
-          "starsCount": 100,
-          "forksCount": 20
-        }
-      ]
-    }
-    ```
 
-- **POST /api/projects**
-  - **Description:** Create a new project.
-  - **Request Body:**
-    ```json
-    {
-      "title": "Portfolio Website",
-      "description": "Showcase website for my projects",
-      "githubRepo": "https://github.com/johndoe/portfolio",
-      "projectLink": "https://portfolio.johndoe.com",
-      "tags": "React, Node.js"
-    }
-    ```
-  - **Response:**
-    ```json
-    {
-      "id": 2,
-      "userId": 1,
-      "title": "Portfolio Website",
-      "description": "Showcase website for my projects",
-      "githubRepo": "https://github.com/johndoe/portfolio",
-      "projectLink": "https://portfolio.johndoe.com",
-      "tags": "React, Node.js",
-      "createdAt": "2025-01-02T10:30:00Z"
-    }
-    ```
-
----
-
-Run Locally
-
-1. Clone the Repository:
-
-Deployment
-
-ProFolio can be deployed on platforms like Render for the backend and Netlify/Vercel for the frontend.
-
-Deployment Steps:
-	1.	Create a PostgreSQL database on your production hosting platform.
-	2.	Set your production environment variables.
-	3.	Deploy the backend (Express) and frontend (React) projects.
-
-Contributing
+## **Contributing**
 
 Contributions are welcome! To contribute:
-	1.	Fork the repository.
-	2.	Create a new branch (feature/your-feature-name).
-	3.	Commit your changes and push to your fork.
-	4.	Submit a pull request for review.
+1. Fork the repository.
+2. Create a new branch (`feature/your-feature-name`).
+3. Commit your changes and push to your fork.
+4. Submit a pull request for review.
 
+---
 
-Future Improvements
-	•	Live Collaboration: Allow users to invite collaborators to edit portfolios.
-	•	Theme Builder: Enable users to create custom themes with advanced controls.
-	•	Custom Domain Support: Allow users to link custom domains to their portfolios.
-	•	WebSockets: Enable real-time updates for analytics and comments.
-	•	Internationalization: Add support for multiple languages.
+## **Future Improvements**
+- **Live Collaboration:** Allow users to invite collaborators to edit portfolios.
+- **Theme Builder:** Enable users to create custom themes with advanced controls.
+- **Custom Domain Support:** Allow users to link custom domains to their portfolios.
+- **WebSockets:** Enable real-time updates for analytics and comments.
+- **Internationalization:** Add support for multiple languages.
 
-Acknowledgments
-	•	Thanks to Prism.js for syntax highlighting.
-	•	Special thanks to App Academy for guidance.
-	•	All icons and design assets are credited to their original creators.
+---
 
-License
+## **Acknowledgments**
+- Thanks to **Prism.js** for syntax highlighting.
+- Special thanks to **App Academy** for guidance.
+- All icons and design assets are credited to their original creators.
+
+---
+
+## **License**
 
 This project is licensed under the MIT License.
----

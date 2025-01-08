@@ -8,6 +8,8 @@
 
 <iframe width="100%" height="500" src="https://drawsql.app/teams/otter-logic/diagrams/profolio/embed" frameborder="0" allowfullscreen></iframe>
 
+---
+
 ## API Documentation
 
 ## **USER AUTHENTICATION/AUTHORIZATION**
@@ -402,7 +404,7 @@ Deletes the current user profile.
     "message": "User not found"
   }
   ```
-  
+
 ---
 
 ## **Projects**
@@ -1752,3 +1754,218 @@ Removes an earned badge from a user.
       "message": "Badge couldn't be found"
     }
     ```
+
+---
+
+## **GitHub Integration Endpoints**
+
+### **Connect GitHub Account**
+Allows a user to link their GitHub account to ProFolio.
+
+- **Require Authentication:** true
+- **Request**
+  - **Method:** GET
+  - **Route path:** `/api/github/connect`
+  - **Query Parameters:** None
+  - **Body:** None
+
+- **Successful Response**
+  - **Status Code:** 200
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "GitHub account connected successfully",
+      "githubProfileUrl": "https://github.com/username"
+    }
+    ```
+
+---
+
+### **Fetch GitHub Repositories**
+Fetches the linked user's public repositories.
+
+- **Require Authentication:** true
+- **Request**
+  - **Method:** GET
+  - **Route path:** `/api/github/repos`
+  - **Body:** None
+
+- **Successful Response**
+  - **Status Code:** 200
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "repositories": [
+        {
+          "name": "Portfolio Project",
+          "description": "A React-based portfolio app",
+          "starsCount": 100,
+          "forksCount": 50,
+          "htmlUrl": "https://github.com/username/portfolio"
+        },
+        {
+          "name": "Blog Project",
+          "description": "A Node.js blog app",
+          "starsCount": 20,
+          "forksCount": 10,
+          "htmlUrl": "https://github.com/username/blog"
+        }
+      ]
+    }
+    ```
+
+---
+
+### **Disconnect GitHub Account**
+Disconnects the user's GitHub account from ProFolio.
+
+- **Require Authentication:** true
+- **Request**
+  - **Method:** DELETE
+  - **Route path:** `/api/github/disconnect`
+  - **Body:** None
+
+- **Successful Response**
+  - **Status Code:** 200
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "GitHub account disconnected successfully"
+    }
+    ```
+
+---
+
+## **LinkedIn Integration Endpoints**
+
+### **Connect LinkedIn Account**
+Allows a user to link their LinkedIn account to ProFolio.
+
+- **Require Authentication:** true
+- **Request**
+  - **Method:** GET
+  - **Route path:** `/api/linkedin/connect`
+  - **Query Parameters:** None
+  - **Body:** None
+
+- **Successful Response**
+  - **Status Code:** 200
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "LinkedIn account connected successfully",
+      "linkedinProfileUrl": "https://linkedin.com/in/username"
+    }
+    ```
+
+---
+
+### **Fetch LinkedIn Recommendations**
+Fetches recommendations from the linked LinkedIn profile.
+
+- **Require Authentication:** true
+- **Request**
+  - **Method:** GET
+  - **Route path:** `/api/linkedin/recommendations`
+  - **Body:** None
+
+- **Successful Response**
+  - **Status Code:** 200
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "recommendations": [
+        {
+          "recommenderName": "Jane Doe",
+          "relationship": "Former Manager",
+          "content": "John is an exceptional engineer with great leadership skills."
+        },
+        {
+          "recommenderName": "Sam Smith",
+          "relationship": "Colleague",
+          "content": "John consistently delivers high-quality work and is a team player."
+        }
+      ]
+    }
+    ```
+
+---
+
+### **Disconnect LinkedIn Account**
+Disconnects the user's LinkedIn account from ProFolio.
+
+- **Require Authentication:** true
+- **Request**
+  - **Method:** DELETE
+  - **Route path:** `/api/linkedin/disconnect`
+  - **Body:** None
+
+- **Successful Response**
+  - **Status Code:** 200
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "LinkedIn account disconnected successfully"
+    }
+    ```
+
+---
+
+## **Feedback Visibility Endpoints**
+
+### **Update Feedback Visibility**
+Allows users to set feedback visibility as public or private.
+
+- **Require Authentication:** true
+- **Request**
+  - **Method:** PATCH
+  - **Route path:** `/api/feedback/:id/visibility`
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "isPublic": true
+    }
+    ```
+
+- **Successful Response**
+  - **Status Code:** 200
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "Feedback visibility updated",
+      "feedback": {
+        "id": 1,
+        "comment": "Great portfolio!",
+        "isPublic": true
+      }
+    }
+    ```
+
+- **Error Response: Feedback not found**
+  - **Status Code:** 404
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "Feedback not found"
+    }
+    ```
+
+---

@@ -95,6 +95,7 @@ GOOGLE_ANALYTICS_ID=your_analytics_id
 
 <iframe width="100%" height="500" src="https://drawsql.app/teams/otter-logic/diagrams/profolio/embed" frameborder="0" allowfullscreen></iframe>
 
+
 The ProFolio database schema includes the following tables:
 - **Users:** Stores user information (e.g., username, email, avatar).
 - **Projects:** Stores user-added projects with descriptions, tags, and GitHub data.

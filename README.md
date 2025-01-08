@@ -91,10 +91,13 @@ GOOGLE_ANALYTICS_ID=your_analytics_id
 
 ![ProFolio Database Diagram](./documenation//dbschema.png)
 
+### Database Diagram Preview (VSCode Only):
+<div style="display: flex; justify-content: center; margin-top: 20px;">
+  <iframe width="100%" height="500" src="https://drawsql.app/teams/otter-logic/diagrams/profolio/embed" frameborder="0" allowfullscreen></iframe>
+</div>
+
+### GitHub Viewers:
 [ProFolio Database Diagram](https://drawsql.app/teams/otter-logic/diagrams/profolio/embed)
-
-<iframe width="100%" height="500" src="https://drawsql.app/teams/otter-logic/diagrams/profolio/embed" frameborder="0" allowfullscreen></iframe>
-
 
 The ProFolio database schema includes the following tables:
 - **Users:** Stores user information (e.g., username, email, avatar).

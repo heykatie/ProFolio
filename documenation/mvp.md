@@ -104,7 +104,7 @@ The goal of this MVP is to create a portfolio builder app that is simple, intuit
 - **Frontend:** React, Redux, Vite
 - **Authentication:** JSON Web Tokens (JWT)
 - **Database ORM:** Prisma
-- **Deployment:** Render (Backend), Vercel/Netlify (Frontend)
+- **Deployment:** Render
 - **External APIs:** GitHub API, LinkedIn API, Google Analytics
 
 ---

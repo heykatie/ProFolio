@@ -2,7 +2,7 @@
 
 ## Database Schema Design
 
-![ProFolio Database Diagram](./images/dbschema.png)
+![ProFolio Database Diagram](./schema/dbschema.png)
 
 [ProFolio Database Diagram](https://drawsql.app/teams/otter-logic/diagrams/profolio/embed)
 

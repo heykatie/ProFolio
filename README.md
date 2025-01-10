@@ -91,7 +91,7 @@ GOOGLE_ANALYTICS_ID=your_analytics_id
 
 ## **Database Schema**
 
-![ProFolio Database Diagram](./documenation/images/dbschema.png)
+![ProFolio Database Diagram](./documenation/schema/dbschema.png)
 
 [ProFolio Database Diagram](https://drawsql.app/teams/otter-logic/diagrams/profolio/embed)
 

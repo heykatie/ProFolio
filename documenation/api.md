@@ -1929,6 +1929,125 @@ Disconnects the user's LinkedIn account from ProFolio.
 
 ---
 
+### Check LinkedIn/GitHub Integration Status
+- **GET** `/api/integrations/status`
+  - **Description:** Returns whether LinkedIn and GitHub are linked.
+  - **Response:**
+    ```json
+    {
+      "githubLinked": true,
+      "linkedinLinked": true
+    }
+    ```
+
+---
+
+### Check Integration Status
+- **GET** `/api/integrations/status`
+  - **Response:**
+    ```json
+    {
+      "github": {
+        "status": "connected",
+        "lastSyncedAt": "2025-01-07T12:00:00Z"
+      },
+      "linkedin": {
+        "status": "expired",
+        "lastSyncedAt": "2025-01-06T11:00:00Z"
+      }
+    }
+    ```
+
+### Connect to a Platform
+- **POST** `/api/integrations/:platform/connect`
+  - **Request Body:**
+    ```json
+    {
+      "authorizationCode": "oauth_auth_code"
+    }
+    ```
+
+### Disconnect from a Platform
+- **DELETE** `/api/integrations/:platform/disconnect`
+  - **Response:**
+    ```json
+    {
+      "message": "Successfully disconnected from LinkedIn"
+    }
+    ```
+
+---
+
+### **Get Analytics for a Portfolio**
+- **GET** `/api/portfolios/:id/analytics`
+  - **Description:** Get detailed analytics for a specific portfolio, including views, shares, and feedback interactions.
+  - **Query Parameters (optional):**
+    - `eventType`: `view`, `share`, or `feedback`
+    - `fromDate`: Start date for filtering (e.g., `2025-01-01`)
+    - `toDate`: End date for filtering (e.g., `2025-01-31`)
+
+  **Successful Response**
+  - **Status Code:** 200
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "portfolioId": 101,
+      "analytics": {
+        "totalViews": 350,
+        "totalShares": 45,
+        "totalFeedback": 12,
+        "events": [
+          {
+            "id": 1,
+            "eventType": "view",
+            "timestamp": "2025-01-10T12:45:00Z",
+            "viewerId": null,
+            "referrer": "LinkedIn",
+            "location": "San Francisco, CA",
+            "deviceType": "desktop",
+            "browser": "Chrome"
+          },
+          {
+            "id": 2,
+            "eventType": "share",
+            "timestamp": "2025-01-10T13:05:00Z",
+            "viewerId": 34,
+            "referrer": "Direct",
+            "location": "New York, NY",
+            "deviceType": "mobile",
+            "browser": "Safari"
+          },
+          {
+            "id": 3,
+            "eventType": "feedback",
+            "timestamp": "2025-01-11T09:15:00Z",
+            "viewerId": 56,
+            "referrer": "Email",
+            "location": "Chicago, IL",
+            "deviceType": "tablet",
+            "browser": "Firefox"
+          }
+        ]
+      }
+    }
+    ```
+
+---
+
+### **Error Response: Portfolio Not Found**
+- **Status Code:** 404
+- **Headers:**
+  - `Content-Type: application/json`
+- **Body:**
+  ```json
+  {
+    "message": "Portfolio not found"
+  }
+
+---
+
 ## **Feedback Visibility Endpoints**
 
 ### **Update Feedback Visibility**

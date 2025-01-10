@@ -31,6 +31,8 @@ ProFolio - solo capstone project
 - **Analytics Dashboard:** Track views, shares, and feedback counts for portfolios and projects.
 - **Responsive Design:** Optimized for desktop and mobile screens.
 - **User Authentication:** Secure signup, login, and logout functionality with demo user access.
+- **Auto-Generated Portfolios:** Automatically pull your experiences, projects, and achievements from your resume, GitHub, and LinkedIn.
+- **Customizable Layouts:** Add, edit, and reorder portfolio sections.
 
 ---
 

@@ -1978,6 +1978,202 @@ Disconnects the user's LinkedIn account from ProFolio.
 
 ---
 
+## **Integrations Endpoints**
+
+### **Get all integrations for the current user**
+
+Fetch all the platforms the current user has connected.
+
+- **Require Authentication:** true
+- **Request**
+  - **Method:** GET
+  - **Route path:** `/api/integrations`
+  - **Body:** none
+
+- **Successful Response**
+  - **Status Code:** 200
+  - **Headers:**
+    - Content-Type: application/json
+  - **Body:**
+    ```json
+    {
+      "integrations": [
+        {
+          "id": 1,
+          "userId": 1,
+          "platformUserId": "12345",
+          "platform": "Google",
+          "status": "Connected",
+          "accessToken": "access_token_example",
+          "refreshToken": "refresh_token_example",
+          "connectedAt": "2025-01-09T18:32:00Z",
+          "updatedAt": "2025-01-09T18:35:00Z",
+          "expiresAt": "2025-01-10T18:32:00Z"
+        },
+        {
+          "id": 2,
+          "userId": 1,
+          "platformUserId": "67890",
+          "platform": "GitHub",
+          "status": "Connected",
+          "accessToken": "access_token_example",
+          "refreshToken": "refresh_token_example",
+          "connectedAt": "2025-01-09T18:40:00Z",
+          "updatedAt": "2025-01-09T18:45:00Z",
+          "expiresAt": "2025-01-10T18:40:00Z"
+        }
+      ]
+    }
+    ```
+
+---
+
+### **Connect a new integration**
+
+Add a new platform connection for the current user.
+
+- **Require Authentication:** true
+- **Request**
+  - **Method:** POST
+  - **Route path:** `/api/integrations`
+  - **Headers:**
+    - Content-Type: application/json
+  - **Body:**
+    ```json
+    {
+      "platform": "Google",
+      "platformUserId": "12345",
+      "accessToken": "access_token_example",
+      "refreshToken": "refresh_token_example",
+      "expiresAt": "2025-01-10T18:32:00Z"
+    }
+    ```
+
+- **Successful Response**
+  - **Status Code:** 201
+  - **Headers:**
+    - Content-Type: application/json
+  - **Body:**
+    ```json
+    {
+      "id": 3,
+      "userId": 1,
+      "platformUserId": "12345",
+      "platform": "Google",
+      "status": "Connected",
+      "accessToken": "access_token_example",
+      "refreshToken": "refresh_token_example",
+      "connectedAt": "2025-01-09T18:50:00Z",
+      "updatedAt": "2025-01-09T18:50:00Z",
+      "expiresAt": "2025-01-10T18:50:00Z"
+    }
+    ```
+
+- **Error Response: Missing fields**
+  - **Status Code:** 400
+  - **Headers:**
+    - Content-Type: application/json
+  - **Body:**
+    ```json
+    {
+      "message": "Bad Request",
+      "errors": {
+        "platform": "Platform is required",
+        "platformUserId": "Platform user ID is required",
+        "accessToken": "Access token is required"
+      }
+    }
+    ```
+
+---
+
+### **Update an integration**
+
+Update an existing integration for the current user.
+
+- **Require Authentication:** true
+- **Request**
+  - **Method:** PUT
+  - **Route path:** `/api/integrations/:id`
+  - **Headers:**
+    - Content-Type: application/json
+  - **Body:**
+    ```json
+    {
+      "status": "Connected",
+      "accessToken": "new_access_token_example",
+      "refreshToken": "new_refresh_token_example",
+      "expiresAt": "2025-01-11T18:32:00Z"
+    }
+    ```
+
+- **Successful Response**
+  - **Status Code:** 200
+  - **Headers:**
+    - Content-Type: application/json
+  - **Body:**
+    ```json
+    {
+      "id": 1,
+      "userId": 1,
+      "platformUserId": "12345",
+      "platform": "Google",
+      "status": "Connected",
+      "accessToken": "new_access_token_example",
+      "refreshToken": "new_refresh_token_example",
+      "connectedAt": "2025-01-09T18:32:00Z",
+      "updatedAt": "2025-01-09T19:00:00Z",
+      "expiresAt": "2025-01-11T18:32:00Z"
+    }
+    ```
+
+- **Error Response: Integration not found**
+  - **Status Code:** 404
+  - **Headers:**
+    - Content-Type: application/json
+  - **Body:**
+    ```json
+    {
+      "message": "Integration not found"
+    }
+    ```
+
+---
+
+### **Delete an integration**
+
+Remove an existing platform connection for the current user.
+
+- **Require Authentication:** true
+- **Request**
+  - **Method:** DELETE
+  - **Route path:** `/api/integrations/:id`
+  - **Body:** none
+
+- **Successful Response**
+  - **Status Code:** 200
+  - **Headers:**
+    - Content-Type: application/json
+  - **Body:**
+    ```json
+    {
+      "message": "Integration successfully deleted"
+    }
+    ```
+
+- **Error Response: Integration not found**
+  - **Status Code:** 404
+  - **Headers:**
+    - Content-Type: application/json
+  - **Body:**
+    ```json
+    {
+      "message": "Integration not found"
+    }
+    ```
+
+---
+
 ### **Get Analytics for a Portfolio**
 - **GET** `/api/portfolios/:id/analytics`
   - **Description:** Get detailed analytics for a specific portfolio, including views, shares, and feedback interactions.

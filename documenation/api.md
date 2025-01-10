@@ -2244,6 +2244,169 @@ Remove an existing platform connection for the current user.
 
 ---
 
+## **Authentication Endpoints**
+
+### **Social Sign-In with External Platforms**
+
+- **POST /api/auth/google**
+  - **Description:** Authenticates and logs in the user via Google OAuth.
+  - **Request Body:**
+    ```json
+    {
+      "accessToken": "google_oauth_access_token"
+    }
+    ```
+  - **Response (Success):**
+    ```json
+    {
+      "user": {
+        "id": 1,
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "john.doe@gmail.com",
+        "username": "JohnDoe",
+        "avatarUrl": "https://avatar.url/image.png",
+        "socialPlatform": "Google"
+      }
+    }
+    ```
+  - **Response (Error):**
+    ```json
+    {
+      "message": "Google OAuth failed"
+    }
+    ```
+
+- **POST /api/auth/github**
+  - **Description:** Authenticates and logs in the user via GitHub OAuth.
+  - **Request Body:**
+    ```json
+    {
+      "accessToken": "github_oauth_access_token"
+    }
+    ```
+  - **Response (Success):**
+    ```json
+    {
+      "user": {
+        "id": 2,
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "email": "jane.smith@github.com",
+        "username": "JaneSmith",
+        "avatarUrl": "https://github.com/avatar.png",
+        "socialPlatform": "GitHub"
+      }
+    }
+    ```
+  - **Response (Error):**
+    ```json
+    {
+      "message": "GitHub OAuth failed"
+    }
+    ```
+
+- **POST /api/auth/linkedin**
+  - **Description:** Authenticates and logs in the user via LinkedIn OAuth.
+  - **Request Body:**
+    ```json
+    {
+      "accessToken": "linkedin_oauth_access_token"
+    }
+    ```
+  - **Response (Success):**
+    ```json
+    {
+      "user": {
+        "id": 3,
+        "firstName": "Alice",
+        "lastName": "Brown",
+        "email": "alice.brown@linkedin.com",
+        "username": "AliceBrown",
+        "avatarUrl": "https://linkedin.com/avatar.png",
+        "socialPlatform": "LinkedIn"
+      }
+    }
+    ```
+  - **Response (Error):**
+    ```json
+    {
+      "message": "LinkedIn OAuth failed"
+    }
+    ```
+
+### **Get User Integrations**
+- **GET /api/integrations**
+  - **Description:** Retrieves all external platform connections for the logged-in user.
+  - **Response:**
+    ```json
+    {
+      "integrations": [
+        {
+          "platform": "Google",
+          "connectedAt": "2025-01-10T12:00:00Z",
+          "status": "active"
+        },
+        {
+          "platform": "GitHub",
+          "connectedAt": "2025-01-09T18:00:00Z",
+          "status": "active"
+        }
+      ]
+    }
+    ```
+
+### **Disconnect an Integration**
+- **DELETE /api/integrations/:platform**
+  - **Description:** Disconnects a linked social account (e.g., Google, GitHub, LinkedIn).
+  - **Response (Success):**
+    ```json
+    {
+      "message": "Successfully disconnected GitHub"
+    }
+    ```
+  - **Response (Error):**
+    ```json
+    {
+      "message": "Integration not found"
+    }
+    ```
+
+---
+
+### **Figma Flow Guidance for Sign-Up and Log-In Modals**
+
+- **Sign-Up Modal**:
+  1. **Title Section:** "Create an Account" (clean and concise).
+  2. **Input Fields:**
+     - Name, email, and password input fields.
+     - Autofocus on the first field (email).
+  3. **SSO Buttons:**
+     - "Sign Up with Google" (red button, icon included).
+     - "Sign Up with GitHub" (black button).
+     - "Sign Up with LinkedIn" (blue button).
+  4. **Form Buttons:**
+     - "Already have an account? Log in" link for easy access.
+
+- **Log-In Modal**:
+  1. **Title Section:** "Log In to ProFolio".
+  2. **Input Fields:**
+     - Email and password input fields.
+     - Autofocus on the email input.
+  3. **SSO Buttons:**
+     - "Log In with Google" (red button).
+     - "Log In with GitHub" (black button).
+     - "Log In with LinkedIn" (blue button).
+  4. **Password Recovery Link:**
+     - "Forgot Password?" link for password reset.
+
+- **Error States**:
+  - For invalid log-in attempts, show feedback like:
+    - "Invalid email or password. Please try again."
+    - "GitHub OAuth failed. Please authorize access."
+
+---
+
 ## **Feedback Visibility Endpoints**
 
 ### **Update Feedback Visibility**

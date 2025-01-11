@@ -93,9 +93,13 @@ GOOGLE_ANALYTICS_ID=your_analytics_id
 
 ![ProFolio Database Diagram](./documenation/schema/dbschema.png)
 
-[ProFolio Database Diagram](https://drawsql.app/teams/otter-logic/diagrams/profolio/embed)
+### Database Diagram Preview (VSCode Only):
+<div style="display: flex; justify-content: center; margin-top: 20px;">
+  <iframe width="100%" height="500" src="https://drawsql.app/teams/otter-logic/diagrams/profolio/embed" frameborder="0" allowfullscreen></iframe>
+</div>
 
-<iframe width="100%" height="500" src="https://drawsql.app/teams/otter-logic/diagrams/profolio/embed" frameborder="0" allowfullscreen></iframe>
+### GitHub Viewers:
+[ProFolio Database Diagram](https://drawsql.app/teams/otter-logic/diagrams/profolio/embed)
 
 The ProFolio database schema includes the following tables:
 - **Users:** Stores user information (e.g., username, email, avatar).
@@ -211,9 +215,13 @@ The ProFolio database schema includes the following tables:
 
 ## **Wireframes**
 
-[ProFolio Figma Wireframes](https://www.figma.com/design/5SOScinJ5QQJw72G2z1dOI/ProFolio?node-id=0-1&t=fI1y21OmCpM40MZ3-1)
+### Figma Wireframes Preview (VSCode Only):
+<div style="display: flex; justify-content: center; margin-top: 20px;">
+  <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/design/5SOScinJ5QQJw72G2z1dOI/ProFolio?node-id=0-1&embed-host=share" allowfullscreen></iframe>
+</div>
 
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://embed.figma.com/design/5SOScinJ5QQJw72G2z1dOI/ProFolio?node-id=0-1&embed-host=share" allowfullscreen></iframe>
+### GitHub Viewers:
+[ProFolio Figma Wireframes](https://www.figma.com/design/5SOScinJ5QQJw72G2z1dOI/ProFolio?node-id=0-1&t=fI1y21OmCpM40MZ3-1)
 
 ---
 

@@ -40,7 +40,7 @@ ProFolio - solo capstone project
 ### **Frontend:**
 - **React** (with **Vite** for faster builds)
 - **Redux** (for state management)
-- **HTML5/CSS3/SASS** (for styling)
+- **HTML5/CSS3/SASS/Tailwind** (for styling)
 
 ### **Backend:**
 - **Express.js** (for handling API routes)
@@ -339,7 +339,7 @@ Full API documentation for **ProFolio** is available [here](./api-docs.md). Belo
 
 ---
 
-### **3. Deploy the Backend**
+### **3. Deploy**
 - Deploy your **Express** backend to a service like **Render**:
   1. Create a new web service in Render.
   2. Connect your GitHub repository.
@@ -350,7 +350,7 @@ Full API documentation for **ProFolio** is available [here](./api-docs.md). Belo
   4. Add your environment variables in Render's settings.
   5. Deploy and wait for the service to build and run.
 
-### **4. Deploy the Frontend**
+<!-- ### **4. Deploy the Frontend**
 - Deploy your **React** frontend to **Netlify** or **Vercel**:
   1. Log in to Netlify or Vercel.
   2. Create a new site and link it to your GitHub repository.
@@ -360,9 +360,9 @@ Full API documentation for **ProFolio** is available [here](./api-docs.md). Belo
      ```
      Output directory: `dist`
   4. Add any necessary environment variables for the frontend (e.g., API URL).
-  5. Deploy the site and confirm it is live.
+  5. Deploy the site and confirm it is live. -->
 
-### **5. Final Steps**
+### **4. Final Steps**
 - Make sure the frontend can connect to the backend API by updating the API base URL in the frontend.
 - Test the deployed application for any issues with authentication, database connections, or API requests.
 - Add your custom domain if applicable (Netlify and Vercel allow this).

@@ -2407,6 +2407,218 @@ Remove an existing platform connection for the current user.
 
 ---
 
+## **Favorites (Hearts) Endpoints**
+
+### **Add a Heart to a Portfolio**
+- **Description:** Add a "heart" (favorite) to a specific portfolio.
+- **Require Authentication:** true
+- **Request**
+  - **Method:** POST
+  - **Route path:** `/api/portfolios/:id/heart`
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:** none
+
+- **Successful Response:**
+  - **Status Code:** 201
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "Portfolio favorited successfully",
+      "heartsCount": 15
+    }
+    ```
+
+- **Error Responses:**
+  - **Portfolio Not Found:**
+    - **Status Code:** 404
+    - **Body:**
+    ```json
+    {
+      "message": "Portfolio not found"
+    }
+    ```
+  - **Already Favorited:**
+    - **Status Code:** 400
+    - **Body:**
+    ```json
+    {
+      "message": "You have already favorited this portfolio"
+    }
+    ```
+
+---
+
+### **Remove a Heart from a Portfolio**
+- **Description:** Remove a "heart" (favorite) from a specific portfolio.
+- **Require Authentication:** true
+- **Request**
+  - **Method:** DELETE
+  - **Route path:** `/api/portfolios/:id/heart`
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:** none
+
+- **Successful Response:**
+  - **Status Code:** 200
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "Portfolio unfavorited successfully",
+      "heartsCount": 14
+    }
+    ```
+
+- **Error Responses:**
+  - **Portfolio Not Found:**
+    - **Status Code:** 404
+    - **Body:**
+    ```json
+    {
+      "message": "Portfolio not found"
+    }
+    ```
+  - **Not Favorited Yet:**
+    - **Status Code:** 400
+    - **Body:**
+    ```json
+    {
+      "message": "You haven't favorited this portfolio yet"
+    }
+    ```
+
+---
+
+## **Follow Endpoints**
+
+### **Follow a User**
+- **Description:** Follow a specific user.
+- **Require Authentication:** true
+- **Request**
+  - **Method:** POST
+  - **Route path:** `/api/users/:id/follow`
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:** none
+
+- **Successful Response:**
+  - **Status Code:** 201
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "Followed user successfully",
+      "followingCount": 20,
+      "followersCount": 35
+    }
+    ```
+
+- **Error Responses:**
+  - **User Not Found:**
+    - **Status Code:** 404
+    - **Body:**
+    ```json
+    {
+      "message": "User not found"
+    }
+    ```
+  - **Already Following:**
+    - **Status Code:** 400
+    - **Body:**
+    ```json
+    {
+      "message": "You are already following this user"
+    }
+    ```
+
+---
+
+### **Unfollow a User**
+- **Description:** Unfollow a specific user.
+- **Require Authentication:** true
+- **Request**
+  - **Method:** DELETE
+  - **Route path:** `/api/users/:id/follow`
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:** none
+
+- **Successful Response:**
+  - **Status Code:** 200
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "message": "Unfollowed user successfully",
+      "followingCount": 19,
+      "followersCount": 35
+    }
+    ```
+
+- **Error Responses:**
+  - **User Not Found:**
+    - **Status Code:** 404
+    - **Body:**
+    ```json
+    {
+      "message": "User not found"
+    }
+    ```
+  - **Not Following Yet:**
+    - **Status Code:** 400
+    - **Body:**
+    ```json
+    {
+      "message": "You are not following this user"
+    }
+    ```
+
+---
+
+### **Get Followers and Following List for a User**
+- **Description:** Retrieve the list of users that the current user is following and their followers.
+- **Require Authentication:** true
+- **Request**
+  - **Method:** GET
+  - **Route path:** `/api/users/:id/followers`
+  - **Headers:** none
+
+- **Successful Response:**
+  - **Status Code:** 200
+  - **Headers:**
+    - `Content-Type: application/json`
+  - **Body:**
+    ```json
+    {
+      "followers": [
+        {
+          "id": 2,
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "username": "JaneDoe",
+          "avatarUrl": "https://cdn.example.com/avatar2.png"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "firstName": "Sam",
+          "lastName": "Smith",
+          "username": "SamSmith",
+          "avatarUrl": "https://cdn.example.com/avatar3.png"
+        }
+      ]
+    }
+    ```
+
+---
+
 ## **Feedback Visibility Endpoints**
 
 ### **Update Feedback Visibility**
@@ -2453,3 +2665,136 @@ Allows users to set feedback visibility as public or private.
     ```
 
 ---
+
+To accommodate the distinction between testimonials and feedback, I’ll outline the updated API endpoints for both features and any potential changes to the database schema.
+
+Updated API Endpoints for Feedback and Testimonials
+
+1. Testimonials Endpoints
+	•	GET /api/testimonials/:portfolioId
+	•	Description: Get all testimonials for a specific portfolio.
+	•	Response:
+
+{
+  "testimonials": [
+    {
+      "id": 1,
+      "viewerName": "Jane Doe",
+      "comment": "An exceptional portfolio with a professional presentation!",
+      "isVisible": true,
+      "createdAt": "2025-01-01T12:00:00Z"
+    }
+  ]
+}
+
+
+	•	POST /api/testimonials/:portfolioId
+	•	Description: Add a new testimonial for a portfolio.
+	•	Request Body:
+
+{
+  "viewerName": "Jane Doe",
+  "comment": "Outstanding work! I would hire you in a heartbeat.",
+  "isVisible": true
+}
+
+
+	•	Response:
+
+{
+  "id": 2,
+  "viewerName": "Jane Doe",
+  "comment": "Outstanding work! I would hire you in a heartbeat.",
+  "isVisible": true,
+  "createdAt": "2025-01-02T12:00:00Z"
+}
+
+
+	•	PATCH /api/testimonials/:testimonialId
+	•	Description: Update the visibility of a testimonial or edit the comment.
+	•	Request Body:
+
+{
+  "isVisible": false
+}
+
+
+	•	Response:
+
+{
+  "message": "Testimonial updated successfully."
+}
+
+
+	•	DELETE /api/testimonials/:testimonialId
+	•	Description: Delete a testimonial.
+	•	Response:
+
+{
+  "message": "Testimonial deleted successfully."
+}
+
+2. Feedback (Constructive Comments/Notes) Endpoints
+	•	GET /api/feedback/:portfolioId
+	•	Description: Get all feedback comments or notes for a specific portfolio.
+	•	Response:
+
+{
+  "feedback": [
+    {
+      "id": 1,
+      "viewerName": "John Smith",
+      "comment": "Consider adding more details to your projects.",
+      "isPublic": true,
+      "createdAt": "2025-01-01T10:00:00Z"
+    }
+  ]
+}
+
+
+	•	POST /api/feedback/:portfolioId
+	•	Description: Add a new feedback comment to a portfolio.
+	•	Request Body:
+
+{
+  "viewerName": "John Smith",
+  "comment": "Your About Me section is great, but I'd love to see more visuals!",
+  "isPublic": false
+}
+
+
+	•	Response:
+
+{
+  "id": 3,
+  "viewerName": "John Smith",
+  "comment": "Your About Me section is great, but I'd love to see more visuals!",
+  "isPublic": false,
+  "createdAt": "2025-01-05T15:00:00Z"
+}
+
+
+	•	PATCH /api/feedback/:feedbackId
+	•	Description: Update the feedback note (e.g., change visibility or edit the comment).
+	•	Request Body:
+
+{
+  "comment": "Updated feedback: Consider adding a summary section.",
+  "isPublic": true
+}
+
+
+	•	Response:
+
+{
+  "message": "Feedback updated successfully."
+}
+
+
+	•	DELETE /api/feedback/:feedbackId
+	•	Description: Delete feedback.
+	•	Response:
+
+{
+  "message": "Feedback deleted successfully."
+}

@@ -44,7 +44,7 @@ ProFolio - solo capstone project
 
 ### **Backend:**
 - **Express.js** (for handling API routes)
-- **Prisma** (ORM for database interaction)
+- **Sequelize** (ORM for database interaction)
 - **Node.js** (server-side framework)
 
 ### **Database:**

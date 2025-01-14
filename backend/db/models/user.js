@@ -5,7 +5,8 @@ const { parsePhoneNumberFromString } = require('libphonenumber-js');
 const moment = require('moment-timezone');
 const PasswordValidator = require('password-validator');
 const validator = require('validator');
-const zxcvbn = require('zxcvbn');
+const zxcvbn = require('zxcvbn');	// Password strength checker
+const bcrypt = require('bcryptjs');
 
 const schema = new PasswordValidator();
 
@@ -48,22 +49,28 @@ module.exports = (sequelize, DataTypes) => {
 					isEmail: true, // Ensures it follows the format of a valid email
 				},
 			},
+			password: {
+				type: DataTypes.VIRTUAL,
+				validate: {
+					isStrongPassword(value) {
+						if (!schema.validate(value)) {
+							throw new Error('Password must meet strength requirements.');
+						}
+					},
+					isWeakPassword(value) {
+						const score = zxcvbn(value).score;
+						const passwordResult = zxcvbn(value);
+						if (score < 3) {
+							throw new Error(`Password is too weak: ${passwordResult.feedback.suggestions.join(' ')}`);
+						}
+					},
+				},
+			},
 			passwordHash: {
 				type: DataTypes.STRING.BINARY,
-				allowNull: false,
+				allowNull: true,
 				validate: {
           len: [60, 60], // Ensures the password hash length is exactly 60 characters (for bcrypt)
-          isStrongPassword(value) {
-            if (!schema.validate(value)) {
-              throw new Error('Password must meet strength requirements.');
-            }
-          },
-          isWeakPassword(value) {
-            const score = zxcvbn(value).score;
-            if (score < 3) {
-              throw new Error('Password is too weak');
-            }
-          },
 				},
 			},
 			phone: {
@@ -215,7 +222,19 @@ module.exports = (sequelize, DataTypes) => {
         attributes: {
           exclude: ['passwordHash', 'email', 'createdAt', 'updatedAt', 'githubAccessToken', 'linkedinAccessToken', 'phone'],
         },
-      },
+			},
+			hooks: {
+				beforeCreate: async (user) => {
+					if (user.password) {
+						user.passwordHash = await bcrypt.hash(user.password, 10); // Hash password before saving
+					}
+				},
+				beforeUpdate: async (user) => {
+					if (user.password) {
+						user.passwordHash = await bcrypt.hash(user.password, 10);
+					}
+				},
+			},
 		}
 	);
 	return User;

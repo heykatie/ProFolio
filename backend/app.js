@@ -13,11 +13,11 @@ const { ValidationError } = require('sequelize');
 const { environment } = require('./config');
 const isProduction = environment === 'production';
 
-// import routes
-const routes = require('./routes');
-
 // Initialize the Express application:
 const app = express();
+
+// import routes
+const routes = require('./routes');
 
 // Connect the morgan middleware for logging information about requests and
 // responses:

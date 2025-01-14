@@ -14,6 +14,10 @@ router.get("/api/csrf/restore", (req, res) => {
   });
 });
 
+router.get('/', (req, res) => {
+  res.status(200).json({ message: 'Welcome to the API!' });
+});
+
 // test route
 // router.get('/hello/world', function (req, res) {
 // 	res.cookie('XSRF-TOKEN', req.csrfToken());

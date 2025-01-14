@@ -1,3 +1,9 @@
+// The express-validator package
+// has two functions, check and validationResult that are used together to
+// validate the request body. check is a middleware function creator that
+// checks a particular key on the request body. validationResult gathers the
+// results of all the check middlewares that were run to determine which parts of
+// the body are valid and invalid.
 // define an Express middleware called handleValidationErrors that will call
 // validationResult from the express-validator package passing in the request.
 // If there are no validation errors returned from the validationResult function,

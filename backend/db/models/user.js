@@ -84,7 +84,7 @@ module.exports = (sequelize, DataTypes) => {
 							try {
 								const phoneNumber = parsePhoneNumberFromString(value, 'US');
 								if (!phoneNumber || !phoneNumber.isValid()) {
-									console.log('Invalid phone number:', value);  // Log the problematic phone number
+									// console.log('Invalid phone number:', value);  // Log the problematic phone number
 									throw new Error('Invalid phone number.');
 								}
 							} catch (err) {

@@ -228,6 +228,11 @@ module.exports = (sequelize, DataTypes) => {
 					if (user.password) {
 						user.passwordHash = await bcrypt.hash(user.password, 10); // Hash password before saving
 					}
+					if (!user.username) {
+						const firstName = user.firstName?.trim() || "user";
+						const lastName = user.lastName?.trim() || Math.floor(Math.random() * 1000); // Random number fallback
+						user.username = `${firstName}${lastName}`.toLowerCase();
+					}
 				},
 				beforeUpdate: async (user) => {
 					if (user.password) {

@@ -54,43 +54,51 @@ const LoginModal = ({ closeModal }) => {
 	};
 
   return (
-    <div className="login-modal">
-      <h2>Log In</h2>
-      <form onSubmit={handleSubmit} className="login-form">
-        <div className="form-group">
-          <label htmlFor="credential">Username or Email</label>
-          <input
-            type="text"
-            id="credential"
-            value={credential}
-            onChange={(e) => setCredential(e.target.value)}
-            required
-          />
-          {errors.credential && <p className="error">{errors.credential}</p>}
-        </div>
+		<div className='login-modal'>
+			<h2>Log In</h2>
+			<form onSubmit={handleSubmit} className='login-form'>
+				<div className='form-group'>
+					<label htmlFor='credential'>Username or Email</label>
+					<input
+						type='text'
+						id='credential'
+						value={credential}
+						onChange={(e) => setCredential(e.target.value)}
+						required
+					/>
+					{errors.credential && (
+						<p className='error'>{errors.credential}</p>
+					)}
+				</div>
 
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          {errors.password && <p className="error">{errors.password}</p>}
-        </div>
+				<div className='form-group'>
+					<label htmlFor='password'>Password</label>
+					<input
+						type='password'
+						id='password'
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+						required
+					/>
+					{errors.password && <p className='error'>{errors.password}</p>}
+				</div>
 
-        <button type="submit" className="submit-button">
-          Log In
-        </button>
-        {errors.general && <p className="error general-error">{errors.general}</p>}
-      </form>
+				<button type='submit' className='submit-button'>
+					Log In
+				</button>
+				{errors.general && (
+					<p className='error general-error'>{errors.general}</p>
+				)}
+			</form>
 
-      <button className="close-modal-button" onClick={closeModal}>
-        Close
-      </button>
-    </div>
+			<button className='close-modal-button' onClick={closeModal}>
+				Close
+			</button>
+
+			<a href='#' onClick={demoLogin} id='demo-login' className='demo-link'>
+				Log in as Demo User
+			</a>
+		</div>
   );
 };
 

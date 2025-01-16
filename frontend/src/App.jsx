@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { restoreUser } from './store/session';
 import NavBar from './components/NavBar';
 import LoginModal from './components/LoginModal';
+import SignupModal from './components/SignupModal';
 
 const Layout = () => {
 	const dispatch = useDispatch();
@@ -32,8 +33,20 @@ const routes = [
 				element: <h1> herro </h1>,
 			},
 			{
-        path: '/login',
-        element: <LoginModal />,
+				path: '/login',
+				element: <LoginModal />,
+			},
+			{
+				path: '/signup',
+				element: <SignupModal />,
+			},
+			{
+				path: 'test',
+				element: <h3> you so awesome </h3>,
+			},
+			{
+				path: '*',
+				element: <h1>Page Not Found</h1>,
 			},
 		],
 	},

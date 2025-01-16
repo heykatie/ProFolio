@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: true,
 				unique: true,
 				validate: {
-					len: [4, 30], // Validates that the length is between 4 and 30 characters
+					len: [4, 30],
 					isNotEmail(value) {
 						if (/\S+@\S+\.\S+/.test(value)) {
 							throw new Error('Username cannot be an email address.');
@@ -45,8 +45,8 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				unique: true,
 				validate: {
-					len: [3, 256], // Length validation for email
-					isEmail: true, // Ensures it follows the format of a valid email
+					len: [3, 256],
+					isEmail: true, 
 				},
 			},
 			password: {

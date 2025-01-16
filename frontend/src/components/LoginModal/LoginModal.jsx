@@ -1,14 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../store/session';
+import { useNavigate } from 'react-router-dom';
 import './LoginModal.css';
 
 const LoginModal = ({ closeModal }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [credential, setCredential] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+		if (sessionUser) navigate('/');
+	}, [sessionUser, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,6 +33,25 @@ const LoginModal = ({ closeModal }) => {
       }
     }
   };
+
+  const demoLogin = (e) => {
+		e.stopPropagation();
+		const demoCredential = 'Demo-lition';
+		const demoPassword = 'Password123!';
+		return dispatch(
+			login({
+				credential: demoCredential,
+				password: demoPassword,
+			})
+		)
+			.then(closeModal)
+			.catch(async (res) => {
+				const data = await res.json();
+				if (data && data.message) {
+					setErrors(data);
+				}
+			});
+	};
 
   return (
     <div className="login-modal">

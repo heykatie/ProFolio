@@ -103,5 +103,3 @@ const LoginModal = ({ closeModal }) => {
 };
 
 export default LoginModal;
-
-test;

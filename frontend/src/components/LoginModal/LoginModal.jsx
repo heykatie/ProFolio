@@ -5,36 +5,36 @@ import { useNavigate } from 'react-router-dom';
 import './LoginModal.css';
 
 const LoginModal = ({ closeModal }) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
-  const [credential, setCredential] = useState('');
-  const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState({});
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const sessionUser = useSelector((state) => state.session.user);
+	const [credential, setCredential] = useState('');
+	const [password, setPassword] = useState('');
+	const [errors, setErrors] = useState({});
 
-  useEffect(() => {
+	useEffect(() => {
 		if (sessionUser) navigate('/');
 	}, [sessionUser, navigate]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+	const handleSubmit = async (e) => {
+		e.preventDefault();
 
-    setErrors({});
+		setErrors({});
 
-    try {
-      await dispatch(login({ credential, password }));
-      closeModal();
-    } catch (res) {
-      if (res.json) {
-        const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
-        }
-      }
-    }
-  };
+		try {
+			await dispatch(login({ credential, password }));
+			closeModal();
+		} catch (res) {
+			if (res.json) {
+				const data = await res.json();
+				if (data && data.errors) {
+					setErrors(data.errors);
+				}
+			}
+		}
+	};
 
-  const demoLogin = (e) => {
+	const demoLogin = (e) => {
 		e.stopPropagation();
 		const demoCredential = 'Demo-lition';
 		const demoPassword = 'Password123!';
@@ -53,7 +53,7 @@ const LoginModal = ({ closeModal }) => {
 			});
 	};
 
-  return (
+	return (
 		<div className='login-modal'>
 			<h2>Log In</h2>
 			<form onSubmit={handleSubmit} className='login-form'>
@@ -99,7 +99,9 @@ const LoginModal = ({ closeModal }) => {
 				Log in as Demo User
 			</a>
 		</div>
-  );
+	);
 };
 
 export default LoginModal;
+
+test;

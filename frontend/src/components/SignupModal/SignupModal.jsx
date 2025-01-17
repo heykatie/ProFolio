@@ -27,7 +27,7 @@ const SignupModal = ({ closeModal }) => {
 	}, [sessionUser, navigate]);
 
 	const onSubmit = async (data) => {
-		const { email, password, fullName } = data;
+		const { email, password, fullName, phone } = data;
 		setServerErrors([]);
 
 		const nameParts = fullName.trim().split(' ');
@@ -37,7 +37,7 @@ const SignupModal = ({ closeModal }) => {
 
 		try {
 			await dispatch(
-				signup({ email, password, username, firstName, lastName })
+				signup({ email, password, username, firstName, lastName, phone })
 			);
 			closeModal();
     } catch (err) {
@@ -121,6 +121,28 @@ const SignupModal = ({ closeModal }) => {
 						)}
 						{serverErrors.email && (
 							<p className='form-error'>{serverErrors.email}</p>
+						)}
+					</div>
+
+					<div className='form-group'>
+						<label htmlFor='phone'>Phone Number (Optional)</label>
+						<input
+							id='phone'
+							type='text'
+							placeholder='+1234567890'
+							{...register('phone', {
+								pattern: {
+									value: /^\+?[1-9]\d{1,14}$/,
+									message:
+										'Please enter a valid phone number in E.164 format',
+								},
+							})}
+						/>
+						{errors.phone && (
+							<p className='form-error'>{errors.phone.message}</p>
+						)}
+						{serverErrors.phone && (
+							<p className='form-error'>{serverErrors.phone}</p>
 						)}
 					</div>
 

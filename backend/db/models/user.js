@@ -93,8 +93,8 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: true,
 				validate: {
-					isNumeric: true, // Ensures the value contains only numbers
-					len: [10, 15], // Allows between 10 to 15 digits for phone numbers
+					// isNumeric: true, // Ensures the value contains only numbers
+					// len: [10, 15], // Allows between 10 to 15 digits for phone numbers
 					validatePhone(value) {
 						if (value) {
 							try {
@@ -113,6 +113,16 @@ module.exports = (sequelize, DataTypes) => {
 								);
 								throw err; // Re-throw the error so it shows in the logs
 							}
+						}
+					},
+					isEmptyStringAllowed(value) {
+						if (value === '') {
+							return; // Allow empty string
+						}
+						if (value && value.length < 10) {
+							throw new Error(
+								'Phone must be a valid number.'
+							);
 						}
 					},
 				},

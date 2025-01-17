@@ -96,11 +96,11 @@ router.post(
   '/',
   validateSignup,
   async (req, res, next) => {
-    const { email, password, username, firstName, lastName } = req.body;
+    const { email, password, username, firstName, lastName, phone } = req.body;
 
     try {
       // Create a new user with the plain-text `password`
-      const user = await User.create({ email, password, username, firstName, lastName });
+      const user = await User.create({ email, password, username, firstName, lastName, phone });
 
       const safeUser = {
         id: user.id,
@@ -108,6 +108,7 @@ router.post(
         username: user.username,
         firstName: user.firstName,
         lastName: user.lastName,
+        phone: user.phone || null
       };
 
       await setTokenCookie(res, safeUser);

@@ -2,9 +2,12 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../store/session';
 import { useNavigate } from 'react-router-dom';
+import googleLogo from '../../../../images/google.png';
+import linkedinLogo from '../../../../images/linkedin.png';
+import githubLogo from '../../../../images/github.png';
 import './LoginModal.css';
 
-const LoginModal = ({ closeModal }) => {
+const LoginModal = ({ closeModal, openSignupModal }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const sessionUser = useSelector((state) => state.session.user);
@@ -16,7 +19,7 @@ const LoginModal = ({ closeModal }) => {
 		if (sessionUser) navigate('/');
 	}, [sessionUser, navigate]);
 
-	const handleSubmit = async (e) => {
+	const handleLogin = async (e) => {
 		e.preventDefault();
 
 		setErrors({});
@@ -56,7 +59,29 @@ const LoginModal = ({ closeModal }) => {
 	return (
 		<div className='login-modal'>
 			<h2>Log In</h2>
-			<form onSubmit={handleSubmit} className='login-form'>
+			{errors.general && (
+				<ul className='server-errors'>
+					<li>{errors.general}</li>
+				</ul>
+			)}
+
+			<div className='social-login'>
+				<div className='social-buttons'>
+					<a href='/api/auth/google' className='social-btn google'>
+						<img src={googleLogo} alt='Google' />
+					</a>
+					<a href='/api/auth/linkedin' className='social-btn linkedin'>
+						<img src={linkedinLogo} alt='LinkedIn' />
+					</a>
+					<a href='/api/auth/github' className='social-btn github'>
+						<img src={githubLogo} alt='GitHub' />
+					</a>
+				</div>
+			</div>
+
+			<p>--------------------- OR ---------------------</p>
+
+			<form onSubmit={handleLogin} className='login-form'>
 				<div className='form-group'>
 					<label htmlFor='credential'>Username or Email</label>
 					<input
@@ -96,8 +121,15 @@ const LoginModal = ({ closeModal }) => {
 			</button>
 
 			<a href='#' onClick={demoLogin} id='demo-login' className='demo-link'>
-				Log in as Demo User
+				Demo Account
 			</a>
+
+			<p className='signup-prompt'>
+				Don`t have an account?{' '}
+				<span className='signup-link' onClick={openSignupModal}>
+					Sign Up
+				</span>
+			</p>
 		</div>
 	);
 };

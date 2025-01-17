@@ -9,7 +9,7 @@ import githubLogo from '../../../../images/github.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import './SignupModal.css';
 
-const SignupModal = ({ closeModal }) => {
+const SignupModal = ({ closeModal, openLoginModal }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const sessionUser = useSelector((state) => state.session.user);
@@ -33,34 +33,33 @@ const SignupModal = ({ closeModal }) => {
 		const nameParts = fullName.trim().split(' ');
 		const firstName = nameParts[0];
 		const lastName = nameParts[1] || '';
-		const username = firstName+lastName;
+		const username = firstName + lastName;
 
 		try {
 			await dispatch(
 				signup({ email, password, username, firstName, lastName, phone })
 			);
 			closeModal();
-    } catch (err) {
+		} catch (err) {
 			if (err.errors) {
-        setServerErrors(err.errors);
-      } else {
-        const errData = await err.json();
-        const error = new Error(errData.title || 'Invalid');
-        error.status = err.status;
-        error.errors = errData.errors || {};
-        setServerErrors(error.errors)
-      }
+				setServerErrors(err.errors);
+			} else {
+				const errData = await err.json();
+				const error = new Error(errData.title || 'Invalid');
+				error.status = err.status;
+				error.errors = errData.errors || {};
+				setServerErrors(error.errors);
+			}
 		}
 	};
 
 	const switchToLogin = () => {
 		navigate('/login');
-	}
+	};
 
 	const togglePasswordVisibility = () => {
 		setShowPassword((prev) => !prev);
 	};
-
 
 	return (
 		<div className='signup-modal'>
@@ -191,8 +190,9 @@ const SignupModal = ({ closeModal }) => {
 						Create My Account
 					</button>
 				</form>
+
 				<div className='social-login'>
-					<p>or continue with</p>
+					<p>or sign up with</p>
 					<div className='social-buttons'>
 						<a href='/api/auth/google' className='social-btn google'>
 							<img src={googleLogo} alt='Google' />
@@ -205,9 +205,12 @@ const SignupModal = ({ closeModal }) => {
 						</a>
 					</div>
 				</div>
-				<p>
+				
+				<p className='login-prompt'>
 					Already have an account?{' '}
-					<span onClick={switchToLogin}>Log In</span>
+					<span className='login-link' onClick={openLoginModal}>
+						Log In
+					</span>
 				</p>
 			</div>
 		</div>

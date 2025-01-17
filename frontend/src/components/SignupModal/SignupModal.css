@@ -213,6 +213,10 @@ input:focus {
   background: #333;
 }
 
+.login-link {
+  text-decoration: underline;
+}
+
 /* Responsive Design */
 @media (max-width: 480px) {
   .signup-modal {

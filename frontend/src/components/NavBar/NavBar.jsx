@@ -5,21 +5,12 @@ import SignupModal from '../SignupModal';
 import ProfileButton from '../ProfileButton';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-// import { logout } from '../../store/session';
 import './Navbar.css';
 
 const Navbar = () => {
-	// const dispatch = useDispatch();
-	// const navigate = useNavigate();
 	const sessionUser = useSelector((state) => state.session.user);
-	const [activeModal, setActiveModal] = useState(null); // Tracks the current open modal
 	const [theme, setTheme] = useState('light');
-
-	// Handle logout
-	// const handleLogout = async () => {
-	// 	await dispatch(logout());
-	// 	navigate('/');
-	// };
+	const [activeModal, setActiveModal] = useState(null); // Tracks which modal is open: 'login' or 'signup'
 
 	// Toggle theme between light and dark
 	const toggleTheme = () => {
@@ -35,6 +26,13 @@ const Navbar = () => {
 		setTheme(savedTheme);
 		document.documentElement.setAttribute('data-theme', savedTheme);
 	}, []);
+
+	// Open modals
+	const openLoginModal = () => setActiveModal('login');
+	const openSignupModal = () => setActiveModal('signup');
+
+	// Close modals
+	const closeModal = () => setActiveModal(null);
 
 	return (
 		<nav className='navbar'>
@@ -63,14 +61,10 @@ const Navbar = () => {
 					// Show login and signup options when no session user
 					<>
 						<div className='navbar-link'>
-							<button onClick={() => setActiveModal('signup')}>
-								Sign Up
-							</button>
+							<button onClick={openSignupModal}>Sign Up</button>
 						</div>
 						<div className='navbar-link'>
-							<button onClick={() => setActiveModal('login')}>
-								Log In
-							</button>
+							<button onClick={openLoginModal}>Log In</button>
 						</div>
 					</>
 				)}
@@ -78,16 +72,26 @@ const Navbar = () => {
 				{/* Modals */}
 				<ReactModal
 					isOpen={activeModal === 'signup'}
-					onRequestClose={() => setActiveModal(null)}
-					ariaHideApp={false}>
-					<SignupModal closeModal={() => setActiveModal(null)} />
+					onRequestClose={closeModal}
+					ariaHideApp={false}
+					className='modal-content'
+					overlayClassName='modal-overlay'>
+					<SignupModal
+						closeModal={closeModal}
+						openLoginModal={openLoginModal}
+					/>
 				</ReactModal>
 
 				<ReactModal
 					isOpen={activeModal === 'login'}
-					onRequestClose={() => setActiveModal(null)}
-					ariaHideApp={false}>
-					<LoginModal closeModal={() => setActiveModal(null)} />
+					onRequestClose={closeModal}
+					ariaHideApp={false}
+					className='modal-content'
+					overlayClassName='modal-overlay'>
+					<LoginModal
+						closeModal={closeModal}
+						openSignupModal={openSignupModal}
+					/>
 				</ReactModal>
 			</div>
 		</nav>

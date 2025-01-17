@@ -161,6 +161,27 @@ input:focus {
   /* Darker hover color */
 }
 
+.signup-prompt {
+  text-align: center;
+  margin-top: 10px;
+  color: var(--text-color, #333);
+}
+
+.signup-prompt .signup-link {
+  color: var(--primary-color, #1e88e5);
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.signup-prompt .signup-link:hover {
+  color: var(--primary-hover-color, #1565c0);
+}
+
+.signup-link {
+  text-decoration: underline;
+}
+
 /* Responsive Design */
 @media (max-width: 480px) {
   .login-modal {

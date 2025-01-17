@@ -174,6 +174,7 @@ module.exports = (sequelize, DataTypes) => {
 				validate: {
 					isIn: [['light', 'dark', 'system']], // Ensures the value is one of "light" or "dark"
 				},
+				defaultValue: 'light'
 			},
 			githubConnected: {
 				type: DataTypes.BOOLEAN,

@@ -1,4 +1,4 @@
-.login-modal-container {
+.modal-container {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -18,33 +18,30 @@
   z-index: 210;
 }
 
-/* Login Modal */
-.login-modal {
+/* .modal {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   width: 100%;
-  /* Match parent */
   background-color: transparent;
-  /* No background color */
   box-shadow: none;
-}
+} */
 
 /* Modal Header */
-.login-modal-header {
+.modal-header {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
 }
 
-.login-modal-title {
+.modal-title {
   font-size: 1.4rem;
   font-weight: bold;
   color: var(--text-primary);
 }
 
-.login-modal-close-button {
+.modal-close-button {
   position: absolute;
   top: 50px;
   right: 240px;
@@ -56,12 +53,12 @@
   transition: color var(--transition);
 }
 
-.login-modal-close-button:hover {
+.modal-close-button:hover {
   color: var(--primary-hover);
 }
 
 /* Social Login */
-.login-social-login {
+.social-login {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -146,5 +143,76 @@
   .login-demo-button {
     font-size: 0.85rem;
     padding: 0.6rem 1.2rem;
+  }
+}
+
+img {
+  width: auto;
+  height: 70%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* Form Wrapper */
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+/* Form Group */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form-label {
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--divider);
+  border-radius: 6px;
+  background-color: var(--surface);
+  color: var(--text-primary);
+  width: 100%;
+  /* Ensure full width within container */
+  transition: border-color var(--transition);
+}
+
+.form-input:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+/* Submit Button */
+.form-submit-button {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color var(--transition);
+}
+
+.form-submit-button:hover {
+  background-color: var(--primary-hover);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .form-submit-button {
+    font-size: 0.9rem;
+    padding: 0.7rem 1.3rem;
   }
 }

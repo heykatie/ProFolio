@@ -1,11 +1,11 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const zxcvbn = require('zxcvbn');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const zxcvbn = require('zxcvbn');
-
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
+
 const { User } = require('../../db/models');
 
 const router = express.Router();
@@ -144,6 +144,25 @@ router.get('/:username', async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+});
+
+// Update theme preference
+router.put('/theme', requireAuth, async (req, res) => {
+    const { theme } = req.body;
+
+    if (!['light', 'dark'].includes(theme)) {
+        return res.status(400).json({ error: 'Invalid theme value' });
+    }
+
+    const user = await User.findByPk(req.user.id);
+    if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+    }
+
+    user.themePreferences = theme;
+    await user.save();
+
+    return res.json({ theme: user.themePreferences });
 });
 
 module.exports = router;

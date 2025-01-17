@@ -1,46 +1,106 @@
+/* Profile Button Container */
 .profile-container {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
+/* Profile Button */
 .profile-button {
-  background: transparent;
+  background-color: var(--primary);
+  color: var(--on-primary);
   border: none;
-  cursor: pointer;
-  font-size: 1.5rem;
-}
-
-.profile-icon {
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   font-size: 1.5rem;
+  transition: background-color var(--transition);
 }
 
+.profile-button:hover {
+  background-color: var(--primary-hover);
+}
+
+/* Profile Icon */
+.profile-icon {
+  font-size: 1.2rem;
+  color: var(--on-primary);
+}
+
+/* Profile Dropdown */
 .profile-dropdown {
   position: absolute;
-  top: 100%;
+  top: 60px;
   right: 0;
-  background-color: var(--background-light);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
   width: 200px;
+  background-color: var(--surface-light);
+  border: 1px solid var(--divider);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  overflow: hidden;
+  font-family: var(--font-body);
 }
 
+/* Dropdown List */
 .profile-dropdown-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
+.profile-dropdown__item--username,
+.profile-dropdown__item--full-name {
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.75rem 1rem;
+  color: var(--text-primary);
+  background-color: var(--surface-light);
+  border-bottom: 1px solid var(--divider);
+}
+
+.profile-dropdown__item--username {
+  color: var(--primary);
+}
+
+.profile-dropdown__item--full-name {
+  color: var(--text-secondary);
+}
+
+/* Dropdown Items */
 .profile-dropdown__item {
   padding: 0.75rem 1rem;
+  color: var(--text-primary);
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color var(--transition), color var(--transition);
 }
 
 .profile-dropdown__item:hover {
-  background-color: var(--primary-hover);
-  color: var(--text-light);
+  background-color: var(--surface-light-hover);
+  color: var(--primary);
+}
+
+/* Special Dropdown Items */
+.profile-dropdown__item--logout {
+  color: var(--error);
+}
+
+.profile-dropdown__item--logout:hover {
+  background-color: var(--error-light);
+  color: var(--on-error);
+}
+
+/* Dropdown Spacing Adjustments */
+.profile-dropdown__item:not(:last-child) {
+  border-bottom: 1px solid var(--divider);
+}
+
+/* Hover Effects */
+.profile-dropdown__item:hover,
+.profile-dropdown__item--logout:hover {
+  text-decoration: none;
 }

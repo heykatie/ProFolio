@@ -1,37 +1,56 @@
+/* Navbar Container */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: var(--background-light);
-  border-bottom: 1px solid var(--border-color);
+  background-color: var(--surface-light);
+  border-bottom: 1px solid var(--divider);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  position: sticky;
+  top: 0;
+}
+
+/* Logo Section */
+.navbar-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: var(--font-heading);
 }
 
 .navbar-logo-link {
-  font-size: 1.5rem;
-  font-weight: bold;
+  color: var(--primary);
   text-decoration: none;
-  color: var(--primary-color);
-  transition: color 0.3s;
+  transition: color var(--transition);
 }
 
 .navbar-logo-link:hover {
   color: var(--primary-hover);
 }
 
+/* Actions Section */
 .navbar-actions {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
+/* Theme Toggle Button */
 .navbar-theme-toggle {
   background: none;
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
+  color: var(--text-primary);
+  transition: color var(--transition);
 }
 
+.navbar-theme-toggle:hover {
+  color: var(--primary-hover);
+}
+
+/* Auth Buttons */
 .navbar-auth-actions {
   display: flex;
   gap: 0.5rem;
@@ -39,30 +58,71 @@
 
 .navbar-signup-btn,
 .navbar-login-btn {
-  padding: 0.5rem 1rem;
+  background-color: var(--primary);
+  color: var(--on-primary);
   border: none;
-  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: var(--font-body);
   cursor: pointer;
+  transition: background-color var(--transition);
 }
 
-.navbar-signup-btn {
-  background-color: var(--primary-color);
-  color: var(--text-light);
-  transition: background-color 0.3s;
-}
-
-.navbar-signup-btn:hover {
+.navbar-signup-btn:hover,
+.navbar-login-btn:hover {
   background-color: var(--primary-hover);
 }
 
 .navbar-login-btn {
-  background-color: transparent;
-  color: var(--primary-color);
-  border: 1px solid var(--primary-color);
-  transition: color 0.3s, background-color 0.3s;
+  background-color: var(--secondary);
+  color: var(--on-secondary);
 }
 
 .navbar-login-btn:hover {
-  background-color: var(--primary-hover);
-  color: var(--text-light);
+  background-color: var(--secondary-hover);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .navbar-actions {
+    margin-top: 1rem;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .navbar-auth-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .navbar-signup-btn,
+  .navbar-login-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.navbar-logo-icon {
+  height: 40px;
+  /* Adjust height as necessary */
+  width: auto;
+  margin-right: 0.5rem;
+  /* Space between logo and text */
+  vertical-align: middle;
+  /* Aligns image with text */
+  transition: transform var(--transition);
+}
+
+.navbar-logo-link:hover .navbar-logo-icon {
+  transform: scale(1.1);
+  /* Slight zoom on hover */
 }

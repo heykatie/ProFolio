@@ -25,7 +25,7 @@ export const ModalProvider = ({ children }) => {
 							if (e.target === e.currentTarget) closeModal();
 						}}>
 						<div
-							className='modal-content'
+							// className='modal-content'
 							onClick={(e) => e.stopPropagation()}>
 							{modalContent}
 						</div>

@@ -1,38 +1,111 @@
 @import '../FormModals.css';
 
-/* Signup-specific Styles */
-.signup-password-wrapper {
-  position: relative;
+.signup-modal-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   width: 100%;
+  max-width: 400px;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  background-color: var(--surface-light);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  z-index: 210;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.signup-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.signup-label {
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: var(--text-secondary);
+}
+
+.signup-input {
+  padding: 0.8rem;
+  font-size: 1rem;
+  border: 1px solid var(--divider) !important;
+  border-radius: 6px !important;
+  background-color: var(--surface) !important;
+  color: var(--text-primary);
+  transition: border-color var(--transition);
+}
+
+.signup-input:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+.signup-password-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
 }
 
 .signup-password-toggle {
   position: absolute;
-  top: 50%;
-  right: 0.75rem;
-  transform: translateY(-50%);
+  right: 1rem;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
   cursor: pointer;
-  color: var(--text-dark, #333);
+  transition: color var(--transition);
 }
 
 .signup-password-toggle:hover {
-  color: var(--primary-color, #1e88e5);
+  color: var(--primary);
 }
 
-.signup-divider {
-  font-size: 0.875rem;
-  color: var(--text-dark, #333);
-  text-align: center;
-  margin: 1rem 0;
-}
-
-.signup-login-link {
+.modal-submit-button {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
   font-weight: bold;
-  color: var(--primary-color, #1e88e5);
   cursor: pointer;
-  text-decoration: underline;
+  transition: background-color var(--transition);
 }
 
-.signup-login-link:hover {
-  color: var(--primary-hover, #1565c0);
+.modal-submit-button:hover {
+  background-color: var(--primary-hover);
+}
+
+.signup-social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.signup-social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: var(--surface);
+  border: 1px solid var(--divider);
+  transition: background-color var(--transition), box-shadow var(--transition);
+}
+
+.signup-social-btn:hover {
+  background-color: var(--surface-light);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }

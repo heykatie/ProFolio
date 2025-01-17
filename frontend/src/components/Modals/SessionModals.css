@@ -1,21 +1,30 @@
-.modal-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  width: 100%;
-  max-width: 400px;
-  padding: 1.5rem;
-  box-sizing: border-box;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
+/* .modal-container {
   justify-content: center;
   align-items: center;
+} */
+
+.modal-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  gap: .8rem;
+  width: 400px;
+  height: 93vh;
+  max-height: 100vh;
+  max-width: 480px;
+  padding: 2rem;
+  box-sizing: border-box;
   background-color: var(--surface-light);
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-  overflow: hidden;
   z-index: 210;
+  overflow: hidden;
+}
+
+#login {
+  max-height: 78vh;
 }
 
 /* .modal {
@@ -27,7 +36,6 @@
   box-shadow: none;
 } */
 
-/* Modal Header */
 .modal-header {
   display: flex;
   justify-content: center;
@@ -36,21 +44,23 @@
 }
 
 .modal-title {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: bold;
   color: var(--text-primary);
 }
 
 .modal-close-button {
   position: absolute;
-  top: 50px;
-  right: 240px;
-  background: none !important;
+  top: 1rem;
+  right: 1rem;
+  background: none;
   border: none;
   font-size: .8rem;
+  /* font-weight: bold; */
   color: var(--text-secondary);
   cursor: pointer;
   transition: color var(--transition);
+  z-index: 300;
 }
 
 .modal-close-button:hover {
@@ -64,14 +74,14 @@
   align-items: center;
 }
 
-.login-social-buttons {
+.social-buttons {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  gap: 2rem;
+  margin: .3rem;
 }
 
-.login-social-btn {
+.social-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -83,17 +93,17 @@
   transition: background-color var(--transition), box-shadow var(--transition);
 }
 
-.login-social-btn:hover {
+.social-btn:hover {
   background-color: var(--surface-light);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Login Form */
-.login-form {
+.auth-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  /* Maintain consistent spacing */
+  align-items: stretch;
+  gap: 0.25rem;
+  /* margin-bottom: 1.5rem; */
 }
 
 .auth-divider {
@@ -103,11 +113,11 @@
   margin: 1rem 0;
 }
 
-.login-demo-button {
+.demo-button {
   background-color: var(--secondary);
   color: var(--on-secondary);
   border: none;
-  padding: 0.7rem 1.4rem;
+  padding: 0.6rem 1rem;
   border-radius: 6px;
   font-size: 0.9rem;
   font-weight: bold;
@@ -116,34 +126,8 @@
   transition: background-color var(--transition);
 }
 
-.login-demo-button:hover {
+.demo-button:hover {
   background-color: var(--secondary-hover);
-}
-
-/* Mobile Adjustments */
-@media (max-width: 768px) {
-  .login-modal-container {
-    width: 90%;
-    max-width: 300px;
-    /* Smaller max width for mobile */
-    padding: 1.5rem;
-    /* Reduced padding for mobile */
-  }
-
-  .login-modal-title {
-    font-size: 1.4rem;
-    /* Keep font size consistent */
-  }
-
-  .login-social-btn {
-    width: 40px;
-    height: 40px;
-  }
-
-  .login-demo-button {
-    font-size: 0.85rem;
-    padding: 0.6rem 1.2rem;
-  }
 }
 
 img {
@@ -153,19 +137,50 @@ img {
   object-fit: contain;
 }
 
-/* Form Wrapper */
-.form-wrapper {
+/* .form-wrapper {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   width: 100%;
+} */
+
+/* Wrapper for password input and toggle */
+.password-wrapper {
+  position: relative;
+  /* Allows absolute positioning of child elements */
+  width: 100%;
+}
+
+/* Password visibility toggle icon */
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  /* Vertically center */
+  right: 0.8rem;
+  /* Place it inside the input on the right */
+  transform: translateY(-50%);
+  /* Adjust for centering */
+  cursor: pointer;
+  font-size: 1.2rem;
+  /* Adjust size of the icon */
+  color: var(--text-secondary);
+  /* Match your theme colors */
+  transition: color var(--transition);
+}
+
+.password-toggle:hover {
+  color: var(--primary);
+  /* Highlight color on hover */
 }
 
 /* Form Group */
-.form-group {
+.auth-form-group {
   display: flex;
   flex-direction: column;
   width: 100%;
+  display: grid;
+  grid-template-rows: auto auto 1.1rem;
+  gap: 0.25rem;
 }
 
 .form-label {
@@ -175,15 +190,31 @@ img {
   margin-bottom: 0.5rem;
 }
 
+.form-error {
+  align-self: start;
+  color: var(--error-color);
+  font-size: 0.75rem;
+  margin-bottom: 0rem;
+  opacity: 0;
+  transform: translateY(-15px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.form-error.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .form-input {
   padding: 0.75rem;
+  margin-bottom: .5rem;
+  padding-bottom: 1rem;
   font-size: 1rem;
-  border: 1px solid var(--divider);
+  /* border: 1px solid var(--divider); */
   border-radius: 6px;
   background-color: var(--surface);
   color: var(--text-primary);
   width: 100%;
-  /* Ensure full width within container */
   transition: border-color var(--transition);
 }
 
@@ -192,27 +223,58 @@ img {
   outline: none;
 }
 
+.signup-login-prompt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Submit Button */
-.form-submit-button {
+.modal-submit-button {
   background-color: var(--primary);
   color: var(--on-primary);
   border: none;
-  padding: 0.8rem 1.5rem;
+  padding: 0.6rem 1rem;
   border-radius: 6px;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
+  margin-top: 1rem;
   transition: background-color var(--transition);
 }
 
-.form-submit-button:hover {
+.modal-submit-button:hover {
   background-color: var(--primary-hover);
 }
 
-/* Mobile Adjustments */
 @media (max-width: 768px) {
-  .form-submit-button {
+  .modal-submit-button {
     font-size: 0.9rem;
     padding: 0.7rem 1.3rem;
+  }
+
+  .modal-container {
+    width: 85%;
+      max-width: 320px;
+      padding: 1rem;
+  }
+
+  .modal-title {
+    font-size: 1rem;
+  }
+
+  .social-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .demo-button {
+    font-size: 0.85rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .form-input {
+    font-size: 0.9rem;
+    padding: 0.7rem;
   }
 }

@@ -6,7 +6,7 @@ import SignupModal from '../Modals/SignupModal';
 import LoginModal from '../Modals/LoginModal';
 import ProfileButton from '../ProfileButton';
 import { fetchTheme, updateTheme } from '../../store/user';
-import profolioIcon from '../../../../images/profolio-icon.png';
+import profolioIcon from '../../../../images/profolio-icon.png'
 import './Navbar.css';
 
 const Navbar = () => {

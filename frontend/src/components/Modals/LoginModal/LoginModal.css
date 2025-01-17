@@ -1,150 +1,104 @@
-.login-modal-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  width: 100%;
-  max-width: 400px;
-  padding: 1.5rem;
-  box-sizing: border-box;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--surface-light);
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-  overflow: hidden;
-  z-index: 210;
-}
-
-/* Login Modal */
-.login-modal {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  width: 100%;
-  /* Match parent */
-  background-color: transparent;
-  /* No background color */
-  box-shadow: none;
-}
-
-/* Modal Header */
-.login-modal-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-.login-modal-title {
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: var(--text-primary);
-}
-
-.login-modal-close-button {
+/* Common Modal Styles */
+.modal-close-button {
   position: absolute;
-  top: 50px;
-  right: 240px;
-  background: none !important;
+  top: 1rem;
+  right: 1rem;
+  background: none;
   border: none;
-  font-size: .8rem;
-  color: var(--text-secondary);
+  font-size: 1.5rem;
   cursor: pointer;
-  transition: color var(--transition);
 }
 
-.login-modal-close-button:hover {
-  color: var(--primary-hover);
+.modal-header {
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
-/* Social Login */
-.login-social-login {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
 }
 
-.login-social-buttons {
+/* Form Styles */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--text-dark);
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+.form-error {
+  color: var(--error-color);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Social Login Buttons */
+.social-login {
+  text-align: center;
+}
+
+.social-buttons {
   display: flex;
   justify-content: center;
   gap: 1rem;
-  margin-bottom: 1rem;
 }
 
-.login-social-btn {
+.social-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background-color: var(--surface);
-  border: 1px solid var(--divider);
-  transition: background-color var(--transition), box-shadow var(--transition);
+  border: 1px solid var(--border-color);
+  background-color: var(--background-light);
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.login-social-btn:hover {
-  background-color: var(--surface-light);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* Login Form */
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  /* Maintain consistent spacing */
+.social-btn:hover {
+  background-color: var(--primary-hover);
 }
 
 .auth-divider {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
   text-align: center;
   margin: 1rem 0;
+  color: var(--text-dark);
+  font-size: 0.875rem;
 }
 
-.login-demo-button {
-  background-color: var(--secondary);
-  color: var(--on-secondary);
+/* Submit Button */
+.modal-submit-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--primary-color);
+  color: var(--text-light);
   border: none;
-  padding: 0.7rem 1.4rem;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  font-weight: bold;
+  border-radius: 4px;
   cursor: pointer;
-  margin-top: 0.8rem;
-  transition: background-color var(--transition);
+  font-size: 1rem;
+  transition: background-color 0.3s;
 }
 
-.login-demo-button:hover {
-  background-color: var(--secondary-hover);
-}
-
-/* Mobile Adjustments */
-@media (max-width: 768px) {
-  .login-modal-container {
-    width: 90%;
-    max-width: 300px;
-    /* Smaller max width for mobile */
-    padding: 1.5rem;
-    /* Reduced padding for mobile */
-  }
-
-  .login-modal-title {
-    font-size: 1.4rem;
-    /* Keep font size consistent */
-  }
-
-  .login-social-btn {
-    width: 40px;
-    height: 40px;
-  }
-
-  .login-demo-button {
-    font-size: 0.85rem;
-    padding: 0.6rem 1.2rem;
-  }
+.modal-submit-button:hover {
+  background-color: var(--primary-hover);
 }

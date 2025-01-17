@@ -83,31 +83,29 @@ const SignupModal = () => {
 	};
 
 	return (
-		<div className='modal-container'>
+		<div className='modal-container' id='signup'>
+			<button onClick={closeModal} className='modal-close-button'>
+				&times;
+			</button>
 			<div className='modal-header'>
-				<button onClick={closeModal} className='modal-close-button'>
-					&times;
-				</button>
 				<h2 className='modal-title'>Sign Up</h2>
 			</div>
 
-			<form onSubmit={handleSubmit(onSubmit)} className='signup-form'>
+			<form onSubmit={handleSubmit(onSubmit)} className='auth-form'>
 				{serverErrors.length > 0 && (
-					<ul className='form-error'>
+					<ul className={`form-error ${serverErrors ? 'show' : ''}`}>
 						{serverErrors.map((error, idx) => (
 							<li key={idx}>{error}</li>
 						))}
 					</ul>
 				)}
 
-				<div className='signup-form-group'>
-					<label htmlFor='fullName' className='signup-label'>
-						Full Name
-					</label>
+				<div className='auth-form-group'>
 					<input
+						placeholder='Full Name'
 						id='fullName'
 						type='text'
-						className='signup-input'
+						className='form-input'
 						{...register('fullName', {
 							required: 'Full name is required',
 							validate: {
@@ -118,18 +116,18 @@ const SignupModal = () => {
 						})}
 					/>
 					{errors.fullName && (
-						<p className='form-error'>{errors.fullName.message}</p>
+						<p className={`form-error ${errors.fullName ? 'show' : ''}`}>
+							{errors.fullName.message}
+						</p>
 					)}
 				</div>
 
-				<div className='signup-form-group'>
-					<label htmlFor='email' className='signup-label'>
-						Email
-					</label>
+				<div className='auth-form-group'>
 					<input
+						placeholder='Email'
 						id='email'
 						type='email'
-						className='signup-input'
+						className='form-input'
 						{...register('email', {
 							required: 'Email is required',
 							pattern: {
@@ -139,41 +137,43 @@ const SignupModal = () => {
 						})}
 					/>
 					{errors.email && (
-						<p className='signup-error'>{errors.email.message}</p>
+						<p className={`form-error ${errors.email ? 'show' : ''}`}>
+							{errors.email.message}
+						</p>
 					)}
 				</div>
 
-				<div className='signup-form-group'>
-					<label htmlFor='phone' className='signup-label'>
-						Phone Number (Optional)
-					</label>
+				<div className='auth-form-group'>
 					<input
 						id='phone'
 						type='text'
-						className='signup-input'
-						placeholder='+1234567890'
+						className='form-input'
+						placeholder='Phone Number (Optional)'
+						onFocus={(e) => (e.target.placeholder = '+1234567890')}
+						onBlur={(e) =>
+							(e.target.placeholder = 'Phone Number (Optional)')
+						}
 						{...register('phone', {
 							pattern: {
 								value: /^\+?[1-9]\d{1,14}$/,
-								message:
-									'Please enter a valid phone number in E.164 format',
+								message: 'Please enter a valid phone number',
 							},
 						})}
 					/>
 					{errors.phone && (
-						<p className='signup-error'>{errors.phone.message}</p>
+						<p className={`form-error ${errors.phone ? 'show' : ''}`}>
+							{errors.phone.message}
+						</p>
 					)}
 				</div>
 
-				<div className='signup-form-group'>
-					<label htmlFor='password' className='signup-label'>
-						Password
-					</label>
-					<div className='signup-password-wrapper'>
+				<div className='auth-form-group'>
+					<div className='password-wrapper'>
 						<input
+							placeholder='Password'
 							id='password'
 							type={showPassword ? 'text' : 'password'}
-							className='signup-input'
+							className='form-input'
 							{...register('password', {
 								required: 'Password is required',
 								minLength: {
@@ -196,13 +196,15 @@ const SignupModal = () => {
 						<span
 							role='button'
 							aria-label='Toggle password visibility'
-							className='signup-password-toggle'
+							className='password-toggle'
 							onClick={togglePasswordVisibility}>
 							{showPassword ? <FaEyeSlash /> : <FaEye />}
 						</span>
 					</div>
 					{errors.password && (
-						<p className='form-error'>{errors.password.message}</p>
+						<p className={`form-error ${errors.password ? 'show' : ''}`}>
+							{errors.password.message}
+						</p>
 					)}
 				</div>
 
@@ -212,32 +214,29 @@ const SignupModal = () => {
 			</form>
 
 			<div className='social-login'>
-				<p className='auth-divider'>Or sign up with</p>
-				<div className='signup-social-buttons'>
-					<a
-						href='/api/auth/google'
-						className='signup-social-btn google-btn'>
+				<p className='auth-divider'>
+					-------------------------- Or sign up with
+					--------------------------
+				</p>
+				<div className='social-buttons'>
+					<a href='/api/auth/google' className='social-btn google-btn'>
 						<img src={googleLogo} alt='Google' />
 					</a>
-					<a
-						href='/api/auth/linkedin'
-						className='signup-social-btn linkedin-btn'>
+					<a href='/api/auth/linkedin' className='social-btn linkedin-btn'>
 						<img src={linkedinLogo} alt='LinkedIn' />
 					</a>
-					<a
-						href='/api/auth/github'
-						className='signup-social-btn github-btn'>
+					<a href='/api/auth/github' className='social-btn github-btn'>
 						<img src={githubLogo} alt='GitHub' />
 					</a>
 				</div>
 			</div>
 
-			<p className='signup-login-prompt'>
+			<div className='signup-login-prompt'>
 				Already have an account?{' '}
 				<span className='signup-login-link' onClick={openLoginModal}>
 					Log In
 				</span>
-			</p>
+			</div>
 		</div>
 	);
 };

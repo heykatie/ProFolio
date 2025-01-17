@@ -53,8 +53,7 @@ const ProfileButton = () => {
 	}
 
 	return (
-		<div className='profile-button-container'>
-
+		<div className='profile-container'>
 			<button onClick={toggleMenu} className='profile-button'>
 				<span className='profile-icon'>
 					<FaCarrot />
@@ -63,25 +62,63 @@ const ProfileButton = () => {
 
 			{showMenu && (
 				<div className='profile-dropdown' ref={dropdownRef}>
-					<ul>
-						<li>{sessionUser.username}</li>
-						<li>{sessionUser.firstName} {sessionUser.lastName}</li>
-						<li onClick={() => navigate('/dashboard')}>Dashboard</li>
-						<li onClick={() => navigate(`/${sessionUser.username}`)}>
+					<ul className='profile-dropdown-list'>
+						<li className='profile-dropdown-item username'>
+							{sessionUser.username}
+						</li>
+						<li className='profile-dropdown-item full-name'>
+							{sessionUser.firstName} {sessionUser.lastName}
+						</li>
+						<li
+							className='profile-dropdown-item'
+							onClick={() => navigate('/dashboard')}>
+							Dashboard
+						</li>
+						<li
+							className='profile-dropdown-item'
+							onClick={() => navigate(`/${sessionUser.username}`)}>
 							View Profile
 						</li>
-						<li onClick={() => navigate('/portfolios')}>
+						<li
+							className='profile-dropdown-item'
+							onClick={() => navigate('/portfolios')}>
 							Your Portfolios
 						</li>
-						<li onClick={() => navigate('/preview')}>
+						<li
+							className='profile-dropdown-item'
+							onClick={() => navigate('/preview')}>
 							Preview Portfolio
 						</li>
-						<li onClick={() => navigate('/projects')}>Your Projects</li>
-						<li onClick={() => navigate('/favorites')}>Your Favorites</li>
-						<li onClick={() => navigate('/activity')}>Recent Activity</li>
-						<li onClick={() => navigate('/create')}>Create New</li>
-						<li onClick={() => navigate('/settings')}>Settings</li>
-						<li onClick={handleLogout}>Logout</li>
+						<li
+							className='profile-dropdown-item'
+							onClick={() => navigate('/projects')}>
+							Your Projects
+						</li>
+						<li
+							className='profile-dropdown-item'
+							onClick={() => navigate('/favorites')}>
+							Your Favorites
+						</li>
+						<li
+							className='profile-dropdown-item'
+							onClick={() => navigate('/activity')}>
+							Recent Activity
+						</li>
+						<li
+							className='profile-dropdown-item'
+							onClick={() => navigate('/create')}>
+							Create New
+						</li>
+						<li
+							className='profile-dropdown-item'
+							onClick={() => navigate('/settings')}>
+							Settings
+						</li>
+						<li
+							className='profile-dropdown-item logout'
+							onClick={handleLogout}>
+							Logout
+						</li>
 					</ul>
 				</div>
 			)}

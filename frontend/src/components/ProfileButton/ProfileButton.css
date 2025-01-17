@@ -1,46 +1,96 @@
-.profile-button-container {
+/* Profile Button Container */
+.profile-container {
   display: inline-block;
   position: relative;
+  overflow: visible;
 }
 
+/* Profile Button */
 .profile-button {
   background-color: transparent;
   border: none;
-  color: inherit;
+  color: var(--text-primary, #333);
   cursor: pointer;
-  font-size: 16px;
+  font-size: 1.5rem;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
 }
 
 .profile-icon {
-  color: orange;
+  color: var(--primary, #1e88e5);
   font-size: 1.5rem;
+  transition: color 0.3s ease;
 }
 
+.profile-button:hover .profile-icon {
+  color: var(--primary-hover, #1565c0);
+}
+
+/* Dropdown Menu */
 .profile-dropdown {
-  display: block;
+  display: block !important;
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  background-color: red;
   position: absolute;
-  top: 100%;
+  top: calc(100% + 10px);
   right: 0;
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  z-index: 10;
+  background-color: var(--background-surface, #fff);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-in-out;
 }
 
-.profile-dropdown ul {
+/* Dropdown List */
+.profile-dropdown-list {
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
-.profile-dropdown li {
-  padding: 10px 20px;
+/* Dropdown Items */
+.profile-dropdown-item {
+  padding: 10px 15px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: var(--text-primary, #333);
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.profile-dropdown li:hover {
-  background-color: #f0f0f0;
+.profile-dropdown-item.username {
+  font-weight: bold;
+  color: var(--primary, #1e88e5);
+}
+
+.profile-dropdown-item.full-name {
+  font-size: 0.85rem;
+  color: var(--text-secondary, #666);
+}
+
+.profile-dropdown-item:hover {
+  background-color: var(--hover-background, #f0f0f0);
+}
+
+.profile-dropdown-item.logout {
+  color: var(--error, #d32f2f);
+}
+
+.profile-dropdown-item.logout:hover {
+  background-color: rgba(211, 47, 47, 0.1);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

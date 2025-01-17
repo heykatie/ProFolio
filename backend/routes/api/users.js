@@ -100,7 +100,7 @@ router.post(
 
     try {
       // Create a new user with the plain-text `password`
-      const user = await User.create({ email, username, password, firstName, lastName });
+      const user = await User.create({ email, password, username, firstName, lastName });
 
       const safeUser = {
         id: user.id,
@@ -124,27 +124,25 @@ router.post(
   }
 );
 
-// router.post(
-//   '/',
-//   async (req, res) => {
-//     const { email, password, username, firstName, lastName} = req.body;
-//     const passwordHash = bcrypt.hashSync(password);
-//     const user = await User.create({ email, username, passwordHash, firstName, lastName });
+// Get user profile by username
+router.get('/:username', async (req, res, next) => {
+  const { username } = req.params;
+  try {
+    const user = await User.findOne({
+      where: { username },
+      attributes: ['id', 'username', 'email', 'firstName', 'lastName', 'bio', 'avatarUrl'],
+    });
 
-//     const safeUser = {
-//       id: user.id,
-//       email: user.email,
-//       username: user.username,
-//       firstName: user.firstName,
-//       lastName: user.lastName,
-//     };
+    if (!user) {
+      const err = new Error('User not found');
+      err.status = 404;
+      throw err;
+    }
 
-//     await setTokenCookie(res, safeUser);
-
-//     return res.json({
-//       user: safeUser
-//     });
-//   }
-// );
+    res.json({ user });
+  } catch (err) {
+    next(err);
+  }
+});
 
 module.exports = router;

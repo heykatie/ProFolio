@@ -6,6 +6,8 @@ const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const { ValidationError } = require('sequelize');
+const passport = require('./config/passport');
+const session = require('express-session'); // Required for persistent sessions
 
 // Create a variable called isProduction that will be true if the environment
 // is in production or not by checking the environment key in the configuration
@@ -15,6 +17,11 @@ const isProduction = environment === 'production';
 
 // Initialize the Express application:
 const app = express();
+
+// Set up Passport middleware
+app.use(session({ secret: 'your-secret', resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session()); // Persistent login sessions
 
 // import routes
 const routes = require('./routes');

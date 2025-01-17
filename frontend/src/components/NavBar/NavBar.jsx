@@ -1,23 +1,40 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ReactModal from 'react-modal';
 import LoginModal from '../LoginModal';
 import SignupModal from '../SignupModal';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../store/session';
+import ProfileButton from '../ProfileButton';
+import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+// import { logout } from '../../store/session';
 import './Navbar.css';
 
 const Navbar = () => {
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
+	// const dispatch = useDispatch();
+	// const navigate = useNavigate();
 	const sessionUser = useSelector((state) => state.session.user);
-	const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
-	const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+	const [activeModal, setActiveModal] = useState(null); // Tracks the current open modal
+	const [theme, setTheme] = useState('light');
 
-	const handleLogout = async () => {
-		await dispatch(logout());
-		navigate('/');
+	// Handle logout
+	// const handleLogout = async () => {
+	// 	await dispatch(logout());
+	// 	navigate('/');
+	// };
+
+	// Toggle theme between light and dark
+	const toggleTheme = () => {
+		const newTheme = theme === 'light' ? 'dark' : 'light';
+		setTheme(newTheme);
+		document.documentElement.setAttribute('data-theme', newTheme);
+		localStorage.setItem('theme', newTheme);
 	};
+
+	// Load theme from local storage on mount
+	useEffect(() => {
+		const savedTheme = localStorage.getItem('theme') || 'light';
+		setTheme(savedTheme);
+		document.documentElement.setAttribute('data-theme', savedTheme);
+	}, []);
 
 	return (
 		<nav className='navbar'>
@@ -28,48 +45,50 @@ const Navbar = () => {
 			</div>
 
 			<div className='navbar-links'>
+				{/* Theme Toggle */}
+				<button
+					className='theme-toggle'
+					onClick={toggleTheme}
+					aria-label={`Switch to ${
+						theme === 'light' ? 'dark' : 'light'
+					} mode`}>
+					{theme === 'light' ? '🌙' : '☀️'}
+				</button>
+
+				{/* Conditional rendering based on session user */}
 				{sessionUser ? (
-					<>
-						<NavLink to='/dashboard' className='navbar-link'>
-							Dashboard
-						</NavLink>
-						<NavLink to='/settings' className='navbar-link'>
-							Settings
-						</NavLink>
-						<button onClick={handleLogout} className='navbar-button'>
-							Log Out
-						</button>
-					</>
+					// Show profile button when user is logged in
+					<ProfileButton user={sessionUser} />
 				) : (
+					// Show login and signup options when no session user
 					<>
-						<div className='navbar-link' id='signup-modal'>
-							<button onClick={() => setIsSignupModalOpen(true)}>
+						<div className='navbar-link'>
+							<button onClick={() => setActiveModal('signup')}>
 								Sign Up
 							</button>
-							<ReactModal
-								isOpen={isSignupModalOpen}
-								onRequestClose={() => setIsSignupModalOpen(false)}
-								ariaHideApp={false}>
-								<SignupModal
-									closeModal={() => setIsSignupModalOpen(false)}
-								/>
-							</ReactModal>
 						</div>
-						<div className='navbar-link' id='login-modal'>
-							<button onClick={() => setIsLoginModalOpen(true)}>
+						<div className='navbar-link'>
+							<button onClick={() => setActiveModal('login')}>
 								Log In
 							</button>
-							<ReactModal
-								isOpen={isLoginModalOpen}
-								onRequestClose={() => setIsLoginModalOpen(false)}
-								ariaHideApp={false}>
-								<LoginModal
-									closeModal={() => setIsLoginModalOpen(false)}
-								/>
-							</ReactModal>
 						</div>
 					</>
 				)}
+
+				{/* Modals */}
+				<ReactModal
+					isOpen={activeModal === 'signup'}
+					onRequestClose={() => setActiveModal(null)}
+					ariaHideApp={false}>
+					<SignupModal closeModal={() => setActiveModal(null)} />
+				</ReactModal>
+
+				<ReactModal
+					isOpen={activeModal === 'login'}
+					onRequestClose={() => setActiveModal(null)}
+					ariaHideApp={false}>
+					<LoginModal closeModal={() => setActiveModal(null)} />
+				</ReactModal>
 			</div>
 		</nav>
 	);

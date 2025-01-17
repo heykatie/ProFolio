@@ -1,63 +1,198 @@
-/* LoginForm.css */
+/* Overall Modal Styling */
 .login-modal {
+  position: relative;
+  /* Ensure it's positioned properly */
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 300px;
-  margin: auto;
+  background: var(--background-surface, #fff);
+  /* Themed background color */
+  border-radius: 12px;
+  /* Rounded corners for modern look */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  /* Subtle shadow */
+  max-width: 400px;
+  /* Limit modal width */
+  width: 100%;
+  /* Responsive width */
+  margin: 0 auto;
+  /* Center the modal horizontally */
+  z-index: 1000;
+  /* Ensure it's on top */
 }
 
+/* React Modal Overlay */
+.ReactModal__Overlay {
+  background: rgba(0, 0, 0, 0.5);
+  /* Dimmed background for overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Center the modal */
+  z-index: 999;
+  /* Ensure it covers the page */
+}
+
+/* React Modal Content */
+.ReactModal__Content {
+  position: relative;
+  background: none;
+  /* Remove any default background */
+  box-shadow: none;
+  /* Remove default shadow */
+  border: none;
+  /* Remove default border */
+  padding: 0;
+  /* Remove padding to prevent layout issues */
+  z-index: 1000;
+  /* Ensure it sits above overlay */
+}
+
+/* Modal Header */
 h2 {
   margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: var(--text-primary, #333);
+  /* Themed color */
+  text-align: center;
+  /* Center-align the heading */
 }
 
+/* Form Groups */
 .form-group {
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 label {
   display: block;
   font-size: 14px;
+  font-weight: bold;
   margin-bottom: 5px;
-  color: #333;
+  color: var(--text-secondary, #555);
+  /* Themed color */
 }
 
 input {
   width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 10px;
+  border: 1px solid var(--border-color, #ccc);
+  /* Themed border color */
+  border-radius: 6px;
+  /* Rounded corners for inputs */
+  font-size: 14px;
+  color: var(--text-primary, #333);
+  /* Themed text color */
+  background-color: var(--input-bg, #fff);
+  /* Themed background color */
+  transition: border-color 0.3s, background-color 0.3s;
+  /* Smooth transitions */
 }
 
+input:focus {
+  border-color: var(--primary, #1e88e5);
+  /* Highlighted border */
+  outline: none;
+  /* Remove default outline */
+  background-color: var(--input-focus-bg, #f9f9ff);
+  /* Subtle background change */
+}
+
+/* Error Messages */
 .error {
-  color: red;
+  color: var(--error, red);
+  /* Themed error color */
   font-size: 12px;
   margin-top: 5px;
 }
 
+/* Submit Button */
 .submit-button {
-  padding: 10px 20px;
-  background: #1e88e5;
-  color: #fff;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  background: var(--primary, #1e88e5);
+  /* Themed primary color */
+  color: var(--button-text, #fff);
+  /* Themed button text color */
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
+  transition: background-color 0.3s;
+  /* Smooth hover effect */
 }
 
 .submit-button:hover {
-  background: #1565c0;
+  background: var(--primary-hover, #1565c0);
+  /* Darker hover color */
 }
 
+/* Close Modal Button */
 .close-modal-button {
   margin-top: 10px;
+  font-size: 14px;
   background: none;
   border: none;
-  color: #888;
+  color: var(--text-secondary, #888);
+  /* Themed secondary color */
   cursor: pointer;
   text-decoration: underline;
+}
+
+.close-modal-button:hover {
+  color: var(--text-primary, #333);
+  /* Highlight on hover */
+}
+
+/* Demo Link */
+.demo-link {
+  margin-top: 15px;
+  color: var(--link-color, #1e88e5);
+  /* Themed link color */
+  font-size: 14px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.demo-link:hover {
+  color: var(--primary-hover, #1565c0);
+  /* Darker hover color */
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .login-modal {
+    padding: 15px;
+    width: 90%;
+    /* Adjust width for smaller screens */
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    /* Smaller font size for header */
+  }
+
+  .submit-button {
+    font-size: 14px;
+    /* Smaller font size for button */
+    padding: 10px;
+    /* Adjust padding */
+  }
+}
+
+/* Root Variables for Theming */
+:root {
+  --primary: #1e88e5;
+  --primary-hover: #1565c0;
+  --background-surface: #fff;
+  --text-primary: #333;
+  --text-secondary: #555;
+  --border-color: #ccc;
+  --input-bg: #fff;
+  --input-focus-bg: #f9f9ff;
+  --error: red;
+  --link-color: #1e88e5;
+  --button-text: #fff;
 }

@@ -38,6 +38,16 @@ module.exports = (sequelize, DataTypes) => {
 							throw new Error('Username cannot be an email address.');
 						}
 					},
+					// isEmptyStringAllowed(value) {
+					// 	if (value === '') {
+					// 		return; // Allow empty string
+					// 	}
+					// 	if (value && value.length < 4) {
+					// 		throw new Error(
+					// 			'Username must be at least 4 characters long.'
+					// 		);
+					// 	}
+					// },
 				},
 			},
 			email: {
@@ -46,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
 				unique: true,
 				validate: {
 					len: [3, 256],
-					isEmail: true, 
+					isEmail: true,
 				},
 			},
 			password: {
@@ -54,14 +64,20 @@ module.exports = (sequelize, DataTypes) => {
 				validate: {
 					isStrongPassword(value) {
 						if (!schema.validate(value)) {
-							throw new Error('Password must meet strength requirements.');
+							throw new Error(
+								'Password must meet strength requirements.'
+							);
 						}
 					},
 					isWeakPassword(value) {
 						const score = zxcvbn(value).score;
 						const passwordResult = zxcvbn(value);
 						if (score < 3) {
-							throw new Error(`Password is too weak: ${passwordResult.feedback.suggestions.join(' ')}`);
+							throw new Error(
+								`Password is too weak: ${passwordResult.feedback.suggestions.join(
+									' '
+								)}`
+							);
 						}
 					},
 				},
@@ -70,7 +86,7 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING.BINARY,
 				allowNull: true,
 				validate: {
-          len: [60, 60], // Ensures the password hash length is exactly 60 characters (for bcrypt)
+					len: [60, 60], // Ensures the password hash length is exactly 60 characters (for bcrypt)
 				},
 			},
 			phone: {
@@ -82,33 +98,39 @@ module.exports = (sequelize, DataTypes) => {
 					validatePhone(value) {
 						if (value) {
 							try {
-								const phoneNumber = parsePhoneNumberFromString(value, 'US');
+								const phoneNumber = parsePhoneNumberFromString(
+									value,
+									'US'
+								);
 								if (!phoneNumber || !phoneNumber.isValid()) {
 									// console.log('Invalid phone number:', value);  // Log the problematic phone number
 									throw new Error('Invalid phone number.');
 								}
 							} catch (err) {
-								console.error('Phone number validation error:', err.message);
-								throw err;  // Re-throw the error so it shows in the logs
+								console.error(
+									'Phone number validation error:',
+									err.message
+								);
+								throw err; // Re-throw the error so it shows in the logs
 							}
 						}
-          },
-				}
+					},
+				},
 			},
 			firstName: {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
-          len: [1, 50], // Limits the length of the first name
-          isAlpha: true,
+					len: [1, 50], // Limits the length of the first name
+					isAlpha: true,
 				},
 			},
 			lastName: {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
-          len: [1, 50], // Limits the length of the last name
-          isAlpha: true,
+					len: [1, 50], // Limits the length of the last name
+					isAlpha: true,
 				},
 			},
 			bio: {
@@ -198,14 +220,14 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			timezone: {
 				type: DataTypes.STRING,
-        allowNull: true,
-        validate: {
-          customValidator(value) {
-            if (value && !moment.tz.zone(value)) {
-              throw new Error('Invalid timezone.');
-            }
-          }
-        }
+				allowNull: true,
+				validate: {
+					customValidator(value) {
+						if (value && !moment.tz.zone(value)) {
+							throw new Error('Invalid timezone.');
+						}
+					},
+				},
 			},
 			pronouns: {
 				type: DataTypes.STRING,
@@ -219,9 +241,17 @@ module.exports = (sequelize, DataTypes) => {
 			sequelize,
 			modelName: 'User',
 			defaultScope: {
-        attributes: {
-          exclude: ['passwordHash', 'email', 'createdAt', 'updatedAt', 'githubAccessToken', 'linkedinAccessToken', 'phone'],
-        },
+				attributes: {
+					exclude: [
+						'passwordHash',
+						'email',
+						'createdAt',
+						'updatedAt',
+						'githubAccessToken',
+						'linkedinAccessToken',
+						'phone',
+					],
+				},
 			},
 			hooks: {
 				beforeCreate: async (user) => {
@@ -229,8 +259,9 @@ module.exports = (sequelize, DataTypes) => {
 						user.passwordHash = await bcrypt.hash(user.password, 10); // Hash password before saving
 					}
 					if (!user.username) {
-						const firstName = user.firstName?.trim() || "user";
-						const lastName = user.lastName?.trim() || Math.floor(Math.random() * 1000); // Random number fallback
+						const firstName = user.firstName?.trim() || 'user';
+						const lastName =
+							user.lastName?.trim() || Math.floor(Math.random() * 1000); // Random number fallback
 						user.username = `${firstName}${lastName}`.toLowerCase();
 					}
 				},

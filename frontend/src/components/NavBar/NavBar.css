@@ -1,45 +1,87 @@
-/* Navbar.css */
+/* General Navbar Styling */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #1e88e5;
-  color: white;
+  background-color: var(--navbar-background, white);
+  /* Default light mode background */
+  color: var(--navbar-text, black);
+  /* Default light mode text */
+  border-bottom: 2px solid var(--navbar-border, lightgray);
+  /* Subtle border */
 }
 
 .navbar-logo .navbar-brand {
-  text-decoration: none;
-  color: white;
-  font-size: 24px;
+  font-size: 1.8rem;
   font-weight: bold;
+  text-decoration: none;
+  color: var(--navbar-brand-color, black);
+  /* Default brand color */
+  transition: color 0.3s ease;
+}
+
+.navbar-logo .navbar-brand:hover {
+  color: var(--navbar-brand-hover-color, grey);
+  /* Hover effect for the brand name */
 }
 
 .navbar-links {
   display: flex;
+  align-items: center;
   gap: 15px;
 }
 
-.navbar-link {
-  text-decoration: none;
-  color: white;
-  font-size: 16px;
-  transition: color 0.3s ease;
-}
-
-.navbar-link:hover {
-  color: #ffca28;
-}
-
-.navbar-button {
+.navbar-link button {
   background: none;
   border: none;
-  color: white;
-  font-size: 16px;
+  color: var(--navbar-link-color, black);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.navbar-link button:hover {
+  color: var(--navbar-link-hover-color, orange);
+  background-color: var(--navbar-link-hover-bg, rgba(0, 0, 0, 0.1));
+  border-radius: 5px;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  font-size: 1.2rem;
+  background: none;
+  border: none;
+  color: var(--navbar-text, black);
   cursor: pointer;
   transition: color 0.3s ease;
 }
 
-.navbar-button:hover {
-  color: #ffca28;
+.theme-toggle:hover {
+  color: var(--navbar-link-hover-color, orange);
+}
+
+/* Dark Mode Variables */
+:root[data-theme="dark"] {
+  --navbar-background: #1e1e1e;
+  --navbar-text: white;
+  --navbar-border: #333;
+  --navbar-brand-color: white;
+  --navbar-brand-hover-color: lightgray;
+  --navbar-link-color: white;
+  --navbar-link-hover-color: orange;
+  --navbar-link-hover-bg: rgba(255, 165, 0, 0.2);
+}
+
+/* Light Mode Variables */
+:root[data-theme="light"] {
+  --navbar-background: white;
+  --navbar-text: black;
+  --navbar-border: lightgray;
+  --navbar-brand-color: black;
+  --navbar-brand-hover-color: gray;
+  --navbar-link-color: black;
+  --navbar-link-hover-color: orange;
+  --navbar-link-hover-bg: rgba(0, 0, 0, 0.1);
 }

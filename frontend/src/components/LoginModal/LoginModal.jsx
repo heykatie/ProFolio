@@ -5,23 +5,32 @@ import { useNavigate } from 'react-router-dom';
 import googleLogo from '../../../../images/google.png';
 import linkedinLogo from '../../../../images/linkedin.png';
 import githubLogo from '../../../../images/github.png';
+import { useModal } from '../../context/ModalContext';
+import SignupModal from '../SignupModal';
 import './LoginModal.css';
 
-const LoginModal = ({ closeModal, openSignupModal }) => {
+const LoginModal = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const sessionUser = useSelector((state) => state.session.user);
 	const [credential, setCredential] = useState('');
 	const [password, setPassword] = useState('');
 	const [errors, setErrors] = useState({});
+	const { closeModal, setModalContent } = useModal();
 
+	// Open the Sign-Up modal
+	const openSignupModal = () => {
+		setModalContent(<SignupModal />);
+	};
+
+	// Redirect user if already logged in
 	useEffect(() => {
 		if (sessionUser) navigate('/');
 	}, [sessionUser, navigate]);
 
+	// Handle login submission
 	const handleLogin = async (e) => {
 		e.preventDefault();
-
 		setErrors({});
 
 		try {
@@ -37,35 +46,47 @@ const LoginModal = ({ closeModal, openSignupModal }) => {
 		}
 	};
 
-	const demoLogin = (e) => {
-		e.stopPropagation();
+	// Handle demo login
+	const demoLogin = async (e) => {
+		e.preventDefault();
 		const demoCredential = 'Demo-lition';
 		const demoPassword = 'Password123!';
-		return dispatch(
-			login({
-				credential: demoCredential,
-				password: demoPassword,
-			})
-		)
-			.then(closeModal)
-			.catch(async (res) => {
-				const data = await res.json();
-				if (data && data.message) {
-					setErrors(data);
-				}
-			});
+		try {
+			await dispatch(
+				login({
+					credential: demoCredential,
+					password: demoPassword,
+				})
+			);
+			closeModal();
+		} catch (res) {
+			const data = await res.json();
+			if (data && data.message) {
+				setErrors(data);
+			}
+		}
 	};
 
 	return (
 		<div className='login-modal-container'>
+			<button
+				onClick={closeModal}
+				className='login-modal-close-button'>
+				&times;
+			</button>
 			<div className='login-modal'>
-				<h2 className='login-modal-title'>Log In</h2>
+				<div className='login-modal-header'>
+					<h2 className='login-modal-title'>Log In</h2>
+				</div>
+
+				{/* Server Errors */}
 				{errors.general && (
 					<ul className='login-server-errors'>
 						<li>{errors.general}</li>
 					</ul>
 				)}
 
+				{/* Social Login Options */}
 				<div className='login-social-login'>
 					<div className='login-social-buttons'>
 						<a
@@ -86,10 +107,12 @@ const LoginModal = ({ closeModal, openSignupModal }) => {
 					</div>
 				</div>
 
+				{/* Divider */}
 				<p className='login-divider'>
 					--------------------- OR ---------------------
 				</p>
 
+				{/* Login Form */}
 				<form onSubmit={handleLogin} className='login-form'>
 					<div className='login-form-group'>
 						<label htmlFor='credential' className='login-label'>
@@ -128,23 +151,16 @@ const LoginModal = ({ closeModal, openSignupModal }) => {
 					<button type='submit' className='login-submit-button'>
 						Log In
 					</button>
-					{errors.general && (
-						<p className='login-error login-general-error'>
-							{errors.general}
-						</p>
-					)}
 				</form>
 
-				<button className='login-close-button' onClick={closeModal}>
-					Close
+				{/* Demo Login */}
+				<button className='login-demo-button' onClick={demoLogin}>
+					Demo Account
 				</button>
 
-				<a href='#' onClick={demoLogin} className='login-demo-link'>
-					Demo Account
-				</a>
-
+				{/* Sign-Up Prompt */}
 				<p className='login-signup-prompt'>
-					Don’t have an account?{' '}
+					Don`t have an account?{' '}
 					<span className='login-signup-link' onClick={openSignupModal}>
 						Sign Up
 					</span>

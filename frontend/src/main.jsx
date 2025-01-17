@@ -26,9 +26,9 @@ if (process.env.NODE_ENV !== 'production') {
 // wrap the rendered App component in Redux’s Provider component, passing
 // store as a prop of the same name to Provider
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>
+	<React.StrictMode>
+		<Provider store={store}>
+				<App />
+		</Provider>
+	</React.StrictMode>
 );

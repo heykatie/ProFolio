@@ -5,6 +5,7 @@ import { restoreUser } from './store/session';
 import NavBar from './components/NavBar';
 import LoginModal from './components/LoginModal';
 import SignupModal from './components/SignupModal';
+import { ModalProvider } from './context/ModalContext';
 import './index.css'
 
 const Layout = () => {
@@ -27,7 +28,7 @@ const Layout = () => {
 
 const routes = [
 	{
-		element: <Layout />,
+		element: (<ModalProvider> <Layout /> </ModalProvider> ),
 		children: [
 			{
 				path: '/',

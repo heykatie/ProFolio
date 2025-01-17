@@ -5,12 +5,16 @@ import SignupModal from '../SignupModal';
 import ProfileButton from '../ProfileButton';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useModal } from '../../context/ModalContext';
 import './Navbar.css';
 
 const Navbar = () => {
 	const sessionUser = useSelector((state) => state.session.user);
 	const [theme, setTheme] = useState('light');
 	const [activeModal, setActiveModal] = useState(null); // Tracks which modal is open: 'login' or 'signup'
+  const { setModalContent } = useModal();
+  const openSignupModal = () => setModalContent(<SignupModal />);
+  const openLoginModal = () => setModalContent(<LoginModal />);
 
 	// Toggle theme between light and dark
 	const toggleTheme = () => {
@@ -28,8 +32,8 @@ const Navbar = () => {
 	}, []);
 
 	// Open modals
-	const openLoginModal = () => setActiveModal('login');
-	const openSignupModal = () => setActiveModal('signup');
+	// const openLoginModal = () => setActiveModal('login');
+	// const openSignupModal = () => setActiveModal('signup');
 
 	// Close modals
 	const closeModal = () => setActiveModal(null);
@@ -76,9 +80,18 @@ const Navbar = () => {
 						</div>
 					</div>
 				)}
+			</div>
+		</nav>
+	);
+};
 
-				{/* Modals */}
-				<ReactModal
+export default Navbar;
+
+				{
+					/* Modals */
+				}
+				{
+					/* <ReactModal
 					isOpen={activeModal === 'signup'}
 					onRequestClose={closeModal}
 					ariaHideApp={false}
@@ -88,9 +101,11 @@ const Navbar = () => {
 						closeModal={closeModal}
 						openLoginModal={openLoginModal}
 					/>
-				</ReactModal>
+				</ReactModal> */
+				}
 
-				<ReactModal
+				{
+					/* <ReactModal
 					isOpen={activeModal === 'login'}
 					onRequestClose={closeModal}
 					ariaHideApp={false}
@@ -100,10 +115,5 @@ const Navbar = () => {
 						closeModal={closeModal}
 						openSignupModal={openSignupModal}
 					/>
-				</ReactModal>
-			</div>
-		</nav>
-	);
-};
-
-export default Navbar;
+				</ReactModal> */
+				}

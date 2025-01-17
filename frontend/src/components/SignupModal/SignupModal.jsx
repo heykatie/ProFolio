@@ -7,24 +7,29 @@ import googleLogo from '../../../../images/google.png';
 import linkedinLogo from '../../../../images/linkedin.png';
 import githubLogo from '../../../../images/github.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { useModal } from '../../context/ModalContext';
+import LoginModal from '../LoginModal';
 import './SignupModal.css';
 
-const SignupModal = ({ closeModal, openLoginModal }) => {
+const SignupModal = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const sessionUser = useSelector((state) => state.session.user);
 	const [serverErrors, setServerErrors] = useState([]);
 	const [showPassword, setShowPassword] = useState(false);
+	const { closeModal, setModalContent } = useModal();
 
+	// Redirect if user is already logged in
+	useEffect(() => {
+		if (sessionUser) navigate('/');
+	}, [sessionUser, navigate]);
+
+	// Handle form submission
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
-
-	useEffect(() => {
-		if (sessionUser) navigate('/');
-	}, [sessionUser, navigate]);
 
 	const onSubmit = async (data) => {
 		const { email, password, fullName, phone } = data;
@@ -33,7 +38,7 @@ const SignupModal = ({ closeModal, openLoginModal }) => {
 		const nameParts = fullName.trim().split(' ');
 		const firstName = nameParts[0];
 		const lastName = nameParts[1] || '';
-		const username = firstName + lastName;
+		const username = `${firstName}${lastName}`;
 
 		try {
 			await dispatch(
@@ -53,6 +58,12 @@ const SignupModal = ({ closeModal, openLoginModal }) => {
 		}
 	};
 
+	// Open Login Modal
+	const openLoginModal = () => {
+		setModalContent(<LoginModal />);
+	};
+
+	// Toggle password visibility
 	const togglePasswordVisibility = () => {
 		setShowPassword((prev) => !prev);
 	};
@@ -98,12 +109,6 @@ const SignupModal = ({ closeModal, openLoginModal }) => {
 						{errors.fullName && (
 							<p className='signup-error'>{errors.fullName.message}</p>
 						)}
-						{serverErrors.firstName && (
-							<p className='signup-error'>{serverErrors.firstName}</p>
-						)}
-						{serverErrors.lastName && (
-							<p className='signup-error'>{serverErrors.lastName}</p>
-						)}
 					</div>
 
 					<div className='signup-form-group'>
@@ -124,9 +129,6 @@ const SignupModal = ({ closeModal, openLoginModal }) => {
 						/>
 						{errors.email && (
 							<p className='signup-error'>{errors.email.message}</p>
-						)}
-						{serverErrors.email && (
-							<p className='signup-error'>{serverErrors.email}</p>
 						)}
 					</div>
 
@@ -149,9 +151,6 @@ const SignupModal = ({ closeModal, openLoginModal }) => {
 						/>
 						{errors.phone && (
 							<p className='signup-error'>{errors.phone.message}</p>
-						)}
-						{serverErrors.phone && (
-							<p className='signup-error'>{serverErrors.phone}</p>
 						)}
 					</div>
 
@@ -194,9 +193,6 @@ const SignupModal = ({ closeModal, openLoginModal }) => {
 						{errors.password && (
 							<p className='signup-error'>{errors.password.message}</p>
 						)}
-						{serverErrors.password && (
-							<p className='signup-error'>{serverErrors.password}</p>
-						)}
 					</div>
 
 					<button type='submit' className='signup-submit-button'>
@@ -205,25 +201,21 @@ const SignupModal = ({ closeModal, openLoginModal }) => {
 				</form>
 
 				<div className='signup-social-login'>
-
-					<p className='signup-divider'>
-					--------------------- OR ---------------------
-					</p>
-
+					<p className='signup-divider'>Or sign up with</p>
 					<div className='signup-social-buttons'>
 						<a
 							href='/api/auth/google'
-							className='signup-social-btn google'>
+							className='signup-social-btn google-btn'>
 							<img src={googleLogo} alt='Google' />
 						</a>
 						<a
 							href='/api/auth/linkedin'
-							className='signup-social-btn linkedin'>
+							className='signup-social-btn linkedin-btn'>
 							<img src={linkedinLogo} alt='LinkedIn' />
 						</a>
 						<a
 							href='/api/auth/github'
-							className='signup-social-btn github'>
+							className='signup-social-btn github-btn'>
 							<img src={githubLogo} alt='GitHub' />
 						</a>
 					</div>

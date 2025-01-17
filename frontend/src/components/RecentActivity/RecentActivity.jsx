@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import './RecentActivity.css';
+// import './RecentActivity.css';
 
 const RecentActivity = () => {
 	const sessionUser = useSelector((state) => state.session.user);

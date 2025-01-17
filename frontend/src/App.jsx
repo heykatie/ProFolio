@@ -3,10 +3,9 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { restoreUser } from './store/session';
 import NavBar from './components/NavBar';
-import LoginModal from './components/LoginModal';
-import SignupModal from './components/SignupModal';
+import LoginModal from './components/Modals/LoginModal';
+import SignupModal from './components/Modals/SignupModal';
 import { ModalProvider } from './context/ModalContext';
-import './index.css'
 
 const Layout = () => {
 	const dispatch = useDispatch();

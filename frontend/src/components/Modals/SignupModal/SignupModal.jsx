@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { signup } from '../../store/session';
-import googleLogo from '../../../../images/google.png';
-import linkedinLogo from '../../../../images/linkedin.png';
-import githubLogo from '../../../../images/github.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { useModal } from '../../context/ModalContext';
+import { signup } from '../../../store/session'
+import googleLogo from '../../../../../images/google.png';
+import linkedinLogo from '../../../../../images/linkedin.png';
+import githubLogo from '../../../../../images/github.png';
+import { useModal } from '../../../context/ModalContext';
 import LoginModal from '../LoginModal';
 import './SignupModal.css';
 
@@ -82,7 +82,7 @@ const SignupModal = () => {
 
 				<form onSubmit={handleSubmit(onSubmit)} className='signup-form'>
 					{serverErrors.length > 0 && (
-						<ul className='signup-form-errors'>
+						<ul className='form-error'>
 							{serverErrors.map((error, idx) => (
 								<li key={idx}>{error}</li>
 							))}
@@ -107,7 +107,7 @@ const SignupModal = () => {
 							})}
 						/>
 						{errors.fullName && (
-							<p className='signup-error'>{errors.fullName.message}</p>
+							<p className='form-error'>{errors.fullName.message}</p>
 						)}
 					</div>
 
@@ -191,17 +191,17 @@ const SignupModal = () => {
 							</span>
 						</div>
 						{errors.password && (
-							<p className='signup-error'>{errors.password.message}</p>
+							<p className='form-error'>{errors.password.message}</p>
 						)}
 					</div>
 
-					<button type='submit' className='signup-submit-button'>
+					<button type='submit' className='modal-submit-button'>
 						Create My Account
 					</button>
 				</form>
 
 				<div className='signup-social-login'>
-					<p className='signup-divider'>Or sign up with</p>
+					<p className='auth-divider'>Or sign up with</p>
 					<div className='signup-social-buttons'>
 						<a
 							href='/api/auth/google'

@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../store/session';
-import './ProfileButton.css';
 import { FaCarrot } from 'react-icons/fa6';
+import './ProfileButton.css';
 
 const ProfileButton = () => {
 	const dispatch = useDispatch();
@@ -63,59 +63,59 @@ const ProfileButton = () => {
 			{showMenu && (
 				<div className='profile-dropdown' ref={dropdownRef}>
 					<ul className='profile-dropdown-list'>
-						<li className='profile-dropdown-item username'>
+						<li className='profile-dropdown__item--username'>
 							{sessionUser.username}
 						</li>
-						<li className='profile-dropdown-item full-name'>
+						<li className='profile-dropdown__item--full-name'>
 							{sessionUser.firstName} {sessionUser.lastName}
 						</li>
 						<li
-							className='profile-dropdown-item'
+							className='profile-dropdown__item--dashboard'
 							onClick={() => navigate('/dashboard')}>
 							Dashboard
 						</li>
 						<li
-							className='profile-dropdown-item'
+							className='profile-dropdown__item--profile'
 							onClick={() => navigate(`/${sessionUser.username}`)}>
 							View Profile
 						</li>
 						<li
-							className='profile-dropdown-item'
+							className='profile-dropdown__item--portfolios'
 							onClick={() => navigate('/portfolios')}>
 							Your Portfolios
 						</li>
 						<li
-							className='profile-dropdown-item'
+							className='profile-dropdown__item--preview'
 							onClick={() => navigate('/preview')}>
 							Preview Portfolio
 						</li>
 						<li
-							className='profile-dropdown-item'
+							className='profile-dropdown__item--projects'
 							onClick={() => navigate('/projects')}>
 							Your Projects
 						</li>
 						<li
-							className='profile-dropdown-item'
+							className='profile-dropdown__item--faves'
 							onClick={() => navigate('/favorites')}>
 							Your Favorites
 						</li>
 						<li
-							className='profile-dropdown-item'
+							className='profile-dropdown__item--activity'
 							onClick={() => navigate('/activity')}>
 							Recent Activity
 						</li>
 						<li
-							className='profile-dropdown-item'
+							className='profile-dropdown__item--create'
 							onClick={() => navigate('/create')}>
 							Create New
 						</li>
 						<li
-							className='profile-dropdown-item'
+							className='profile-dropdown__item--settings'
 							onClick={() => navigate('/settings')}>
 							Settings
 						</li>
 						<li
-							className='profile-dropdown-item logout'
+							className='profile-dropdown__item--logout'
 							onClick={handleLogout}>
 							Logout
 						</li>

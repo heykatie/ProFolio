@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../store/session';
 import { useNavigate } from 'react-router-dom';
-import googleLogo from '../../../../images/google.png';
-import linkedinLogo from '../../../../images/linkedin.png';
-import githubLogo from '../../../../images/github.png';
-import { useModal } from '../../context/ModalContext';
+import { login } from '../../../store/session';
+import googleLogo from '../../../../../images/google.png';
+import linkedinLogo from '../../../../../images/linkedin.png';
+import githubLogo from '../../../../../images/github.png';
+import { useModal } from '../../../context/ModalContext';
 import SignupModal from '../SignupModal';
 import './LoginModal.css';
 
@@ -69,9 +69,7 @@ const LoginModal = () => {
 
 	return (
 		<div className='login-modal-container'>
-			<button
-				onClick={closeModal}
-				className='login-modal-close-button'>
+			<button onClick={closeModal} className='login-modal-close-button'>
 				&times;
 			</button>
 			<div className='login-modal'>
@@ -108,7 +106,7 @@ const LoginModal = () => {
 				</div>
 
 				{/* Divider */}
-				<p className='login-divider'>
+				<p className='auth-divider'>
 					--------------------- OR ---------------------
 				</p>
 
@@ -127,7 +125,7 @@ const LoginModal = () => {
 							required
 						/>
 						{errors.credential && (
-							<p className='login-error'>{errors.credential}</p>
+							<p className='form-error'>{errors.credential}</p>
 						)}
 					</div>
 
@@ -144,11 +142,11 @@ const LoginModal = () => {
 							required
 						/>
 						{errors.password && (
-							<p className='login-error'>{errors.password}</p>
+							<p className='form-error'>{errors.password}</p>
 						)}
 					</div>
 
-					<button type='submit' className='login-submit-button'>
+					<button type='submit' className='modal-submit-button'>
 						Log In
 					</button>
 				</form>

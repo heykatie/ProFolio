@@ -1,20 +1,26 @@
 import { useState, useEffect } from 'react';
-import ReactModal from 'react-modal';
-import LoginModal from '../LoginModal';
-import SignupModal from '../SignupModal';
-import ProfileButton from '../ProfileButton';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useModal } from '../../context/ModalContext';
+import SignupModal from '../Modals/SignupModal';
+import LoginModal from '../Modals/LoginModal';
+import ProfileButton from '../ProfileButton';
 import './Navbar.css';
 
 const Navbar = () => {
 	const sessionUser = useSelector((state) => state.session.user);
 	const [theme, setTheme] = useState('light');
-	const [activeModal, setActiveModal] = useState(null); // Tracks which modal is open: 'login' or 'signup'
-  const { setModalContent } = useModal();
-  const openSignupModal = () => setModalContent(<SignupModal />);
-  const openLoginModal = () => setModalContent(<LoginModal />);
+	const { setModalContent } = useModal();
+
+	// Open Signup Modal
+	const openSignupModal = () => {
+		setModalContent(<SignupModal />);
+	};
+
+	// Open Login Modal
+	const openLoginModal = () => {
+		setModalContent(<LoginModal />);
+	};
 
 	// Toggle theme between light and dark
 	const toggleTheme = () => {
@@ -30,13 +36,6 @@ const Navbar = () => {
 		setTheme(savedTheme);
 		document.documentElement.setAttribute('data-theme', savedTheme);
 	}, []);
-
-	// Open modals
-	// const openLoginModal = () => setActiveModal('login');
-	// const openSignupModal = () => setActiveModal('signup');
-
-	// Close modals
-	const closeModal = () => setActiveModal(null);
 
 	return (
 		<nav className='navbar'>
@@ -59,25 +58,17 @@ const Navbar = () => {
 
 				{/* Conditional rendering based on session user */}
 				{sessionUser ? (
-					// Show profile button when user is logged in
-					<ProfileButton user={sessionUser} />
+					<ProfileButton />
 				) : (
-					// Show login and signup options when no session user
 					<div className='navbar-auth-actions'>
-						<div className='navbar-auth-link'>
-							<button
-								onClick={openSignupModal}
-								className='navbar-signup-btn'>
-								Sign Up
-							</button>
-						</div>
-						<div className='navbar-auth-link'>
-							<button
-								onClick={openLoginModal}
-								className='navbar-login-btn'>
-								Log In
-							</button>
-						</div>
+						<button
+							onClick={openSignupModal}
+							className='navbar-signup-btn'>
+							Sign Up
+						</button>
+						<button onClick={openLoginModal} className='navbar-login-btn'>
+							Log In
+						</button>
 					</div>
 				)}
 			</div>
@@ -86,34 +77,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-				{
-					/* Modals */
-				}
-				{
-					/* <ReactModal
-					isOpen={activeModal === 'signup'}
-					onRequestClose={closeModal}
-					ariaHideApp={false}
-					className='navbar-modal-content'
-					overlayClassName='navbar-modal-overlay'>
-					<SignupModal
-						closeModal={closeModal}
-						openLoginModal={openLoginModal}
-					/>
-				</ReactModal> */
-				}
-
-				{
-					/* <ReactModal
-					isOpen={activeModal === 'login'}
-					onRequestClose={closeModal}
-					ariaHideApp={false}
-					className='navbar-modal-content'
-					overlayClassName='navbar-modal-overlay'>
-					<LoginModal
-						closeModal={closeModal}
-						openSignupModal={openSignupModal}
-					/>
-				</ReactModal> */
-				}

@@ -1,14 +1,14 @@
-import React, { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext } from 'react';
 import ReactDOM from 'react-dom';
-
+import './ModalContext.css'
 const ModalContext = createContext();
 
 export const ModalProvider = ({ children }) => {
 	const [modalContent, setModalContent] = useState(null);
 	const [onModalClose, setOnModalClose] = useState(null);
 
-	const closeModal = () => {
-		if (onModalClose) onModalClose(); // Execute any cleanup function
+  const closeModal = () => {
+		if (onModalClose) onModalClose();
 		setModalContent(null);
 		setOnModalClose(null);
 	};
@@ -19,7 +19,11 @@ export const ModalProvider = ({ children }) => {
 			{children}
 			{modalContent &&
 				ReactDOM.createPortal(
-					<div className='modal-overlay' onClick={closeModal}>
+					<div
+						className='modal-overlay'
+						onClick={(e) => {
+							if (e.target === e.currentTarget) closeModal();
+						}}>
 						<div
 							className='modal-content'
 							onClick={(e) => e.stopPropagation()}>

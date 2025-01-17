@@ -1,219 +1,218 @@
-/* Overall Modal Styling */
+/* Container Styles */
+.login-modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--modal-background, #fff);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  z-index: 1000;
+  padding: 2rem;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
 .login-modal {
-  position: relative;
-  /* Ensure it's positioned properly */
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
-  background: var(--background-surface, #fff);
-  /* Themed background color */
-  border-radius: 12px;
-  /* Rounded corners for modern look */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-  /* Subtle shadow */
-  max-width: 400px;
-  /* Limit modal width */
-  width: 100%;
-  /* Responsive width */
-  margin: 0 auto;
-  /* Center the modal horizontally */
-  z-index: 1000;
-  /* Ensure it's on top */
 }
 
-/* React Modal Overlay */
-.ReactModal__Overlay {
-  background: rgba(0, 0, 0, 0.5);
-  /* Dimmed background for overlay */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* Center the modal */
-  z-index: 999;
-  /* Ensure it covers the page */
-}
-
-/* React Modal Content */
-.ReactModal__Content {
-  position: relative;
-  background: none;
-  /* Remove any default background */
-  box-shadow: none;
-  /* Remove default shadow */
-  border: none;
-  /* Remove default border */
-  padding: 0;
-  /* Remove padding to prevent layout issues */
-  z-index: 1000;
-  /* Ensure it sits above overlay */
-}
-
-/* Modal Header */
-h2 {
-  margin-bottom: 20px;
+.login-modal-title {
   font-size: 1.5rem;
-  color: var(--text-primary, #333);
-  /* Themed color */
-  text-align: center;
-  /* Center-align the heading */
-}
-
-/* Form Groups */
-.form-group {
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-label {
-  display: block;
-  font-size: 14px;
   font-weight: bold;
-  margin-bottom: 5px;
-  color: var(--text-secondary, #555);
-  /* Themed color */
-}
-
-input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid var(--border-color, #ccc);
-  /* Themed border color */
-  border-radius: 6px;
-  /* Rounded corners for inputs */
-  font-size: 14px;
   color: var(--text-primary, #333);
-  /* Themed text color */
-  background-color: var(--input-bg, #fff);
-  /* Themed background color */
-  transition: border-color 0.3s, background-color 0.3s;
-  /* Smooth transitions */
+  margin-bottom: 1.5rem;
 }
 
-input:focus {
-  border-color: var(--primary, #1e88e5);
-  /* Highlighted border */
+/* Social Login */
+.login-social-login {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.login-social-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.login-social-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--background-surface, #f9f9f9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.login-social-btn img {
+  width: 24px;
+  height: 24px;
+}
+
+.login-social-btn:hover {
+  transform: scale(1.1);
+  background-color: var(--hover-background, #eee);
+}
+
+.login-divider {
+  margin: 1rem 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary, #666);
+}
+
+/* Form Styles */
+.login-form {
+  width: 100%;
+}
+
+.login-form-group {
+  margin-bottom: 1.5rem;
+}
+
+.login-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary, #333);
+}
+
+.login-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border, #ccc);
+  border-radius: 4px;
+  font-size: 1rem;
   outline: none;
-  /* Remove default outline */
-  background-color: var(--input-focus-bg, #f9f9ff);
-  /* Subtle background change */
 }
 
-/* Error Messages */
-.error {
-  color: var(--error, red);
-  /* Themed error color */
-  font-size: 12px;
-  margin-top: 5px;
+.login-input:focus {
+  border-color: var(--primary, #1e88e5);
+  box-shadow: 0px 0px 4px var(--primary, #1e88e5);
+}
+
+.login-error {
+  color: var(--error, #d32f2f);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.login-general-error {
+  margin-bottom: 1rem;
 }
 
 /* Submit Button */
-.submit-button {
+.login-submit-button {
   width: 100%;
-  padding: 12px;
-  font-size: 16px;
+  padding: 0.75rem;
+  border-radius: 4px;
   font-weight: bold;
-  background: var(--primary, #1e88e5);
-  /* Themed primary color */
-  color: var(--button-text, #fff);
-  /* Themed button text color */
+  background-color: var(--primary, #1e88e5);
+  color: var(--on-primary, #fff);
+  font-size: 1rem;
   border: none;
-  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  /* Smooth hover effect */
+  transition: background-color 0.3s ease;
 }
 
-.submit-button:hover {
-  background: var(--primary-hover, #1565c0);
-  /* Darker hover color */
+.login-submit-button:hover {
+  background-color: var(--primary-hover, #1565c0);
 }
 
-/* Close Modal Button */
-.close-modal-button {
-  margin-top: 10px;
-  font-size: 14px;
+/* Close Button */
+.login-close-button {
+  margin-top: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
   background: none;
   border: none;
-  color: var(--text-secondary, #888);
-  /* Themed secondary color */
   cursor: pointer;
-  text-decoration: underline;
-}
-
-.close-modal-button:hover {
   color: var(--text-primary, #333);
-  /* Highlight on hover */
 }
 
-/* Demo Link */
-.demo-link {
-  margin-top: 15px;
-  color: var(--link-color, #1e88e5);
-  /* Themed link color */
-  font-size: 14px;
-  text-decoration: underline;
-  cursor: pointer;
+.login-close-button:hover {
+  color: var(--primary, #1e88e5);
 }
 
-.demo-link:hover {
-  color: var(--primary-hover, #1565c0);
-  /* Darker hover color */
-}
-
-.signup-prompt {
-  text-align: center;
-  margin-top: 10px;
-  color: var(--text-color, #333);
-}
-
-.signup-prompt .signup-link {
-  color: var(--primary-color, #1e88e5);
-  cursor: pointer;
+/* Demo Login */
+.login-demo-link {
+  margin-top: 1rem;
+  font-size: 1rem;
   font-weight: bold;
+  color: var(--primary, #1e88e5);
+  cursor: pointer;
   text-decoration: underline;
 }
 
-.signup-prompt .signup-link:hover {
-  color: var(--primary-hover-color, #1565c0);
+.login-demo-link:hover {
+  color: var(--primary-hover, #1565c0);
 }
 
-.signup-link {
+/* Signup Prompt */
+.login-signup-prompt {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 1rem;
+  color: var(--text-primary, #333);
+}
+
+.login-signup-link {
+  font-weight: bold;
+  color: var(--primary, #1e88e5);
+  cursor: pointer;
   text-decoration: underline;
 }
 
-/* Responsive Design */
-@media (max-width: 480px) {
-  .login-modal {
-    padding: 15px;
-    width: 90%;
-    /* Adjust width for smaller screens */
+.login-signup-link:hover {
+  color: var(--primary-hover, #1565c0);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -55%);
   }
 
-  h2 {
-    font-size: 1.25rem;
-    /* Smaller font size for header */
-  }
-
-  .submit-button {
-    font-size: 14px;
-    /* Smaller font size for button */
-    padding: 10px;
-    /* Adjust padding */
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
   }
 }
 
-/* Root Variables for Theming */
-:root {
-  --primary: #1e88e5;
-  --primary-hover: #1565c0;
-  --background-surface: #fff;
-  --text-primary: #333;
-  --text-secondary: #555;
-  --border-color: #ccc;
-  --input-bg: #fff;
-  --input-focus-bg: #f9f9ff;
-  --error: red;
-  --link-color: #1e88e5;
-  --button-text: #fff;
+/* Dark Mode */
+[data-theme="dark"] .login-modal-container {
+  background-color: var(--background-surface, #1e1e1e);
+}
+
+[data-theme="dark"] .login-input {
+  background-color: var(--background-surface, #1e1e1e);
+  color: var(--text-primary, #f5f5f5);
+}
+
+[data-theme="dark"] .login-input:focus {
+  border-color: var(--primary, #90caf9);
+  box-shadow: 0px 0px 4px var(--primary, #90caf9);
+}
+
+[data-theme="dark"] .login-error {
+  color: var(--error, #ef5350);
+}
+
+[data-theme="dark"] .login-close-button {
+  color: var(--text-primary, #f5f5f5);
+}
+
+[data-theme="dark"] .login-close-button:hover {
+  color: var(--primary, #90caf9);
+}
+
+[data-theme="dark"] .login-social-btn:hover {
+  background-color: var(--hover-background, #2e2e2e);
 }

@@ -37,15 +37,15 @@ const Navbar = () => {
 	return (
 		<nav className='navbar'>
 			<div className='navbar-logo'>
-				<NavLink to='/' className='navbar-brand'>
+				<NavLink to='/' className='navbar-logo-link'>
 					ProFolio
 				</NavLink>
 			</div>
 
-			<div className='navbar-links'>
+			<div className='navbar-actions'>
 				{/* Theme Toggle */}
 				<button
-					className='theme-toggle'
+					className='navbar-theme-toggle'
 					onClick={toggleTheme}
 					aria-label={`Switch to ${
 						theme === 'light' ? 'dark' : 'light'
@@ -59,14 +59,22 @@ const Navbar = () => {
 					<ProfileButton user={sessionUser} />
 				) : (
 					// Show login and signup options when no session user
-					<>
-						<div className='navbar-link'>
-							<button onClick={openSignupModal}>Sign Up</button>
+					<div className='navbar-auth-actions'>
+						<div className='navbar-auth-link'>
+							<button
+								onClick={openSignupModal}
+								className='navbar-signup-btn'>
+								Sign Up
+							</button>
 						</div>
-						<div className='navbar-link'>
-							<button onClick={openLoginModal}>Log In</button>
+						<div className='navbar-auth-link'>
+							<button
+								onClick={openLoginModal}
+								className='navbar-login-btn'>
+								Log In
+							</button>
 						</div>
-					</>
+					</div>
 				)}
 
 				{/* Modals */}
@@ -74,8 +82,8 @@ const Navbar = () => {
 					isOpen={activeModal === 'signup'}
 					onRequestClose={closeModal}
 					ariaHideApp={false}
-					className='modal-content'
-					overlayClassName='modal-overlay'>
+					className='navbar-modal-content'
+					overlayClassName='navbar-modal-overlay'>
 					<SignupModal
 						closeModal={closeModal}
 						openLoginModal={openLoginModal}
@@ -86,8 +94,8 @@ const Navbar = () => {
 					isOpen={activeModal === 'login'}
 					onRequestClose={closeModal}
 					ariaHideApp={false}
-					className='modal-content'
-					overlayClassName='modal-overlay'>
+					className='navbar-modal-content'
+					overlayClassName='navbar-modal-overlay'>
 					<LoginModal
 						closeModal={closeModal}
 						openSignupModal={openSignupModal}

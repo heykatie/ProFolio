@@ -1,253 +1,224 @@
-/* Overall Modal Styling */
+/* Container Styles */
+.signup-modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--modal-background, #fff);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  z-index: 1000;
+  padding: 2rem;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
 .signup-modal {
-  position: relative;
-  /* Ensure it's positioned properly */
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
-  background: var(--background-surface, #fff);
-  /* Themed background color */
-  border-radius: 12px;
-  /* Rounded corners for modern look */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-  /* Subtle shadow */
-  max-width: 450px;
-  /* Limit modal width */
+}
+
+.signup-modal-header {
   width: 100%;
-  /* Responsive width */
-  margin: 0 auto;
-  /* Center the modal horizontally */
-  z-index: 1000;
-  /* Ensure it's on top */
-}
-
-/* React Modal Overlay */
-.ReactModal__Overlay {
-  background: rgba(0, 0, 0, 0.5);
-  /* Dimmed background for overlay */
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  /* Center the modal */
-  z-index: 999;
-  /* Ensure it covers the page */
+  margin-bottom: 1.5rem;
 }
 
-/* React Modal Content */
-.ReactModal__Content {
-  position: relative;
+.signup-modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text-primary, #333);
+}
+
+.signup-modal-close-button {
+  font-size: 1.25rem;
+  font-weight: bold;
   background: none;
-  /* Remove any default background */
-  box-shadow: none;
-  /* Remove default shadow */
   border: none;
-  /* Remove default border */
-  padding: 0;
-  /* Remove padding to prevent layout issues */
-  z-index: 1000;
-  /* Ensure it sits above overlay */
-}
-
-/* Modal Header */
-h2 {
-  margin-bottom: 20px;
-  font-size: 1.75rem;
-  font-weight: bold;
-  color: var(--text-primary, #333);
-  /* Themed color */
-  text-align: center;
-  /* Center-align the heading */
-}
-
-/* Form Groups */
-.form-group {
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-label {
-  display: block;
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 5px;
-  color: var(--text-secondary, #555);
-  /* Themed color */
-}
-
-input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid var(--border-color, #ccc);
-  /* Themed border color */
-  border-radius: 6px;
-  /* Rounded corners for inputs */
-  font-size: 14px;
-  color: var(--text-primary, #333);
-  /* Themed text color */
-  background-color: var(--input-bg, #fff);
-  /* Themed background color */
-  transition: border-color 0.3s, background-color 0.3s;
-  /* Smooth transitions */
-}
-
-input:focus {
-  border-color: var(--primary, #1e88e5);
-  /* Highlighted border */
-  outline: none;
-  /* Remove default outline */
-  background-color: var(--input-focus-bg, #f9f9ff);
-  /* Subtle background change */
-}
-
-/* Error Messages */
-.form-error {
-  color: var(--error, red);
-  /* Themed error color */
-  font-size: 12px;
-  margin-top: 5px;
-}
-
-.password-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.password-toggle {
-  position: absolute;
-  right: 10px;
   cursor: pointer;
-  color: var(--primary-color, #3498db);
-  font-size: 1.2rem;
+  color: var(--text-primary, #333);
+}
+
+.signup-modal-close-button:hover {
+  color: var(--primary, #1e88e5);
+}
+
+/* Form Styles */
+.signup-form {
+  width: 100%;
+}
+
+.signup-form-group {
+  margin-bottom: 1.5rem;
+}
+
+.signup-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary, #333);
+}
+
+.signup-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border, #ccc);
+  border-radius: 4px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.signup-input:focus {
+  border-color: var(--primary, #1e88e5);
+  box-shadow: 0px 0px 4px var(--primary, #1e88e5);
+}
+
+.signup-error {
+  color: var(--error, #d32f2f);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Password Wrapper */
+.signup-password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.signup-password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--text-primary, #333);
+}
+
+.signup-password-toggle:hover {
+  color: var(--primary, #1e88e5);
 }
 
 /* Submit Button */
-.submit-button {
+.signup-submit-button {
   width: 100%;
-  padding: 12px;
-  font-size: 16px;
+  padding: 0.75rem;
+  border-radius: 4px;
   font-weight: bold;
-  background: var(--primary, #1e88e5);
-  /* Themed primary color */
-  color: var(--button-text, #fff);
-  /* Themed button text color */
+  background-color: var(--primary, #1e88e5);
+  color: var(--on-primary, #fff);
+  font-size: 1rem;
   border: none;
-  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  /* Smooth hover effect */
+  transition: background-color 0.3s ease;
 }
 
-.submit-button:hover {
-  background: var(--primary-hover, #1565c0);
-  /* Darker hover color */
+.signup-submit-button:hover {
+  background-color: var(--primary-hover, #1565c0);
 }
 
-/* Close Modal Button */
-.close-modal-button {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: none;
-  border: none;
-  font-size: 20px;
-  color: var(--text-secondary, #888);
-  /* Themed secondary color */
-  cursor: pointer;
-}
-
-.close-modal-button:hover {
-  color: var(--text-primary, #333);
-  /* Highlight on hover */
-}
-
-.social-login {
+/* Social Login */
+.signup-social-login {
+  margin-top: 2rem;
   text-align: center;
-  margin: 20px 0;
 }
 
-.social-login p {
-  font-size: 14px;
-  color: var(--text-secondary, #555);
+.signup-divider {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: var(--text-primary, #333);
 }
 
-.social-buttons {
+.signup-social-buttons {
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-.social-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50px;
-  height: 50px;
+.signup-social-btn {
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: var(--button-bg, #f5f5f5);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
+  background-color: var(--background-surface, #f9f9f9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.social-btn img {
+.signup-social-btn img {
   width: 24px;
   height: 24px;
 }
 
-.social-btn:hover {
+.signup-social-btn:hover {
   transform: scale(1.1);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  background-color: var(--hover-background, #eee);
 }
 
-.google {
-  background: #fff;
+/* Login Prompt */
+.signup-login-prompt {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 1rem;
+  color: var(--text-primary, #333);
 }
 
-.linkedin {
-  background: #0077b5;
-}
-
-.github {
-  background: #333;
-}
-
-.login-link {
+.signup-login-link {
+  font-weight: bold;
+  color: var(--primary, #1e88e5);
+  cursor: pointer;
   text-decoration: underline;
 }
 
-/* Responsive Design */
-@media (max-width: 480px) {
-  .signup-modal {
-    padding: 15px;
-    width: 90%;
-    /* Adjust width for smaller screens */
+.signup-login-link:hover {
+  color: var(--primary-hover, #1565c0);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -55%);
   }
 
-  h2 {
-    font-size: 1.5rem;
-    /* Smaller font size for header */
-  }
-
-  .submit-button {
-    font-size: 14px;
-    /* Smaller font size for button */
-    padding: 10px;
-    /* Adjust padding */
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
   }
 }
 
-/* Root Variables for Theming */
-:root {
-  --primary: #1e88e5;
-  --primary-hover: #1565c0;
-  --background-surface: #fff;
-  --text-primary: #333;
-  --text-secondary: #555;
-  --border-color: #ccc;
-  --input-bg: #fff;
-  --input-focus-bg: #f9f9ff;
-  --error: red;
-  --button-text: #fff;
+/* Dark Mode */
+[data-theme="dark"] .signup-modal-container {
+  background-color: var(--background-surface, #1e1e1e);
+}
+
+[data-theme="dark"] .signup-input {
+  background-color: var(--background-surface, #1e1e1e);
+  color: var(--text-primary, #f5f5f5);
+}
+
+[data-theme="dark"] .signup-input:focus {
+  border-color: var(--primary, #90caf9);
+  box-shadow: 0px 0px 4px var(--primary, #90caf9);
+}
+
+[data-theme="dark"] .signup-error {
+  color: var(--error, #ef5350);
+}
+
+[data-theme="dark"] .signup-modal-close-button {
+  color: var(--text-primary, #f5f5f5);
+}
+
+[data-theme="dark"] .signup-modal-close-button:hover {
+  color: var(--primary, #90caf9);
+}
+
+[data-theme="dark"] .signup-social-btn:hover {
+  background-color: var(--hover-background, #2e2e2e);
 }

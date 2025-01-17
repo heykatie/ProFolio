@@ -57,79 +57,99 @@ const LoginModal = ({ closeModal, openSignupModal }) => {
 	};
 
 	return (
-		<div className='login-modal'>
-			<h2>Log In</h2>
-			{errors.general && (
-				<ul className='server-errors'>
-					<li>{errors.general}</li>
-				</ul>
-			)}
-
-			<div className='social-login'>
-				<div className='social-buttons'>
-					<a href='/api/auth/google' className='social-btn google'>
-						<img src={googleLogo} alt='Google' />
-					</a>
-					<a href='/api/auth/linkedin' className='social-btn linkedin'>
-						<img src={linkedinLogo} alt='LinkedIn' />
-					</a>
-					<a href='/api/auth/github' className='social-btn github'>
-						<img src={githubLogo} alt='GitHub' />
-					</a>
-				</div>
-			</div>
-
-			<p>--------------------- OR ---------------------</p>
-
-			<form onSubmit={handleLogin} className='login-form'>
-				<div className='form-group'>
-					<label htmlFor='credential'>Username or Email</label>
-					<input
-						type='text'
-						id='credential'
-						value={credential}
-						onChange={(e) => setCredential(e.target.value)}
-						required
-					/>
-					{errors.credential && (
-						<p className='error'>{errors.credential}</p>
-					)}
-				</div>
-
-				<div className='form-group'>
-					<label htmlFor='password'>Password</label>
-					<input
-						type='password'
-						id='password'
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-						required
-					/>
-					{errors.password && <p className='error'>{errors.password}</p>}
-				</div>
-
-				<button type='submit' className='submit-button'>
-					Log In
-				</button>
+		<div className='login-modal-container'>
+			<div className='login-modal'>
+				<h2 className='login-modal-title'>Log In</h2>
 				{errors.general && (
-					<p className='error general-error'>{errors.general}</p>
+					<ul className='login-server-errors'>
+						<li>{errors.general}</li>
+					</ul>
 				)}
-			</form>
 
-			<button className='close-modal-button' onClick={closeModal}>
-				Close
-			</button>
+				<div className='login-social-login'>
+					<div className='login-social-buttons'>
+						<a
+							href='/api/auth/google'
+							className='login-social-btn google-btn'>
+							<img src={googleLogo} alt='Google' />
+						</a>
+						<a
+							href='/api/auth/linkedin'
+							className='login-social-btn linkedin-btn'>
+							<img src={linkedinLogo} alt='LinkedIn' />
+						</a>
+						<a
+							href='/api/auth/github'
+							className='login-social-btn github-btn'>
+							<img src={githubLogo} alt='GitHub' />
+						</a>
+					</div>
+				</div>
 
-			<a href='#' onClick={demoLogin} id='demo-login' className='demo-link'>
-				Demo Account
-			</a>
+				<p className='login-divider'>
+					--------------------- OR ---------------------
+				</p>
 
-			<p className='signup-prompt'>
-				Don`t have an account?{' '}
-				<span className='signup-link' onClick={openSignupModal}>
-					Sign Up
-				</span>
-			</p>
+				<form onSubmit={handleLogin} className='login-form'>
+					<div className='login-form-group'>
+						<label htmlFor='credential' className='login-label'>
+							Username or Email
+						</label>
+						<input
+							type='text'
+							id='credential'
+							className='login-input'
+							value={credential}
+							onChange={(e) => setCredential(e.target.value)}
+							required
+						/>
+						{errors.credential && (
+							<p className='login-error'>{errors.credential}</p>
+						)}
+					</div>
+
+					<div className='login-form-group'>
+						<label htmlFor='password' className='login-label'>
+							Password
+						</label>
+						<input
+							type='password'
+							id='password'
+							className='login-input'
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+							required
+						/>
+						{errors.password && (
+							<p className='login-error'>{errors.password}</p>
+						)}
+					</div>
+
+					<button type='submit' className='login-submit-button'>
+						Log In
+					</button>
+					{errors.general && (
+						<p className='login-error login-general-error'>
+							{errors.general}
+						</p>
+					)}
+				</form>
+
+				<button className='login-close-button' onClick={closeModal}>
+					Close
+				</button>
+
+				<a href='#' onClick={demoLogin} className='login-demo-link'>
+					Demo Account
+				</a>
+
+				<p className='login-signup-prompt'>
+					Don’t have an account?{' '}
+					<span className='login-signup-link' onClick={openSignupModal}>
+						Sign Up
+					</span>
+				</p>
+			</div>
 		</div>
 	);
 };

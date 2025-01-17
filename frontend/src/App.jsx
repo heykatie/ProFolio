@@ -5,6 +5,7 @@ import { restoreUser } from './store/session';
 import NavBar from './components/NavBar';
 import LoginModal from './components/LoginModal';
 import SignupModal from './components/SignupModal';
+import './index.css'
 
 const Layout = () => {
 	const dispatch = useDispatch();

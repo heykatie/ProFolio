@@ -53,35 +53,39 @@ const SignupModal = ({ closeModal, openLoginModal }) => {
 		}
 	};
 
-	const switchToLogin = () => {
-		navigate('/login');
-	};
-
 	const togglePasswordVisibility = () => {
 		setShowPassword((prev) => !prev);
 	};
 
 	return (
-		<div className='signup-modal'>
-			<div className='signup-modal-content'>
-				<button onClick={closeModal} className='signup-modal-close'>
-					&times;
-				</button>
-				<h2>Sign Up</h2>
+		<div className='signup-modal-container'>
+			<div className='signup-modal'>
+				<div className='signup-modal-header'>
+					<button
+						onClick={closeModal}
+						className='signup-modal-close-button'>
+						&times;
+					</button>
+					<h2 className='signup-modal-title'>Sign Up</h2>
+				</div>
+
 				<form onSubmit={handleSubmit(onSubmit)} className='signup-form'>
 					{serverErrors.length > 0 && (
-						<ul className='server-errors'>
+						<ul className='signup-form-errors'>
 							{serverErrors.map((error, idx) => (
 								<li key={idx}>{error}</li>
 							))}
 						</ul>
 					)}
 
-					<div className='form-group'>
-						<label htmlFor='fullName'>Full Name</label>
+					<div className='signup-form-group'>
+						<label htmlFor='fullName' className='signup-label'>
+							Full Name
+						</label>
 						<input
 							id='fullName'
 							type='text'
+							className='signup-input'
 							{...register('fullName', {
 								required: 'Full name is required',
 								validate: {
@@ -92,21 +96,24 @@ const SignupModal = ({ closeModal, openLoginModal }) => {
 							})}
 						/>
 						{errors.fullName && (
-							<p className='form-error'>{errors.fullName.message}</p>
+							<p className='signup-error'>{errors.fullName.message}</p>
 						)}
 						{serverErrors.firstName && (
-							<p className='form-error'>{serverErrors.firstName}</p>
+							<p className='signup-error'>{serverErrors.firstName}</p>
 						)}
 						{serverErrors.lastName && (
-							<p className='form-error'>{serverErrors.lastName}</p>
+							<p className='signup-error'>{serverErrors.lastName}</p>
 						)}
 					</div>
 
-					<div className='form-group'>
-						<label htmlFor='email'>Email</label>
+					<div className='signup-form-group'>
+						<label htmlFor='email' className='signup-label'>
+							Email
+						</label>
 						<input
 							id='email'
 							type='email'
+							className='signup-input'
 							{...register('email', {
 								required: 'Email is required',
 								pattern: {
@@ -116,18 +123,21 @@ const SignupModal = ({ closeModal, openLoginModal }) => {
 							})}
 						/>
 						{errors.email && (
-							<p className='form-error'>{errors.email.message}</p>
+							<p className='signup-error'>{errors.email.message}</p>
 						)}
 						{serverErrors.email && (
-							<p className='form-error'>{serverErrors.email}</p>
+							<p className='signup-error'>{serverErrors.email}</p>
 						)}
 					</div>
 
-					<div className='form-group'>
-						<label htmlFor='phone'>Phone Number (Optional)</label>
+					<div className='signup-form-group'>
+						<label htmlFor='phone' className='signup-label'>
+							Phone Number (Optional)
+						</label>
 						<input
 							id='phone'
 							type='text'
+							className='signup-input'
 							placeholder='+1234567890'
 							{...register('phone', {
 								pattern: {
@@ -138,19 +148,22 @@ const SignupModal = ({ closeModal, openLoginModal }) => {
 							})}
 						/>
 						{errors.phone && (
-							<p className='form-error'>{errors.phone.message}</p>
+							<p className='signup-error'>{errors.phone.message}</p>
 						)}
 						{serverErrors.phone && (
-							<p className='form-error'>{serverErrors.phone}</p>
+							<p className='signup-error'>{serverErrors.phone}</p>
 						)}
 					</div>
 
-					<div className='form-group'>
-						<label htmlFor='password'>Password</label>
-						<div className='password-wrapper'>
+					<div className='signup-form-group'>
+						<label htmlFor='password' className='signup-label'>
+							Password
+						</label>
+						<div className='signup-password-wrapper'>
 							<input
 								id='password'
 								type={showPassword ? 'text' : 'password'}
+								className='signup-input'
 								{...register('password', {
 									required: 'Password is required',
 									minLength: {
@@ -173,42 +186,52 @@ const SignupModal = ({ closeModal, openLoginModal }) => {
 							<span
 								role='button'
 								aria-label='Toggle password visibility'
-								className='password-toggle'
+								className='signup-password-toggle'
 								onClick={togglePasswordVisibility}>
 								{showPassword ? <FaEyeSlash /> : <FaEye />}
 							</span>
 						</div>
 						{errors.password && (
-							<p className='form-error'>{errors.password.message}</p>
+							<p className='signup-error'>{errors.password.message}</p>
 						)}
 						{serverErrors.password && (
-							<p className='form-error'>{serverErrors.password}</p>
+							<p className='signup-error'>{serverErrors.password}</p>
 						)}
 					</div>
 
-					<button type='submit' className='signup-submit'>
+					<button type='submit' className='signup-submit-button'>
 						Create My Account
 					</button>
 				</form>
 
-				<div className='social-login'>
-					<p>or sign up with</p>
-					<div className='social-buttons'>
-						<a href='/api/auth/google' className='social-btn google'>
+				<div className='signup-social-login'>
+
+					<p className='signup-divider'>
+					--------------------- OR ---------------------
+					</p>
+
+					<div className='signup-social-buttons'>
+						<a
+							href='/api/auth/google'
+							className='signup-social-btn google'>
 							<img src={googleLogo} alt='Google' />
 						</a>
-						<a href='/api/auth/linkedin' className='social-btn linkedin'>
+						<a
+							href='/api/auth/linkedin'
+							className='signup-social-btn linkedin'>
 							<img src={linkedinLogo} alt='LinkedIn' />
 						</a>
-						<a href='/api/auth/github' className='social-btn github'>
+						<a
+							href='/api/auth/github'
+							className='signup-social-btn github'>
 							<img src={githubLogo} alt='GitHub' />
 						</a>
 					</div>
 				</div>
-				
-				<p className='login-prompt'>
+
+				<p className='signup-login-prompt'>
 					Already have an account?{' '}
-					<span className='login-link' onClick={openLoginModal}>
+					<span className='signup-login-link' onClick={openLoginModal}>
 						Log In
 					</span>
 				</p>
@@ -218,31 +241,3 @@ const SignupModal = ({ closeModal, openLoginModal }) => {
 };
 
 export default SignupModal;
-
-
-{
-	/* <div className='form-group'>
-	<label htmlFor='username'>Username</label>
-	<input
-		id='username'
-		type='text'
-		{...register('username', {
-			minLength: {
-				value: 4,
-				message: 'Username must be at least 4 characters',
-			},
-			validate: {
-				notEmail: (value) =>
-					!/\S+@\S+\.\S+/.test(value) ||
-					'Username cannot be an email address',
-			},
-		})}
-	/>
-	{errors.username && (
-		<p className='form-error'>{errors.username.message}</p>
-	)}
-	{serverErrors.username && (
-		<p className='form-error'>{serverErrors.username}</p>
-	)}
-</div> */
-}

@@ -121,10 +121,11 @@ passport.use(
 		{
 			clientID: process.env.GITHUB_CLIENT_ID,
 			clientSecret: process.env.GITHUB_CLIENT_SECRET,
-			callbackURL:
-				process.env.NODE_ENV === 'production'
-					? 'https://profolio-by-katie.onrender.com/api/auth/github/callback'
-					: process.env.GITHUB_CALLBACK_URL,
+			callbackURL: 'https://profolio-by-katie.onrender.com/api/auth/github/callback',
+			// callbackURL:
+			// 	process.env.NODE_ENV === 'production'
+			// 		? 'https://profolio-by-katie.onrender.com/api/auth/github/callback'
+			// 		: process.env.GITHUB_CALLBACK_URL,
 		},
 		async (accessToken, refreshToken, profile, done) => {
 			try {

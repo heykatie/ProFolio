@@ -7,7 +7,8 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const { ValidationError } = require('sequelize');
 const passport = require('./config/passport');
-// const session = require('express-session'); // Required for persistent sessions
+const session = require('express-session'); // Required for persistent sessions
+const pgSession = require('connect-pg-simple')(session);
 
 // Create a variable called isProduction that will be true if the environment
 // is in production or not by checking the environment key in the configuration
@@ -18,8 +19,34 @@ const isProduction = environment === 'production';
 // Initialize the Express application:
 const app = express();
 
+let sessionStore;
+
+if (isProduction) {
+	sessionStore = new pgSession({
+		conString: process.env.DATABASE_URL, // PostgreSQL connection string
+		ssl: {
+			rejectUnauthorized: false, // For managed services like Render or Heroku
+		},
+		pruneSessionInterval: 60 * 60 * 24,
+	});
+} else {
+	sessionStore = new session.MemoryStore();
+}
+
 // Set up Passport middleware
-// app.use(session({ secret: 'your-secret', resave: false, saveUninitialized: true }));
+app.use(
+	session({
+		secret: process.env.SESSION_SECRET,
+		resave: false,
+		saveUninitialized: true, // saves empty sessions (flip if breaks)
+		store: sessionStore,
+		cookie: {
+			secure: isProduction, // Use secure cookies in production (requires HTTPS)
+			httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
+			maxAge: 1000 * 60 * 60 * 24, // 1 day
+		},
+	})
+);
 app.use(passport.initialize());
 app.use(passport.session()); // Persistent login sessions
 

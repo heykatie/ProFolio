@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { signup } from '../../../store/session';
+import { signup } from '../../../store/user';
 import googleLogo from '../../../../../images/google.png';
 import linkedinLogo from '../../../../../images/linkedin.png';
 import githubLogo from '../../../../../images/github.png';
 import useModal from '/Users/ktl/aA/24week/projects/capstone/ProFolio/frontend/src/context/useModal.js';
 import LoginModal from '../LoginModal';
+import PhoneInput from '../../PhoneInput/PhoneInput';
 
 const SignupModal = () => {
 	const dispatch = useDispatch();
@@ -41,20 +42,29 @@ const SignupModal = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
+		watch,
+		setValue,
 	} = useForm();
 
 	const onSubmit = async (data) => {
 		const { email, password, fullName, phone } = data;
 		setServerErrors([]);
 
+		// Split name into first and last names
 		const nameParts = fullName.trim().split(' ');
 		const firstName = nameParts[0];
-		const lastName = nameParts[1] || '';
-		const username = `${firstName}${lastName}`;
+		const lastName = nameParts.slice(1).join(' ') || '';
 
 		try {
 			await dispatch(
-				signup({ email, password, username, firstName, lastName, phone })
+				signup({
+					email,
+					password,
+					username: `${firstName}${lastName}`,
+					firstName,
+					lastName,
+					phone,
+				})
 			);
 			closeModal();
 		} catch (err) {
@@ -114,7 +124,7 @@ const SignupModal = () => {
 								required: 'Full name is required',
 								validate: {
 									twoWords: (value) =>
-										value.trim().split(' ').length === 2 ||
+										value.trim().split(' ').length >= 2 ||
 										'Please enter your first and last name',
 								},
 							})}
@@ -145,38 +155,22 @@ const SignupModal = () => {
 						/>
 						<div className='h-3'>
 							{errors.email && (
-								<p className='error-message'>
-									{errors.email.message}
-								</p>
+								<p className='error-message'>{errors.email.message}</p>
 							)}
 						</div>
 					</div>
 
 					{/* Phone Number */}
 					<div>
-						<input
-							id='phone'
-							type='text'
-							className='form-input'
-							placeholder='Phone Number (Optional)'
-							onFocus={(e) => (e.target.placeholder = '+1234567890')}
-							onBlur={(e) =>
-								(e.target.placeholder = 'Phone Number (Optional)')
-							}
-							{...register('phone', {
-								pattern: {
-									value: /^\+?[1-9]\d{1,14}$/,
-									message: 'Please enter a valid phone number',
-								},
-							})}
+						<PhoneInput
+							value={watch('phone') || ''}
+							onChange={(value) => setValue('phone', value)}
 						/>
-						<div className='h-3'>
-						{errors.phone && (
-							<p className='error-message'>
-								{errors.phone.message}
-							</p>
-						)}
-					</div>
+						<div className='h-2'>
+							{errors.phone && (
+								<p className='error-message'>{errors.phone.message}</p>
+							)}
+						</div>
 					</div>
 
 					{/* Password */}
@@ -213,12 +207,12 @@ const SignupModal = () => {
 							{showPassword ? <FaEyeSlash /> : <FaEye />}
 						</span>
 						<div className='h-3'>
-						{errors.password && (
-							<p className='error-message'>
-								{errors.password.message}
-							</p>
-						)}
-					</div>
+							{errors.password && (
+								<p className='error-message'>
+									{errors.password.message}
+								</p>
+							)}
+						</div>
 					</div>
 
 					{/* Submit Button */}

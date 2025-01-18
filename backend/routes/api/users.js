@@ -6,6 +6,7 @@ const {
 	getUserProfile,
 	updateUserProfile,
 	deleteUserProfile,
+	getUserProfileById,
 } = require('../../controllers/users');
 
 const router = express.Router();
@@ -16,10 +17,13 @@ router.post('/', validateSignup, createUser);
 // Get user profile by username
 router.get('/:username', getUserProfile);
 
+// Get user profile by id
+router.get('/:userId', getUserProfileById);
+
 // Update user profile
-router.put('/:username', requireAuth, updateUserProfile);
+router.put('/:userId', requireAuth, updateUserProfile);
 
 // Delete user profile
-router.delete('/:username',requireAuth, deleteUserProfile);
+router.delete('/:userId', requireAuth, deleteUserProfile);
 
 module.exports = router;

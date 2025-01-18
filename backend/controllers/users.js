@@ -65,9 +65,39 @@ const getUserProfile = async (req, res, next) => {
 	}
 };
 
+// Get User Profile by Id
+const getUserProfileById = async (req, res, next) => {
+	const { userId } = req.params;
+
+	try {
+		const user = await User.findOne({
+			where: { userId },
+			attributes: [
+				'id',
+				'username',
+				'email',
+				'firstName',
+				'lastName',
+				'bio',
+				'avatarUrl',
+			],
+		});
+
+		if (!user) {
+			const err = new Error('User not found');
+			err.status = 404;
+			throw err;
+		}
+
+		res.json({ user });
+	} catch (err) {
+		next(err);
+	}
+};
+
 // Update User Profile
 const updateUserProfile = async (req, res, next) => {
-	const { username } = req.params; // Profile being updated
+	const { userId } = req.params; // Profile being updated
 	const { id: loggedInUserId } = req.user; // Extract logged-in user ID from the request (assumes authentication middleware sets req.user)
 
 	const { firstName, lastName, bio, avatarUrl, location, career, pronouns } =
@@ -75,7 +105,7 @@ const updateUserProfile = async (req, res, next) => {
 
 	try {
 		// Find the user to update
-		const user = await User.findOne({ where: { username } });
+		const user = await User.findOne({ where: { userId } });
 
 		if (!user) {
 			const err = new Error('User not found');
@@ -122,12 +152,12 @@ const updateUserProfile = async (req, res, next) => {
 
 // Delete User Profile
 const deleteUserProfile = async (req, res, next) => {
-	const { username } = req.params; // Profile to delete
+	const { userId } = req.params; // Profile to delete
 	const { id: loggedInUserId } = req.user; // Extract logged-in user ID from authentication middleware
 
 	try {
 		// Find the user to delete
-		const user = await User.findOne({ where: { username } });
+		const user = await User.findOne({ where: { userId } });
 
 		if (!user) {
 			const err = new Error('User not found');
@@ -154,6 +184,7 @@ const deleteUserProfile = async (req, res, next) => {
 module.exports = {
 	createUser,
 	getUserProfile,
+	getUserProfileById,
 	updateUserProfile,
 	deleteUserProfile,
 };

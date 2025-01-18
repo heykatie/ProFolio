@@ -6,7 +6,6 @@ const GitHubStrategy = require('passport-github2').Strategy;
 // Mock function to find or create user in database
 async function findOrCreateUser(profile) {
 	// Replace this with your database logic
-	console.log(profile); // Profile contains user data from the provider
 	return { id: profile.id, username: profile.displayName };
 }
 

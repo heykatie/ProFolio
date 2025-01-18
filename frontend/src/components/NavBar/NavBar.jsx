@@ -70,12 +70,12 @@ const Navbar = () => {
 					<div className='flex flex-col items-center space-y-2 md:flex-row md:space-y-0 md:space-x-4'>
 						<button
 							onClick={openLoginModal}
-							className='w-full px-4 py-2 text-sm font-semibold transition rounded bg-secondary text-on-secondary font-body hover:bg-secondary-hover dark:bg-secondary-dark dark:text-on-secondary-dark dark:hover:bg-secondary-darkhover md:w-auto'>
+							className='w-full px-4 py-2 text-sm font-semibold transition rounded bg-primary text-on-secondary font-body hover:bg-primary-hover dark:bg-primary-dark dark:text-on-primary-dark dark:hover:bg-primary-darkhover md:w-auto'>
 							Log In
 						</button>
 						<button
 							onClick={openSignupModal}
-							className='w-full px-4 py-2 text-sm font-semibold transition rounded bg-primary text-on-primary font-body hover:bg-primary-hover dark:bg-primary-dark dark:text-on-primary-dark dark:hover:bg-primary-darkhover md:w-auto'>
+							className='w-full px-4 py-2 text-sm font-semibold transition rounded bg-secondary text-on-primary font-body hover:bg-secondary-hover dark:bg-secondary-dark dark:text-on-secondary-dark dark:hover:bg-secondary-darkhover md:w-auto'>
 							Sign Up
 						</button>
 					</div>

@@ -72,13 +72,18 @@ const LoginModal = () => {
 	const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
 	return (
-		<div className='modal-overlay'>
+		<div
+			className='modal-overlay'
+			onClick={(e) => {
+				if (e.target === e.currentTarget) closeModal();
+			}}>
 			<div className='modal-content'>
 				<button
 					onClick={closeModal}
 					className='text-xl font-bold text-error hover:text-error-dark self-end'>
 					&times;
 				</button>
+
 				<div className='text-center mb-6'>
 					<h2 className='text-2xl font-heading text-text-primary dark:text-text-primary-dark'>
 						Log In
@@ -97,11 +102,13 @@ const LoginModal = () => {
 							onChange={(e) => setCredential(e.target.value)}
 							required
 						/>
-						{errors.credential && (
-							<p className='text-error text-sm mt-1'>
-								{errors.credential}
-							</p>
-						)}
+						<div className='h-2'>
+							{errors.credential && (
+								<p className='text-error text-sm mt-1'>
+									{errors.credential}
+								</p>
+							)}
+						</div>
 					</div>
 
 					<div>
@@ -123,6 +130,7 @@ const LoginModal = () => {
 								{showPassword ? <FaEyeSlash /> : <FaEye />}
 							</span>
 						</div>
+						<div className='h-2'>
 						{errors.password && (
 							<p className='text-error text-sm mt-1'>
 								{errors.password}
@@ -132,6 +140,7 @@ const LoginModal = () => {
 						{errors.general && (
 							<p className='text-error text-sm mt-2'>{errors.general}</p>
 						)}
+						</div>
 					</div>
 
 					<button type='submit' className='btn-primary w-full'>
@@ -144,20 +153,30 @@ const LoginModal = () => {
 					Demo Account
 				</button>
 
-				<div className='text-sm text-center text-text-primary dark:text-text-primary-dark my-6'>
-					<span>Or log in with</span>
+				<div className='flex items-center my-6'>
+					<hr className='flex-grow border-t-2 border-gray-300 dark:border-gray-600' />
+					<span className='px-4 text-sm text-text-primary dark:text-text-primary-dark'>
+						Or log in with
+					</span>
+					<hr className='flex-grow border-t-2 border-gray-300 dark:border-gray-600' />
 				</div>
 
 				{/* Social Login */}
 				<div className='flex justify-center space-x-4'>
-					<a href='/api/auth/google' className='social-btn'>
-						<img src={googleLogo} alt='Google' />
+					<a
+						href='/api/auth/google'
+						className='flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-md transition-transform hover:scale-110'>
+						<img src={googleLogo} alt='Google' className='w-6 h-6' />
 					</a>
-					<a href='/api/auth/linkedin' className='social-btn'>
-						<img src={linkedinLogo} alt='LinkedIn' />
+					<a
+						href='/api/auth/linkedin'
+						className='flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-md transition-transform hover:scale-110'>
+						<img src={linkedinLogo} alt='LinkedIn' className='w-6 h-6' />
 					</a>
-					<a href='/api/auth/github' className='social-btn'>
-						<img src={githubLogo} alt='GitHub' />
+					<a
+						href='/api/auth/github'
+						className='flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-md transition-transform hover:scale-110'>
+						<img src={githubLogo} alt='GitHub' className='w-6 h-6' />
 					</a>
 				</div>
 

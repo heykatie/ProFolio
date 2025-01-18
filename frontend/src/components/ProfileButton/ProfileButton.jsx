@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../store/session';
 import { FaCarrot } from 'react-icons/fa6';
-import './ProfileButton.css';
 
 const ProfileButton = () => {
 	const dispatch = useDispatch();
@@ -47,76 +46,55 @@ const ProfileButton = () => {
 		navigate('/');
 	};
 
+	// Dropdown menu items
+	const dropdownItems = [
+		{ label: 'Dashboard', path: '/dashboard' },
+		{ label: 'View Profile', path: `/${sessionUser.username}` },
+		{ label: 'Your Portfolios', path: '/portfolios' },
+		{ label: 'Preview Portfolio', path: '/preview' },
+		{ label: 'Your Projects', path: '/projects' },
+		{ label: 'Your Favorites', path: '/favorites' },
+		{ label: 'Recent Activity', path: '/activity' },
+		{ label: 'Create New', path: '/create' },
+		{ label: 'Settings', path: '/settings' },
+	];
+
 	// Return null if no session user
 	if (!sessionUser) {
 		return null;
 	}
 
 	return (
-		<div className='profile-container'>
-			<button onClick={toggleMenu} className='profile-button'>
-				<span className='profile-icon'>
-					<FaCarrot />
-				</span>
+		<div className='relative'>
+			{/* Profile Button */}
+			<button
+				onClick={toggleMenu}
+				aria-haspopup='menu'
+				aria-expanded={showMenu}
+				className='profile-button flex items-center justify-center w-10 h-10 rounded-full bg-secondary text-on-secondary shadow-md hover:bg-secondary-hover dark:bg-secondary-dark dark:text-on-secondary-dark dark:hover:bg-secondary-darkhover'>
+				<FaCarrot className='w-5 h-5' />
 			</button>
 
+			{/* Dropdown Menu */}
 			{showMenu && (
-				<div className='profile-dropdown' ref={dropdownRef}>
-					<ul className='profile-dropdown-list'>
-						<li className='profile-dropdown__item--username'>
+				<div
+					className='absolute right-0 mt-2 w-56 bg-surface rounded-md shadow-lg border border-gray-200 dark:bg-surface-dark dark:border-gray-600 dropdown-enter dropdown-enter-active'
+					ref={dropdownRef}>
+					<ul className='py-2 text-sm text-text-primary dark:text-text-primary-dark'>
+						<li className='px-4 py-2 font-semibold'>
 							{sessionUser.username}
 						</li>
-						<li className='profile-dropdown__item--full-name'>
-							{sessionUser.firstName} {sessionUser.lastName}
-						</li>
-						<li
-							className='profile-dropdown__item--dashboard'
-							onClick={() => navigate('/dashboard')}>
-							Dashboard
-						</li>
-						<li
-							className='profile-dropdown__item--profile'
-							onClick={() => navigate(`/${sessionUser.username}`)}>
-							View Profile
-						</li>
-						<li
-							className='profile-dropdown__item--portfolios'
-							onClick={() => navigate('/portfolios')}>
-							Your Portfolios
-						</li>
-						<li
-							className='profile-dropdown__item--preview'
-							onClick={() => navigate('/preview')}>
-							Preview Portfolio
-						</li>
-						<li
-							className='profile-dropdown__item--projects'
-							onClick={() => navigate('/projects')}>
-							Your Projects
-						</li>
-						<li
-							className='profile-dropdown__item--faves'
-							onClick={() => navigate('/favorites')}>
-							Your Favorites
-						</li>
-						<li
-							className='profile-dropdown__item--activity'
-							onClick={() => navigate('/activity')}>
-							Recent Activity
-						</li>
-						<li
-							className='profile-dropdown__item--create'
-							onClick={() => navigate('/create')}>
-							Create New
-						</li>
-						<li
-							className='profile-dropdown__item--settings'
-							onClick={() => navigate('/settings')}>
-							Settings
-						</li>
-						<li
-							className='profile-dropdown__item--logout'
-							onClick={handleLogout}>
+						<li className='px-4 py-2'>{`${sessionUser.firstName} ${sessionUser.lastName}`}</li>
+						<hr className='border-gray-200 dark:border-gray-600' />
+						{dropdownItems.map((item, idx) => (
+							<li
+								key={idx}
+								className='dropdown-item'
+								onClick={() => navigate(item.path)}>
+								{item.label}
+							</li>
+						))}
+						<li className='dropdown-item-logout' onClick={handleLogout}>
 							Logout
 						</li>
 					</ul>

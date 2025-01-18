@@ -3,14 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { signup } from '../../../store/session'
+import { signup } from '../../../store/session';
 import googleLogo from '../../../../../images/google.png';
 import linkedinLogo from '../../../../../images/linkedin.png';
 import githubLogo from '../../../../../images/github.png';
 import { useModal } from '../../../context/ModalContext';
 import LoginModal from '../LoginModal';
-// import './SignupModal.css';
-import '../SessionModals.css'
 
 const SignupModal = () => {
 	const dispatch = useDispatch();
@@ -25,6 +23,7 @@ const SignupModal = () => {
 		if (sessionUser) navigate('/');
 	}, [sessionUser, navigate]);
 
+	// Close modal on Escape key press
 	useEffect(() => {
 		const handleKeyDown = (e) => {
 			if (e.key === 'Escape') {
@@ -32,13 +31,12 @@ const SignupModal = () => {
 			}
 		};
 		document.addEventListener('keydown', handleKeyDown);
-
 		return () => {
 			document.removeEventListener('keydown', handleKeyDown);
 		};
 	}, [closeModal]);
 
-	// Handle form submission
+	// Form submission handler
 	const {
 		register,
 		handleSubmit,
@@ -64,111 +62,125 @@ const SignupModal = () => {
 				setServerErrors(err.errors);
 			} else {
 				const errData = await err.json();
-				const error = new Error(errData.title || 'Invalid');
-				error.status = err.status;
-				error.errors = errData.errors || {};
-				setServerErrors(error.errors);
+				setServerErrors(errData.errors || []);
 			}
 		}
 	};
 
-	// Open Login Modal
-	const openLoginModal = () => {
-		setModalContent(<LoginModal />);
-	};
-
 	// Toggle password visibility
-	const togglePasswordVisibility = () => {
-		setShowPassword((prev) => !prev);
-	};
+	const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+
+	// Open Login Modal
+	const openLoginModal = () => setModalContent(<LoginModal />);
 
 	return (
-		<div className='modal-container' id='signup'>
-			<button onClick={closeModal} className='modal-close-button'>
-				&times;
-			</button>
-			<div className='modal-header'>
-				<h2 className='modal-title'>Sign Up</h2>
-			</div>
+		<div
+			className='modal-overlay'
+			onClick={(e) => {
+				if (e.target === e.currentTarget) closeModal();
+			}}>
+			<div className='modal-content'>
+				<button
+					onClick={closeModal}
+					className='text-xl font-bold text-error hover:text-error-dark self-end'>
+					&times;
+				</button>
 
-			<form onSubmit={handleSubmit(onSubmit)} className='auth-form'>
-				{serverErrors.length > 0 && (
-					<ul className={`form-error ${serverErrors ? 'show' : ''}`}>
-						{serverErrors.map((error, idx) => (
-							<li key={idx}>{error}</li>
-						))}
-					</ul>
-				)}
-
-				<div className='auth-form-group'>
-					<input
-						placeholder='Full Name'
-						id='fullName'
-						type='text'
-						className='form-input'
-						{...register('fullName', {
-							required: 'Full name is required',
-							validate: {
-								twoWords: (value) =>
-									value.trim().split(' ').length === 2 ||
-									'Please enter your first and last name',
-							},
-						})}
-					/>
-					{errors.fullName && (
-						<p className={`form-error ${errors.fullName ? 'show' : ''}`}>
-							{errors.fullName.message}
-						</p>
-					)}
+				<div className='text-center mb-6'>
+					<h2 className='text-2xl font-heading text-text-primary dark:text-text-primary-dark'>
+						Sign Up
+					</h2>
 				</div>
 
-				<div className='auth-form-group'>
-					<input
-						placeholder='Email'
-						id='email'
-						type='email'
-						className='form-input'
-						{...register('email', {
-							required: 'Email is required',
-							pattern: {
-								value: /\S+@\S+\.\S+/,
-								message: 'Please enter a valid email address',
-							},
-						})}
-					/>
-					{errors.email && (
-						<p className={`form-error ${errors.email ? 'show' : ''}`}>
-							{errors.email.message}
-						</p>
+				{/* Form */}
+				<form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
+					{/* Server Errors */}
+					{serverErrors.length > 0 && (
+						<ul className='text-error text-sm space-y-1'>
+							{serverErrors.map((error, idx) => (
+								<li key={idx}>{error}</li>
+							))}
+						</ul>
 					)}
-				</div>
 
-				<div className='auth-form-group'>
-					<input
-						id='phone'
-						type='text'
-						className='form-input'
-						placeholder='Phone Number (Optional)'
-						onFocus={(e) => (e.target.placeholder = '+1234567890')}
-						onBlur={(e) =>
-							(e.target.placeholder = 'Phone Number (Optional)')
-						}
-						{...register('phone', {
-							pattern: {
-								value: /^\+?[1-9]\d{1,14}$/,
-								message: 'Please enter a valid phone number',
-							},
-						})}
-					/>
-					{errors.phone && (
-						<p className={`form-error ${errors.phone ? 'show' : ''}`}>
-							{errors.phone.message}
-						</p>
-					)}
-				</div>
+					{/* Full Name */}
+					<div>
+						<input
+							placeholder='Full Name'
+							id='fullName'
+							type='text'
+							className='form-input'
+							{...register('fullName', {
+								required: 'Full name is required',
+								validate: {
+									twoWords: (value) =>
+										value.trim().split(' ').length === 2 ||
+										'Please enter your first and last name',
+								},
+							})}
+						/>
+						<div className='h-2'>
+							{errors.fullName && (
+								<p className='text-error text-sm'>
+									{errors.fullName.message}
+								</p>
+							)}
+						</div>
+					</div>
 
-				<div className='auth-form-group'>
-					<div className='password-wrapper'>
+					{/* Email */}
+					<div>
+						<input
+							placeholder='Email'
+							id='email'
+							type='email'
+							className='form-input'
+							{...register('email', {
+								required: 'Email is required',
+								pattern: {
+									value: /\S+@\S+\.\S+/,
+									message: 'Please enter a valid email address',
+								},
+							})}
+						/>
+						<div className='h-2'>
+							{errors.email && (
+								<p className='text-error text-sm'>
+									{errors.email.message}
+								</p>
+							)}
+						</div>
+					</div>
+
+					{/* Phone Number */}
+					<div>
+						<input
+							id='phone'
+							type='text'
+							className='form-input'
+							placeholder='Phone Number (Optional)'
+							onFocus={(e) => (e.target.placeholder = '+1234567890')}
+							onBlur={(e) =>
+								(e.target.placeholder = 'Phone Number (Optional)')
+							}
+							{...register('phone', {
+								pattern: {
+									value: /^\+?[1-9]\d{1,14}$/,
+									message: 'Please enter a valid phone number',
+								},
+							})}
+						/>
+						<div className='h-2'>
+						{errors.phone && (
+							<p className='text-error text-sm'>
+								{errors.phone.message}
+							</p>
+						)}
+					</div>
+					</div>
+
+					{/* Password */}
+					<div className='relative'>
 						<input
 							placeholder='Password'
 							id='password'
@@ -196,45 +208,63 @@ const SignupModal = () => {
 						<span
 							role='button'
 							aria-label='Toggle password visibility'
-							className='password-toggle'
+							className='absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-gray-600 cursor-pointer'
 							onClick={togglePasswordVisibility}>
 							{showPassword ? <FaEyeSlash /> : <FaEye />}
 						</span>
+						<div className='h-2'>
+						{errors.password && (
+							<p className='text-error text-sm'>
+								{errors.password.message}
+							</p>
+						)}
 					</div>
-					{errors.password && (
-						<p className={`form-error ${errors.password ? 'show' : ''}`}>
-							{errors.password.message}
-						</p>
-					)}
+					</div>
+
+					{/* Submit Button */}
+					<button type='submit' className='btn-primary w-full'>
+						Create My Account
+					</button>
+				</form>
+
+				<div className='flex items-center my-6'>
+					<hr className='flex-grow border-t-2 border-gray-300 dark:border-gray-600' />
+					<span className='px-4 text-sm text-text-primary dark:text-text-primary-dark'>
+						Or sign up with
+					</span>
+					<hr className='flex-grow border-t-2 border-gray-300 dark:border-gray-600' />
 				</div>
 
-				<button type='submit' className='modal-submit-button'>
-					Create My Account
-				</button>
-			</form>
-
-			<span className='auth-divider'>
-					--------------------- Or sign up with ---------------------
-			</span>
-
-			<div className='social-login'>
-				<div className='social-buttons'>
-					<a href='/api/auth/google' className='social-btn google-btn'>
-						<img src={googleLogo} alt='Google' />
+				{/* Social Login */}
+				<div className='flex justify-center space-x-4'>
+					<a
+						href='/api/auth/google'
+						className='flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-md transition-transform hover:scale-110'>
+						<img src={googleLogo} alt='Google' className='w-6 h-6' />
 					</a>
-					<a href='/api/auth/linkedin' className='social-btn linkedin-btn'>
-						<img src={linkedinLogo} alt='LinkedIn' />
+					<a
+						href='/api/auth/linkedin'
+						className='flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-md transition-transform hover:scale-110'>
+						<img src={linkedinLogo} alt='LinkedIn' className='w-6 h-6' />
 					</a>
-					<a href='/api/auth/github' className='social-btn github-btn'>
-						<img src={githubLogo} alt='GitHub' />
+					<a
+						href='/api/auth/github'
+						className='flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-md transition-transform hover:scale-110'>
+						<img src={githubLogo} alt='GitHub' className='w-6 h-6' />
 					</a>
 				</div>
-			</div>
 
-			<div className='signup-login-prompt'>
-				<span className='signup-login-link' onClick={openLoginModal}>
-					Already have an account?{' '}Log In
-				</span>
+				{/* Login Prompt */}
+				<div className='text-sm text-center mt-6'>
+					<span className='text-text-primary dark:text-text-primary-dark'>
+						Already have an account?{' '}
+					</span>
+					<button
+						onClick={openLoginModal}
+						className='text-primary hover:text-primary-hover dark:text-primary-dark dark:hover:text-primary-darkhover font-semibold'>
+						Log In
+					</button>
+				</div>
 			</div>
 		</div>
 	);

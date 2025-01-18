@@ -1,7 +1,7 @@
 import { useEffect} from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useModal } from '../../context/ModalContext';
+import useModal from '/Users/ktl/aA/24week/projects/capstone/ProFolio/frontend/src/context/useModal.js';
 import SignupModal from '../Modals/SignupModal';
 import LoginModal from '../Modals/LoginModal';
 import ProfileButton from '../ProfileButton';

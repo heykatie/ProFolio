@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState } from 'react';
 import ReactDOM from 'react-dom';
 import './ModalContext.css';
 
@@ -37,4 +37,4 @@ export const ModalProvider = ({ children }) => {
 	);
 };
 
-export const useModal = () => useContext(ModalContext);
+export {ModalContext};

@@ -7,7 +7,7 @@ import { signup } from '../../../store/session';
 import googleLogo from '../../../../../images/google.png';
 import linkedinLogo from '../../../../../images/linkedin.png';
 import githubLogo from '../../../../../images/github.png';
-import { useModal } from '../../../context/ModalContext';
+import useModal from '/Users/ktl/aA/24week/projects/capstone/ProFolio/frontend/src/context/useModal.js';
 import LoginModal from '../LoginModal';
 
 const SignupModal = () => {

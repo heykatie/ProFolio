@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {login, signup} from '../../../store/session';
+import {login} from '../../../store/session';
 import googleLogo from '../../../../../images/google.png';
 import linkedinLogo from '../../../../../images/linkedin.png';
 import githubLogo from '../../../../../images/github.png';
 import { useModal } from '../../../context/ModalContext';
 import SignupModal from '../SignupModal';
 import {FaEye, FaEyeSlash} from 'react-icons/fa';
-// import './LoginModal.css';
+import './LoginModal.css';
 import '../SessionModals.css';
 
 const LoginModal = () => {
@@ -109,7 +109,10 @@ const LoginModal = () => {
 						required
 					/>
 					{errors.credential && (
-						<p className={`form-error ${errors.credential ? 'show' : ''}`}>
+						<p
+							className={`form-error ${
+								errors.credential ? 'show' : ''
+							}`}>
 							{errors.credential}
 						</p>
 					)}
@@ -157,10 +160,9 @@ const LoginModal = () => {
 				Demo Account
 			</button>
 
-			{/* Divider */}
-			<p className='auth-divider'>
-				-------------------------- Or log in with --------------------------
-			</p>
+			<span className='auth-divider'>
+				---------------------- Or log in with ----------------------
+			</span>
 
 			{/* Social Login Options */}
 			<div className='social-login'>
@@ -179,9 +181,8 @@ const LoginModal = () => {
 
 			{/* Sign-Up Prompt */}
 			<div className='signup-login-prompt'>
-				{"Don't have an account?"}{' '}
 				<span className='signup-login-link' onClick={openSignupModal}>
-					{' ' + 'Sign Up'}
+					{"Don't have an account? Sign Up"}
 				</span>
 			</div>
 		</div>

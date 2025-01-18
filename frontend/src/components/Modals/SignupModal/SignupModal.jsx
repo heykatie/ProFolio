@@ -213,11 +213,11 @@ const SignupModal = () => {
 				</button>
 			</form>
 
+			<span className='auth-divider'>
+					--------------------- Or sign up with ---------------------
+			</span>
+
 			<div className='social-login'>
-				<p className='auth-divider'>
-					-------------------------- Or sign up with
-					--------------------------
-				</p>
 				<div className='social-buttons'>
 					<a href='/api/auth/google' className='social-btn google-btn'>
 						<img src={googleLogo} alt='Google' />
@@ -232,9 +232,8 @@ const SignupModal = () => {
 			</div>
 
 			<div className='signup-login-prompt'>
-				Already have an account?{' '}
 				<span className='signup-login-link' onClick={openLoginModal}>
-					Log In
+					Already have an account?{' '}Log In
 				</span>
 			</div>
 		</div>

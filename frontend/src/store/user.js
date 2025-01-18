@@ -4,7 +4,7 @@ import { csrfFetch } from './csrf';
 const SET_THEME = 'user/SET_THEME';
 
 // Action Creators
-const setTheme = (theme) => ({
+export const setTheme = (theme) => ({
 	type: SET_THEME,
 	theme,
 });
@@ -27,9 +27,7 @@ export const updateTheme = (theme) => async (dispatch) => {
 	try {
 		await csrfFetch('/api/users/theme', {
 			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json',
-			},
+			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ theme }),
 		});
 		dispatch(setTheme(theme));
@@ -39,16 +37,24 @@ export const updateTheme = (theme) => async (dispatch) => {
 	}
 };
 
-// Reducer
-const initialState = { theme: 'light' };
+const initialState = {
+  theme: localStorage.getItem('theme') || 'light', // Default to saved theme or 'light'
+};
 
 const userReducer = (state = initialState, action) => {
-	switch (action.type) {
-		case SET_THEME:
-			return { ...state, theme: action.theme };
-		default:
-			return state;
-	}
+  switch (action.type) {
+    case SET_THEME:
+      localStorage.setItem('theme', action.theme);
+			document.documentElement.setAttribute('data-theme', action.theme);
+			if (action.theme === 'dark') {
+				document.documentElement.classList.add('dark');
+			} else {
+				document.documentElement.classList.remove('dark');
+			}
+      return { ...state, theme: action.theme };
+    default:
+      return state;
+  }
 };
 
 export default userReducer;

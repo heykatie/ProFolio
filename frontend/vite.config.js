@@ -11,6 +11,9 @@ export default defineConfig(({ mode }) => ({
       failOnError: mode === "production"
     })
   ],
+  css: {
+    postcss: './postcss.config.cjs', // Optional, only if PostCSS isn't automatically detected
+  },
   server: {
     proxy: {
       '/api': 'http://localhost:8000'

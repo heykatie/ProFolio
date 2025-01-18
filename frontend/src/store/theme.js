@@ -1,7 +1,7 @@
 import { csrfFetch } from './csrf';
 
 // Action Types
-const SET_THEME = 'user/SET_THEME';
+const SET_THEME = 'theme/SET_THEME';
 
 // Action Creators
 export const setTheme = (theme) => ({
@@ -12,7 +12,7 @@ export const setTheme = (theme) => ({
 // Thunks
 export const fetchTheme = (userId) => async (dispatch) => {
 	try {
-		const response = await csrfFetch(`/api/users/${userId}`);
+		const response = await csrfFetch(`/api/theme/${userId}`);
 		const data = await response.json();
 		const theme = data.themePreferences || 'light';
 		dispatch(setTheme(theme));
@@ -25,7 +25,7 @@ export const fetchTheme = (userId) => async (dispatch) => {
 
 export const updateTheme = (theme) => async (dispatch) => {
 	try {
-		await csrfFetch('/api/users/theme', {
+		await csrfFetch('/api/theme/update', {
 			method: 'PUT',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ theme }),
@@ -41,7 +41,7 @@ const initialState = {
   theme: localStorage.getItem('theme') || 'light', // Default to saved theme or 'light'
 };
 
-const userReducer = (state = initialState, action) => {
+const themeReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_THEME:
       localStorage.setItem('theme', action.theme);
@@ -57,4 +57,4 @@ const userReducer = (state = initialState, action) => {
   }
 };
 
-export default userReducer;
+export default themeReducer;

@@ -2,6 +2,7 @@ const router = require('express').Router(); // create express router
 const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
 const authRouter = require('./auth.js');
+const themeRouter = require('./theme.js');
 const { restoreUser } = require('../../utils/auth.js'); // GET /api/restore-user
 
 // Connect restoreUser middleware to the API router
@@ -15,6 +16,8 @@ router.use('/session', sessionRouter);
 router.use('/users', usersRouter);
 
 router.use('/auth', authRouter);
+
+router.use('/theme', themeRouter);
 
 module.exports = router;
 

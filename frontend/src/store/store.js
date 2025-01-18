@@ -1,11 +1,11 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { thunk } from 'redux-thunk';
 import sessionReducer from './session';
-import userReducer from './user';
+import themeReducer from './theme.js';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
-  user: userReducer
+  theme: themeReducer
 });
 
 // set to different store enhancers depending on whether the Node environment

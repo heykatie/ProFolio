@@ -1,17 +1,19 @@
 import { createContext, useState, useContext } from 'react';
 import ReactDOM from 'react-dom';
-import './ModalContext.css'
+import './ModalContext.css';
+
 const ModalContext = createContext();
 
 export const ModalProvider = ({ children }) => {
 	const [modalContent, setModalContent] = useState(null);
 	const [onModalClose, setOnModalClose] = useState(null);
 
-  const closeModal = () => {
+	const closeModal = () => {
 		if (onModalClose) onModalClose();
 		setModalContent(null);
 		setOnModalClose(null);
 	};
+
 
 	return (
 		<ModalContext.Provider
@@ -25,7 +27,6 @@ export const ModalProvider = ({ children }) => {
 							if (e.target === e.currentTarget) closeModal();
 						}}>
 						<div
-							// className='modal-content'
 							onClick={(e) => e.stopPropagation()}>
 							{modalContent}
 						</div>

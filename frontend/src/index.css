@@ -62,7 +62,7 @@ textarea::placeholder {
 }
 
 .error-message {
-  @apply text-error text-sm mt-1 dark:text-error-dark;
+  @apply text-error text-sm mt-0.5 dark:text-error-dark;
 }
 
 /* Modals */

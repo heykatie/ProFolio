@@ -102,9 +102,9 @@ const LoginModal = () => {
 							onChange={(e) => setCredential(e.target.value)}
 							required
 						/>
-						<div className='h-2'>
+						<div className='h-3'>
 							{errors.credential && (
-								<p className='text-error text-sm mt-1'>
+								<p className='error-message mt-1'>
 									{errors.credential}
 								</p>
 							)}
@@ -130,15 +130,15 @@ const LoginModal = () => {
 								{showPassword ? <FaEyeSlash /> : <FaEye />}
 							</span>
 						</div>
-						<div className='h-2'>
+						<div className='h-3'>
 						{errors.password && (
-							<p className='text-error text-sm mt-1'>
+							<p className='error-message'>
 								{errors.password}
 							</p>
 						)}
 						{/* Server Errors */}
 						{errors.general && (
-							<p className='text-error text-sm mt-2'>{errors.general}</p>
+							<p className='error-message mt-2'>{errors.general}</p>
 						)}
 						</div>
 					</div>

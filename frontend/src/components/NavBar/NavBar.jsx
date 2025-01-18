@@ -1,16 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect} from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useModal } from '../../context/ModalContext';
 import SignupModal from '../Modals/SignupModal';
 import LoginModal from '../Modals/LoginModal';
 import ProfileButton from '../ProfileButton';
-import { fetchTheme, setTheme, updateTheme } from '../../store/user';
+import { fetchTheme, setTheme, updateTheme } from '../../store/theme';
 import profolioIcon from '../../../../images/profolio-icon.png';
 
 const Navbar = () => {
 	const sessionUser = useSelector((state) => state.session.user);
-	const theme = useSelector((state) => state.user?.theme || 'light');
+	const theme = useSelector((state) => state.theme?.theme || 'light');
 	const dispatch = useDispatch();
 	const { setModalContent } = useModal();
 

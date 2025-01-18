@@ -96,7 +96,7 @@ const SignupModal = () => {
 				<form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
 					{/* Server Errors */}
 					{serverErrors.length > 0 && (
-						<ul className='text-error text-sm space-y-1'>
+						<ul className='error-message space-y-1'>
 							{serverErrors.map((error, idx) => (
 								<li key={idx}>{error}</li>
 							))}
@@ -119,9 +119,9 @@ const SignupModal = () => {
 								},
 							})}
 						/>
-						<div className='h-2'>
+						<div className='h-3'>
 							{errors.fullName && (
-								<p className='text-error text-sm'>
+								<p className='error-message'>
 									{errors.fullName.message}
 								</p>
 							)}
@@ -143,9 +143,9 @@ const SignupModal = () => {
 								},
 							})}
 						/>
-						<div className='h-2'>
+						<div className='h-3'>
 							{errors.email && (
-								<p className='text-error text-sm'>
+								<p className='error-message'>
 									{errors.email.message}
 								</p>
 							)}
@@ -170,9 +170,9 @@ const SignupModal = () => {
 								},
 							})}
 						/>
-						<div className='h-2'>
+						<div className='h-3'>
 						{errors.phone && (
-							<p className='text-error text-sm'>
+							<p className='error-message'>
 								{errors.phone.message}
 							</p>
 						)}
@@ -212,9 +212,9 @@ const SignupModal = () => {
 							onClick={togglePasswordVisibility}>
 							{showPassword ? <FaEyeSlash /> : <FaEye />}
 						</span>
-						<div className='h-2'>
+						<div className='h-3'>
 						{errors.password && (
-							<p className='text-error text-sm'>
+							<p className='error-message'>
 								{errors.password.message}
 							</p>
 						)}

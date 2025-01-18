@@ -36,7 +36,7 @@ router.get(
 // Configure LinkedIn OAuth
 router.get(
   '/linkedin',
-  passport.authenticate('linkedin', { scope: ['r_liteprofile', 'r_emailaddress'] })
+  passport.authenticate('linkedin', { scope: ['profile', 'email'] })
 );
 router.get(
 	'/linkedin/callback',

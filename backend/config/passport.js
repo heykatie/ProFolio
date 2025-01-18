@@ -51,7 +51,7 @@ passport.use(
       clientID: process.env.LINKEDIN_CLIENT_ID,
       clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
       callbackURL: process.env.LINKEDIN_CALLBACK_URL,
-      scope: ['r_liteprofile', 'r_emailaddress'], // Ensure these are correct
+      scope: ['profile', 'email'], // Ensure these are correct
       state: true, // Recommended for security
     },
 		async (accessToken, refreshToken, profile, done) => {
@@ -74,28 +74,6 @@ passport.use(
 
 // profile.emails?.[0]?.value || `${profile.id}@linkedin.com`,
 
-// passport.use(
-// 	new LinkedInStrategy(
-// 		{
-// 			clientID: process.env.LINKEDIN_CLIENT_ID,
-// 			clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
-// 			callbackURL: '/api/auth/linkedin/callback',
-// 		},
-// 		async (accessToken, refreshToken, profile, done) => {
-// 			try {
-// 				const [user] = await User.findOrCreate({
-// 					where: { linkedinId: profile.id },
-// 					defaults: {
-// 						username: profile.displayName,
-// 					},
-// 				});
-// 				done(null, user);
-// 			} catch (err) {
-// 				done(err, null);
-// 			}
-// 		}
-// 	)
-// );
 
 // passport.use(
 // 	new LinkedInStrategy(

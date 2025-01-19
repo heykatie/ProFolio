@@ -10,13 +10,20 @@ import profolioIcon from '../../../../images/profolio-icon.png';
 
 const Navbar = () => {
 	const sessionUser = useSelector((state) => state.session.user);
-	const theme = useSelector((state) => state.theme?.theme || 'light');
+	const theme = useSelector((state) => state.theme?.theme);
 	const dispatch = useDispatch();
 	const { setModalContent } = useModal();
 
 	// Handlers for opening modals
 	const openSignupModal = () => setModalContent(<SignupModal />);
 	const openLoginModal = () => setModalContent(<LoginModal />);
+
+	useEffect(() => {
+		const savedTheme = localStorage.getItem('theme') || 'light';
+		if (savedTheme !== theme) {
+			dispatch(setTheme(savedTheme));
+		}
+	}, [dispatch, theme]);
 
 	// Toggle theme handler
 	const toggleTheme = () => {

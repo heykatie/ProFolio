@@ -12,7 +12,7 @@ const createProfile = (user) => ({
 	payload: user,
 });
 
-const readProfile = (user) => ({
+export const readProfile = (user) => ({
 	type: READ_PROFILE,
 	payload: user,
 });
@@ -76,15 +76,16 @@ export const editProfile = ({userId, updateData}) => async (dispatch) => {
 
 // Delete user profile
 export const deleteAccount = (userId) => async (dispatch) => {
-	const response = await csrfFetch(`/api/users/${userId}`, {
-		method: 'DELETE',
-	});
-
-	if (response.ok) {
-		dispatch(deleteProfile());
-	} else {
-		const errorData = await response.json();
-		throw new Error(errorData.message || 'Failed to delete user');
+	try {
+		const response = await csrfFetch(`/api/users/${userId}`, {
+			method: 'DELETE',
+		});
+		if (response.ok) {
+			dispatch(deleteProfile());
+		}
+	} catch (err) {
+		const error = await err.json();
+		throw error;
 	}
 };
 

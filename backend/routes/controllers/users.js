@@ -38,9 +38,6 @@ const updateUser = async (req, res, next) => {
 	const { userId } = req.params; // Profile being updated
 	const { id: loggedInUserId } = req.user; // Extract logged-in user ID from the request (assumes authentication middleware sets req.user)
 
-	// const { firstName, lastName, bio, avatarUrl, location, career, pronouns, company, phone, email, timezone } =
-	// 	req.body;
-
 	// Find the user to update
 	const user = await User.findOne({ where: { id: userId } });
 
@@ -73,7 +70,7 @@ const deleteUser = async (req, res, next) => {
 	const { id: loggedInUserId } = req.user; // Extract logged-in user ID from authentication middleware
 
 	// Find the user to delete
-	const user = await User.findOne({ where: { userId } });
+	const user = await User.findOne({ where: { id: userId } });
 
 	if (!user) {
 		const err = new Error('User not found');

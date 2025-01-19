@@ -11,7 +11,7 @@ router.get('/:userId', async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    res.json({ themePreferences: user.themePreferences || 'light' });
+    res.json({ theme: user.themePreference || 'light' });
   } catch (err) {
     res.status(500).json({ error: 'Internal server error' });
   }
@@ -30,10 +30,10 @@ router.put('/update', requireAuth, async (req, res) => {
         return res.status(404).json({ error: 'User not found' });
     }
 
-    user.themePreferences = theme;
+    user.themePreference = theme;
     await user.save();
 
-    return res.json({ theme: user.themePreferences });
+    return res.json({ theme: user.themePreference });
 });
 
 module.exports = router;

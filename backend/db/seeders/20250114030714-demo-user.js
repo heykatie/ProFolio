@@ -27,7 +27,7 @@ module.exports = {
 						github: 'https://github.com/demo-user',
 						linkedin: 'https://linkedin.com/in/demo-user',
 					}),
-					themePreference: 'system',
+					themePreference: 'dark',
 					githubConnected: true,
 					linkedinConnected: true,
 					githubUrl: 'https://github.com/demo-user',

@@ -1,4 +1,5 @@
 import { csrfFetch } from './csrf';
+import { readProfile } from './profile';
 
 /* --- Action Types --- */
 const CREATE_SESSION = 'session/createSession';
@@ -30,6 +31,7 @@ export const login = (userData) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(createSession(data.user));
+    dispatch(readProfile(data.user));
     return data.user;
   }
 };

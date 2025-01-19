@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { deleteAccount, editProfile, getUser } from '../../../store/profile';
 import PhoneInput from '/Users/ktl/aA/24week/projects/capstone/ProFolio/frontend/src/components/PhoneInput/PhoneInput.jsx';
+import {logout} from '../../../store/session'
 
 const Profile = () => {
 	const dispatch = useDispatch();
@@ -89,8 +90,10 @@ const Profile = () => {
 		) {
 			try {
 				await dispatch(deleteAccount(sessionUser.id));
+				await dispatch(logout(sessionUser.id))
 				navigate('/');
 			} catch (err) {
+				console.error(err)
 				setErrors(['Failed to delete account. Please try again later.']);
 			}
 		}

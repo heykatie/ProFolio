@@ -16,7 +16,7 @@ export const setTheme = (theme) => ({
 });
 
 // Thunks
-export const fetchTheme = (userId) => async (dispatch, getState) => {
+export const fetchTheme = (userId) => async (dispatch) => {
 	try {
 		const response = await csrfFetch(`/api/theme/${userId}`);
 		const data = await response.json();

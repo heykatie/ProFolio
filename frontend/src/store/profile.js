@@ -45,33 +45,32 @@ export const signup = (userData) => async (dispatch) => {
 
 // Get user by username
 export const getUser = (userId) => async (dispatch) => {
-	const response = await csrfFetch(`/api/users/${userId}`);
-
-	if (response.ok) {
+	try {
+		const response = await csrfFetch(`/api/users/${userId}`);
 		const data = await response.json();
 		dispatch(readProfile(data.user));
-		return data.user;
-	} else {
-		const errorData = await response.json();
-		throw new Error(errorData.message || 'User not found');
+		return(data.user)
+	} catch (err) {
+		const error = await err.json()
+		console.error(error || 'Failed to get user')
 	}
 };
 
 // Update user profile
-export const editProfile = (updateData) => async (dispatch) => {
-	const userId = updateData.id
-	const response = await csrfFetch(`/api/users/${userId}`, {
-		method: 'PUT',
-		body: JSON.stringify(updateData),
-	});
-
-	if (response.ok) {
-		const data = await response.json();
-		dispatch(updateProfile(data.user));
-		return data.user;
-	} else {
-		const errorData = await response.json();
-		throw new Error(errorData.message || 'Failed to update user');
+export const editProfile = ({userId, updateData}) => async (dispatch) => {
+	try {
+		const response = await csrfFetch(`/api/users/${userId}`, {
+			method: 'PUT',
+			body: JSON.stringify(updateData),
+		});
+		if (response.ok) {
+			const data = await response.json();
+			dispatch(updateProfile(data.user));
+			return data.user;
+		}
+	} catch (err) {
+		const error = await err.json()
+		throw error;
 	}
 };
 

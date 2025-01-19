@@ -90,7 +90,9 @@ const ProfileButton = () => {
 							<li
 								key={idx}
 								className='dropdown-item'
-								onClick={() => navigate(item.path)}>
+								onClick={() =>
+									navigate(item.path) && setShowMenu(false)
+								}>
 								{item.label}
 							</li>
 						))}

@@ -19,19 +19,9 @@ const createUser = async (req, res) => {
 
 // Get User Profile
 const readUser = async (req, res, next) => {
-	const { id } = req.params;
-
+	const { userId } = req.params;
 	const user = await User.findOne({
-		where: { id },
-		attributes: [
-			'id',
-			'username',
-			'email',
-			'firstName',
-			'lastName',
-			'bio',
-			'avatarUrl',
-		],
+		where: { id: userId },
 	});
 
 	if (!user) {
@@ -52,7 +42,7 @@ const updateUser = async (req, res, next) => {
 	// 	req.body;
 
 	// Find the user to update
-	const user = await User.findOne({ where: { userId } });
+	const user = await User.findOne({ where: { id: userId } });
 
 	if (!user) {
 		const err = new Error('User not found');
@@ -68,9 +58,13 @@ const updateUser = async (req, res, next) => {
 	}
 
 	// Update the user's profile
-	const updatedUser = await user.update(req.body);
+	try {
+		const updatedUser = await user.update(req.body);
+		return res.json({ user: updatedUser });
+	} catch (err) {
+		throw err
+	}
 
-	return res.json({ user: updatedUser });
 };
 
 // Delete User Profile

@@ -18,8 +18,15 @@ const Profile = () => {
 		bio: '',
 		pronouns: '',
 		career: '',
-		socialLink: '',
+		socialLinks: '',
+		resumeUrl: '',
+		linkedinUrl: '',
+		githubUrl: '',
+		username: '',
+		themePreference: '',
+		timezone: '',
 	});
+
 	const [errors, setErrors] = useState([]);
 	const [successMessage, setSuccessMessage] = useState('');
 
@@ -32,10 +39,16 @@ const Profile = () => {
 					email: data.email || '',
 					phone: data.phone || '',
 					location: data.location || '',
+					timezone: data.timezone || '',
 					bio: data.bio || '',
+					themePreference: data.themePreference || '',
 					pronouns: data.pronouns || '',
 					career: data.career || '',
-					socialLink: data.socialLink || '',
+					socialLinks: data.socialLinks || '',
+					username: data.username || '',
+					githubUrl: data.githubUrl || '',
+					linkedinUrl: data.linkedinUrl || '',
+					resumeUrl: data.resumeUrl || '',
 				});
 			});
 		} else {
@@ -57,17 +70,14 @@ const Profile = () => {
 		setSuccessMessage('');
 
 		try {
-			await dispatch(editProfile({ id: sessionUser.id, ...formData }));
+			await dispatch(editProfile({ userId: sessionUser.id, updateData: formData }));
 			setSuccessMessage('Profile updated successfully!');
 		} catch (err) {
-			if (err.errors) {
-				setErrors(err.errors);
-			} else if (err.response) {
-				const errData = await err.response.json();
-				setErrors(errData.errors || []);
-			} else {
-				setErrors(['An unknown error occurred.']);
-			}
+			setErrors(
+				Object.entries(err.errors || {}).map(
+					([field, message]) => `${field}: ${message}`
+				)
+			);
 		}
 	};
 
@@ -89,16 +99,6 @@ const Profile = () => {
 	return (
 		<div className='container mx-auto px-4 py-8 max-w-4xl'>
 			<h1 className='text-3xl font-heading font-bold mb-6'>Your Profile</h1>
-			{errors.length > 0 && (
-				<ul className='error-message space-y-2 mb-4'>
-					{errors.map((error, idx) => (
-						<li key={idx}>{error}</li>
-					))}
-				</ul>
-			)}
-			{successMessage && (
-				<p className='text-success font-medium mb-4'>{successMessage}</p>
-			)}
 			<form
 				onSubmit={handleSubmit}
 				className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
@@ -125,6 +125,33 @@ const Profile = () => {
 						name='lastName'
 						type='text'
 						value={formData.lastName || ''}
+						onChange={handleChange}
+						className='form-input'
+						required
+					/>
+				</div>
+				<div>
+					<label htmlFor='pronouns' className='block font-medium mb-1'>
+						Pronouns
+					</label>
+					<input
+						id='pronouns'
+						name='pronouns'
+						type='text'
+						value={formData.pronouns || ''}
+						onChange={handleChange}
+						className='form-input'
+					/>
+				</div>
+				<div>
+					<label htmlFor='username' className='block font-medium mb-1'>
+						Username
+					</label>
+					<input
+						id='username'
+						name='username'
+						type='username'
+						value={formData.username || ''}
 						onChange={handleChange}
 						className='form-input'
 						required
@@ -168,6 +195,19 @@ const Profile = () => {
 					/>
 				</div>
 				<div>
+					<label htmlFor='timezone' className='block font-medium mb-1'>
+						Preferred Timezone
+					</label>
+					<input
+						id='timezone'
+						name='timezone'
+						type='text'
+						value={formData.timezone || ''}
+						onChange={handleChange}
+						className='form-input'
+					/>
+				</div>
+				<div>
 					<label htmlFor='bio' className='block font-medium mb-1'>
 						Bio
 					</label>
@@ -180,14 +220,15 @@ const Profile = () => {
 					/>
 				</div>
 				<div>
-					<label htmlFor='pronouns' className='block font-medium mb-1'>
-						Pronouns
+					<label
+						htmlFor='themePreference'
+						className='block font-medium mb-1'>
+						Theme Preference
 					</label>
-					<input
-						id='pronouns'
-						name='pronouns'
-						type='text'
-						value={formData.pronouns || ''}
+					<textarea
+						id='themePreference'
+						name='themePreference'
+						value={formData.themePreference || ''}
 						onChange={handleChange}
 						className='form-input'
 					/>
@@ -205,22 +246,72 @@ const Profile = () => {
 						className='form-input'
 					/>
 				</div>
-				<div className='sm:col-span-2'>
-					<label htmlFor='socialLink' className='block font-medium mb-1'>
-						Social Link
+				<div>
+					<label htmlFor='githubUrl' className='block font-medium mb-1'>
+						Github Link
 					</label>
 					<input
-						id='socialLink'
-						name='socialLink'
+						id='githubUrl'
+						name='githubUrl'
 						type='url'
-						value={formData.socialLink || ''}
+						value={formData.githubUrl || ''}
 						onChange={handleChange}
 						className='form-input'
 					/>
 				</div>
+				<div>
+					<label htmlFor='linkedinUrl' className='block font-medium mb-1'>
+						LinkedIn Link
+					</label>
+					<input
+						id='linkedinUrl'
+						name='linkedinUrl'
+						type='url'
+						value={formData.linkedinUrl || ''}
+						onChange={handleChange}
+						className='form-input'
+					/>
+				</div>
+				<div>
+					<label htmlFor='resumeUrl' className='block font-medium mb-1'>
+						Resume Link
+					</label>
+					<input
+						id='resumeUrl'
+						name='resumeUrl'
+						type='url'
+						value={formData.resumeUrl || ''}
+						onChange={handleChange}
+						className='form-input'
+					/>
+				</div>
+				<div className='sm:col-span-2'>
+					<label htmlFor='socialLinks' className='block font-medium mb-1'>
+						Social Links
+					</label>
+					<input
+						id='socialLinks'
+						name='socialLinks'
+						type='url'
+						value={formData.socialLinks || ''}
+						onChange={handleChange}
+						className='form-input'
+					/>
+				</div>
+				{errors.length > 0 && (
+					<ul className='error-message space-y-1'>
+						{errors.map((error, idx) => (
+							<li key={idx}>{error}</li>
+						))}
+					</ul>
+				)}
+				{successMessage && (
+					<p className='text-success font-medium mb-4'>{successMessage}</p>
+				)}
 				<div className='sm:col-span-2 flex justify-between'>
 					<button
 						type='submit'
+						onClick={handleSubmit}
 						className='btn-primary px-6 py-2 font-medium text-lg'>
 						Update Profile
 					</button>

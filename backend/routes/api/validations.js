@@ -28,7 +28,7 @@ const validateSignup = [
 			const passwordResult = zxcvbn(value);
 			if (passwordResult.score < 3) {
 				throw new Error(
-					`Password is too weak: ${passwordResult.feedback.suggestions.join(
+					`Password is too weak. ${passwordResult.feedback.suggestions.join(
 						' '
 					)}`
 				);

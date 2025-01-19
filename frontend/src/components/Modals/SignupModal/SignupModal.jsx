@@ -16,7 +16,7 @@ const SignupModal = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const sessionUser = useSelector((state) => state.session.user);
-	const [serverErrors, setServerErrors] = useState([]);
+	const [serverErrors, setServerErrors] = useState({});
 	const [showPassword, setShowPassword] = useState(false);
 	const { closeModal, setModalContent } = useModal();
 
@@ -73,7 +73,11 @@ const SignupModal = () => {
 			}
 		} catch (err) {
 			console.log('KATIE', err)
-			setServerErrors( err.errors || ["Try a different email and password."])
+			setServerErrors(
+				Object.entries(err.errors || {}).map(
+					([field, message]) => `${field}: ${message}`
+				)
+			);
 		}
 	};
 
@@ -108,7 +112,7 @@ const SignupModal = () => {
 					{serverErrors.length > 0 && (
 						<ul className='error-message space-y-1'>
 							{serverErrors.map((error, idx) => (
-								<li key={idx}>{error}</li> // Render only strings
+								<li key={idx}>{error}</li>
 							))}
 						</ul>
 					)}

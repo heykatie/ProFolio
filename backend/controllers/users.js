@@ -1,11 +1,13 @@
 const { User } = require('../db/models');
 const { setTokenCookie } = require('../utils/auth');
+const { ValidationError } = require('sequelize');
 
 // Create User (Sign Up)
 const createUser = async (req, res, next) => {
-	const { email, password, username, firstName, lastName, phone } = req.body;
-
 	try {
+		const { email, password, username, firstName, lastName, phone } =
+			req.body;
+
 		const user = await User.create({
 			email,
 			password,
@@ -25,102 +27,64 @@ const createUser = async (req, res, next) => {
 		};
 
 		await setTokenCookie(res, safeUser);
-
 		return res.json({ user: safeUser });
 	} catch (err) {
-		err.status = 400; // Bad request
-		err.title = 'Sign-up failed';
-		err.errors = err.errors || ['An unexpected error occurred.'];
-		return next(err);
+		if (err instanceof ValidationError) {
+			const errors = {};
+			err.errors.forEach((error) => {
+				errors[error.path] = error.message;
+			});
+			return res.status(400).json({ errors });
+		}
+		console.error('Unexpected error:', err);
 	}
 };
 
-// Get User Profile by Username
-const getUserProfile = async (req, res, next) => {
-	const { username } = req.params;
-
+// Get User Profile by ID
+const getUserById = async (req, res, next) => {
 	try {
-		const user = await User.findOne({
-			where: { username },
-			attributes: [
-				'id',
-				'username',
-				'email',
-				'firstName',
-				'lastName',
-				'bio',
-				'avatarUrl',
-			],
-		});
+		const { userId } = req.params;
+		const user = await User.findByPk(userId);
 
 		if (!user) {
-			const err = new Error('User not found');
-			err.status = 404;
-			throw err;
+			return res.status(404).json({ message: 'User not found' });
 		}
 
-		res.json({ user });
-	} catch (err) {
-		next(err);
-	}
-};
-
-// Get User Profile by Id
-const getUserProfileById = async (req, res, next) => {
-	const { userId } = req.params;
-
-	try {
-		const user = await User.findOne({
-			where: { userId },
-			attributes: [
-				'id',
-				'username',
-				'email',
-				'firstName',
-				'lastName',
-				'bio',
-				'avatarUrl',
-			],
-		});
-
-		if (!user) {
-			const err = new Error('User not found');
-			err.status = 404;
-			throw err;
-		}
-
-		res.json({ user });
+		return res.json(user);
 	} catch (err) {
 		next(err);
 	}
 };
 
 // Update User Profile
-const updateUserProfile = async (req, res, next) => {
-	const { userId } = req.params; // Profile being updated
-	const { id: loggedInUserId } = req.user; // Extract logged-in user ID from the request (assumes authentication middleware sets req.user)
-
-	const { firstName, lastName, bio, avatarUrl, location, career, pronouns } =
-		req.body;
-
+const updateUser = async (req, res, next) => {
 	try {
-		// Find the user to update
-		const user = await User.findOne({ where: { userId } });
+		const { userId } = req.params;
+		const { id: loggedInUserId } = req.user;
+		const {
+			email,
+			phone,
+			firstName,
+			lastName,
+			bio,
+			avatarUrl,
+			location,
+			career,
+			pronouns,
+		} = req.body;
+
+		const user = await User.findByPk(userId);
 
 		if (!user) {
-			const err = new Error('User not found');
-			err.status = 404;
-			throw err;
+			return res.status(404).json({ message: 'User not found' });
 		}
 
-		// Authorization check
 		if (user.id !== loggedInUserId) {
-			const err = new Error('Unauthorized to update this profile');
-			err.status = 403; // Forbidden
-			throw err;
+			return res
+				.status(403)
+				.json({ message: 'Unauthorized to update this profile' });
 		}
 
-		// Update the user's profile
 		await user.update({
 			firstName,
 			lastName,
@@ -129,53 +93,36 @@ const updateUserProfile = async (req, res, next) => {
 			location,
 			career,
 			pronouns,
+			phone,
+			email,
 		});
 
-		const updatedUser = {
-			id: user.id,
-			username: user.username,
-			email: user.email,
-			firstName: user.firstName,
-			lastName: user.lastName,
-			bio: user.bio,
-			avatarUrl: user.avatarUrl,
-			location: user.location,
-			career: user.career,
-			pronouns: user.pronouns,
-		};
-
-		res.json({ user: updatedUser });
+		return res.json({ user });
 	} catch (err) {
 		next(err);
 	}
 };
 
 // Delete User Profile
-const deleteUserProfile = async (req, res, next) => {
-	const { userId } = req.params; // Profile to delete
-	const { id: loggedInUserId } = req.user; // Extract logged-in user ID from authentication middleware
-
+const deleteUser = async (req, res, next) => {
 	try {
-		// Find the user to delete
-		const user = await User.findOne({ where: { userId } });
+		const { userId } = req.params;
+		const { id: loggedInUserId } = req.user;
+
+		const user = await User.findByPk(userId);
 
 		if (!user) {
-			const err = new Error('User not found');
-			err.status = 404;
-			throw err;
+			return res.status(404).json({ message: 'User not found' });
 		}
 
-		// Authorization check
 		if (user.id !== loggedInUserId) {
-			const err = new Error('Unauthorized to delete this profile');
-			err.status = 403; // Forbidden
-			throw err;
+			return res
+				.status(403)
+				.json({ message: 'Unauthorized to delete this profile' });
 		}
 
-		// Delete the user's profile
 		await user.destroy();
-
-		res.json({ message: 'User deleted successfully' });
+		return res.json({ message: 'User deleted successfully' });
 	} catch (err) {
 		next(err);
 	}
@@ -183,8 +130,7 @@ const deleteUserProfile = async (req, res, next) => {
 
 module.exports = {
 	createUser,
-	getUserProfile,
-	getUserProfileById,
-	updateUserProfile,
-	deleteUserProfile,
+	getUserById,
+	updateUser,
+	deleteUser,
 };

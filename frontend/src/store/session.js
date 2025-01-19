@@ -5,7 +5,7 @@ const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
 
 /* --- Action Creators --- */
-const setUser = (user) => ({
+export const setUser = (user) => ({
   type: SET_USER,
   payload: user,
 });

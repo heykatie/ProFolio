@@ -24,20 +24,6 @@ const SignupModal = () => {
 		if (sessionUser) navigate('/');
 	}, [sessionUser, navigate]);
 
-	// Close modal on Escape key press
-	useEffect(() => {
-		const handleKeyDown = (e) => {
-			if (e.key === 'Escape') {
-				closeModal();
-			}
-		};
-		document.addEventListener('keydown', handleKeyDown);
-		return () => {
-			document.removeEventListener('keydown', handleKeyDown);
-		};
-	}, [closeModal]);
-
-	// Form submission handler
 	const {
 		register,
 		handleSubmit,
@@ -50,13 +36,11 @@ const SignupModal = () => {
 		const { email, password, fullName, phone } = data;
 		setServerErrors([]);
 
-		// Split name into first and last names
-		const nameParts = fullName.trim().split(' ');
-		const firstName = nameParts[0];
-		const lastName = nameParts.slice(1).join(' ') || '';
+		const [firstName, ...lastNameParts] = fullName.trim().split(' ');
+		const lastName = lastNameParts.join(' ');
 
 		try {
-			await dispatch(
+			const user = await dispatch(
 				signup({
 					email,
 					password,
@@ -66,21 +50,18 @@ const SignupModal = () => {
 					phone,
 				})
 			);
-			closeModal();
+			if (user) closeModal();
 		} catch (err) {
-			if (err.errors) {
-				setServerErrors(err.errors);
-			} else {
-				const errData = await err.json();
-				setServerErrors(errData.errors || []);
-			}
+			setServerErrors(
+				err.errors
+					? Object.values(err.errors)
+					: ['An unexpected error occurred.']
+			);
 		}
 	};
 
-	// Toggle password visibility
 	const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
-	// Open Login Modal
 	const openLoginModal = () => setModalContent(<LoginModal />);
 
 	return (
@@ -102,9 +83,7 @@ const SignupModal = () => {
 					</h2>
 				</div>
 
-				{/* Form */}
 				<form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
-					{/* Server Errors */}
 					{serverErrors.length > 0 && (
 						<ul className='error-message space-y-1'>
 							{serverErrors.map((error, idx) => (
@@ -113,7 +92,6 @@ const SignupModal = () => {
 						</ul>
 					)}
 
-					{/* Full Name */}
 					<div>
 						<input
 							placeholder='Full Name'
@@ -129,16 +107,11 @@ const SignupModal = () => {
 								},
 							})}
 						/>
-						<div className='h-3'>
-							{errors.fullName && (
-								<p className='error-message'>
-									{errors.fullName.message}
-								</p>
-							)}
-						</div>
+						{errors.fullName && (
+							<p className='error-message'>{errors.fullName.message}</p>
+						)}
 					</div>
 
-					{/* Email */}
 					<div>
 						<input
 							placeholder='Email'
@@ -153,27 +126,18 @@ const SignupModal = () => {
 								},
 							})}
 						/>
-						<div className='h-3'>
-							{errors.email && (
-								<p className='error-message'>{errors.email.message}</p>
-							)}
-						</div>
+						{errors.email && (
+							<p className='error-message'>{errors.email.message}</p>
+						)}
 					</div>
 
-					{/* Phone Number */}
 					<div>
 						<PhoneInput
 							value={watch('phone') || ''}
 							onChange={(value) => setValue('phone', value)}
 						/>
-						<div className='h-2'>
-							{errors.phone && (
-								<p className='error-message'>{errors.phone.message}</p>
-							)}
-						</div>
 					</div>
 
-					{/* Password */}
 					<div className='relative'>
 						<input
 							placeholder='Password'
@@ -206,16 +170,11 @@ const SignupModal = () => {
 							onClick={togglePasswordVisibility}>
 							{showPassword ? <FaEyeSlash /> : <FaEye />}
 						</span>
-						<div className='h-3'>
-							{errors.password && (
-								<p className='error-message'>
-									{errors.password.message}
-								</p>
-							)}
-						</div>
+						{errors.password && (
+							<p className='error-message'>{errors.password.message}</p>
+						)}
 					</div>
 
-					{/* Submit Button */}
 					<button type='submit' className='btn-primary w-full'>
 						Create My Account
 					</button>
@@ -229,7 +188,6 @@ const SignupModal = () => {
 					<hr className='flex-grow border-t-2 border-gray-300 dark:border-gray-600' />
 				</div>
 
-				{/* Social Login */}
 				<div className='flex justify-center space-x-4'>
 					<a
 						href='/api/auth/google'
@@ -248,7 +206,6 @@ const SignupModal = () => {
 					</a>
 				</div>
 
-				{/* Login Prompt */}
 				<div className='text-sm text-center mt-6'>
 					<span className='text-text-primary dark:text-text-primary-dark'>
 						Already have an account?{' '}

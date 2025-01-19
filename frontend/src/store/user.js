@@ -1,4 +1,5 @@
 import { csrfFetch } from './csrf';
+import setUser from './session';
 
 /* --- Action Types --- */
 const CREATE_USER = 'user/createUser';
@@ -30,76 +31,72 @@ const deleteUser = () => ({
 
 // Sign up
 export const signup = (userData) => async (dispatch) => {
-	const response = await csrfFetch('/api/users', {
-		method: 'POST',
-		body: JSON.stringify(userData),
-	});
+	try {
+		const response = await csrfFetch('/api/users', {
+			method: 'POST',
+			body: JSON.stringify(userData),
+		});
 
-	if (response.ok) {
+		if (!response.ok) {
+			const errorData = await response.json();
+			throw errorData.errors || { general: 'Unexpected error' };
+		}
+
 		const data = await response.json();
 		dispatch(createUser(data.user));
+		dispatch(setUser(data.user)); // Set session user
 		return data.user;
-	} else {
-		const errorData = await response.json();
-		throw new Error(errorData.message || 'Signup failed');
+	} catch (err) {
+		// Simplify error handling to return the `errors` object or throw a generic error
+		throw err.errors || { general: 'Signup failed' };
 	}
 };
 
-// Get user by username
-export const getUser = (username) => async (dispatch) => {
-	const response = await csrfFetch(`/api/users/${username}`);
-
-	if (response.ok) {
-		const data = await response.json();
-		dispatch(readUser(data.user));
-		return data.user;
-	} else {
-		const errorData = await response.json();
-		throw new Error(errorData.message || 'User not found');
-	}
-};
-
+// Get user by ID
 export const getUserById = (userId) => async (dispatch) => {
-	const response = await csrfFetch(`/api/users/${userId}`);
+	try {
+		const response = await csrfFetch(`/api/users/${userId}`);
 
-	if (response.ok) {
-		const data = await response.json();
-		dispatch(readUser(data.user));
-		return data.user;
-	} else {
-		const errorData = await response.json();
-		throw new Error(errorData.message || 'User not found');
+		if (!response.ok) throw await response.json();
+
+		const user = await response.json();
+		dispatch(readUser(user));
+		return user;
+	} catch (err) {
+		throw err.message || 'User not found';
 	}
 };
 
 // Update user profile
-export const updateUserProfile = (userId, updateData) => async (dispatch) => {
-	const response = await csrfFetch(`/api/users/${userId}`, {
-		method: 'PUT',
-		body: JSON.stringify(updateData),
-	});
+export const updateProfile = (updateData) => async (dispatch) => {
+	try {
+		const response = await csrfFetch(`/api/users/${updateData.id}`, {
+			method: 'PUT',
+			body: JSON.stringify(updateData),
+		});
 
-	if (response.ok) {
+		if (!response.ok) throw await response.json();
+
 		const data = await response.json();
 		dispatch(updateUser(data.user));
 		return data.user;
-	} else {
-		const errorData = await response.json();
-		throw new Error(errorData.message || 'Failed to update user');
+	} catch (err) {
+		throw err.message || 'Failed to update user';
 	}
 };
 
 // Delete user profile
-export const deleteUserProfile = (userId) => async (dispatch) => {
-	const response = await csrfFetch(`/api/users/${userId}`, {
-		method: 'DELETE',
-	});
+export const deleteProfile = (userId) => async (dispatch) => {
+	try {
+		const response = await csrfFetch(`/api/users/${userId}`, {
+			method: 'DELETE',
+		});
 
-	if (response.ok) {
+		if (!response.ok) throw await response.json();
+
 		dispatch(deleteUser());
-	} else {
-		const errorData = await response.json();
-		throw new Error(errorData.message || 'Failed to delete user');
+	} catch (err) {
+		throw err.message || 'Failed to delete user';
 	}
 };
 

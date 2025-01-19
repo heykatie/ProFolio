@@ -6,6 +6,7 @@ import NavBar from './components/NavBar';
 import LoginModal from './components/Modals/LoginModal';
 import SignupModal from './components/Modals/SignupModal';
 import { ModalProvider } from './context/ModalContext';
+import ProfilePage from './components/ProfilePage';
 
 const Layout = () => {
 	const dispatch = useDispatch();
@@ -27,11 +28,16 @@ const Layout = () => {
 
 const routes = [
 	{
-		element: (<ModalProvider> <Layout /> </ModalProvider> ),
+		element: (
+			<ModalProvider>
+				{' '}
+				<Layout />{' '}
+			</ModalProvider>
+		),
 		children: [
 			{
 				path: '/',
-				element: <h1> herro </h1>,
+				element: <h1> you got this go </h1>,
 			},
 			{
 				path: '/login',
@@ -40,6 +46,10 @@ const routes = [
 			{
 				path: '/signup',
 				element: <SignupModal />,
+			},
+			{
+				path: '/profile',
+				element: <ProfilePage />,
 			},
 			{
 				path: 'test',

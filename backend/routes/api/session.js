@@ -63,38 +63,21 @@ router.post(
 );
 
 // Restore session user
-
-// router.get('/', restoreUser, async (req, res) => {
-// 	try {
-// 		console.log('User in session:', req.user); // Debugging
-// 		if (!req.user) {
-// 			return res.status(404).json({ message: 'No session user found' });
-// 		}
-// 		res.json(req.user);
-// 	} catch (error) {
-// 		console.error('Error fetching session user:', error);
-// 		res.status(500).json({ error: 'Internal server error' });
-// 	}
-// });
-
-router.get(
-  '/',
-  (req, res) => {
-    const { user } = req;
-    if (user) {
-      const safeUser = {
-        id: user.id,
-        email: user.email,
-        username: user.username,
-        firstName: user.firstName,
-        lastName: user.lastName,
-      };
-      return res.json({
-        user: safeUser
-      });
-    } else return res.json({ user: null });
-  }
-);
+router.get('/', (req, res) => {
+	const { user } = req;
+	if (user) {
+		const safeUser = {
+			id: user.id,
+			email: user.email,
+			firstName: user.firstName,
+			lastName: user.lastName,
+			username: user.username,
+		};
+		return res.json({
+			user: safeUser,
+		});
+	} else return res.json({ user: null });
+});
 
 // Log out
 router.delete(

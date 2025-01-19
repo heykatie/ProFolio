@@ -3,10 +3,10 @@ const validateSignup = require('./validations');
 const { requireAuth } = require('../../utils/auth');
 const {
 	createUser,
-	getUserProfile,
-	updateUserProfile,
-	deleteUserProfile,
-	getUserProfileById,
+	deleteUser,
+	updateUser,
+	getUserById,
+	getUser,
 } = require('../../controllers/users');
 
 const router = express.Router();
@@ -14,16 +14,13 @@ const router = express.Router();
 // Sign up
 router.post('/', validateSignup, createUser);
 
-// Get user profile by username
-router.get('/:username', getUserProfile);
-
 // Get user profile by id
-router.get('/:userId', getUserProfileById);
+router.get('/:userId', getUserById);
 
 // Update user profile
-router.put('/:userId', requireAuth, updateUserProfile);
+router.put('/:userId', requireAuth, updateUser);
 
 // Delete user profile
-router.delete('/:userId', requireAuth, deleteUserProfile);
+router.delete('/:userId', requireAuth, deleteUser);
 
 module.exports = router;

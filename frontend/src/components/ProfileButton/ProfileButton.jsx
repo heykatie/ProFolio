@@ -49,7 +49,7 @@ const ProfileButton = () => {
 	// Dropdown menu items
 	const dropdownItems = [
 		{ label: 'Dashboard', path: '/dashboard' },
-		{ label: 'View Profile', path: `/${sessionUser.username}` },
+		{ label: 'Edit Profile', path: `/profile` },
 		{ label: 'Your Portfolios', path: '/portfolios' },
 		{ label: 'Preview Portfolio', path: '/preview' },
 		{ label: 'Your Projects', path: '/projects' },

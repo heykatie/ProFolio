@@ -49,9 +49,6 @@ const SignupModal = () => {
 
 	const onSubmit = async (data) => {
 		const { email, password, fullName, phone } = data;
-		setServerErrors([]);
-
-		// Split name into first and last names
 		const nameParts = fullName.trim().split(' ');
 		const firstName = nameParts[0];
 		const lastName = nameParts.slice(1).join(' ') || '';
@@ -67,15 +64,16 @@ const SignupModal = () => {
 					phone,
 				})
 			);
-			await dispatch(login({credential: user.email, password}))
+			await dispatch(login({ credential: user.email, password }));
 			closeModal();
-		} catch (err) {
-			if (err.errors) {
-				setServerErrors(err.errors);
-			} else {
-				const errData = await err.json();
-				setServerErrors(errData.errors || []);
+
+			if (!user) {
+				const error = await user.json();
+				setServerErrors(error.errors || [])
 			}
+		} catch (err) {
+			console.log('KATIE', err)
+			setServerErrors( err.errors || ["Try a different email and password."])
 		}
 	};
 
@@ -110,7 +108,7 @@ const SignupModal = () => {
 					{serverErrors.length > 0 && (
 						<ul className='error-message space-y-1'>
 							{serverErrors.map((error, idx) => (
-								<li key={idx}>{error}</li>
+								<li key={idx}>{error}</li> // Render only strings
 							))}
 						</ul>
 					)}

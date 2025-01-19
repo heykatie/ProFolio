@@ -1,35 +1,20 @@
-const { User } = require('../db/models');
-const { setTokenCookie } = require('../utils/auth');
+const { User } = require('../../db/models');
+const { setTokenCookie } = require('../../utils/auth');
+const { Sequelize } = require('sequelize');
 
 // Create User (Sign Up)
-const createUser = async (req, res, next) => {
+const createUser = async (req, res) => {
 	const { email, password, username, firstName, lastName, phone } = req.body;
 
-	const user = await User.create({
-		email,
-		password,
-		username,
-		firstName,
-		lastName,
-		phone,
-	});
-
-	const safeUser = {
-		id: user.id,
-		email: user.email,
-		username: user.username,
-		firstName: user.firstName,
-		lastName: user.lastName,
-		phone: user.phone || null,
-	};
-
-	await setTokenCookie(res, safeUser);
-
-	res.status(201);
-
-	return res.json({
-		user: safeUser,
-	});
+		const user = await User.create({
+			email,
+			password,
+			username,
+			firstName,
+			lastName,
+			phone,
+		});
+		return res.status(201).json({ user });
 };
 
 // Get User Profile

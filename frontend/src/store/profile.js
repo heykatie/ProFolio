@@ -29,18 +29,17 @@ const deleteProfile = () => ({
 /* --- Thunks --- */
 // Sign up
 export const signup = (userData) => async (dispatch) => {
-	const response = await csrfFetch('/api/users', {
-		method: 'POST',
-		body: JSON.stringify(userData),
-	});
-
-	if (response.ok) {
-		const data = await response.json();
-		dispatch(createProfile(data.user));
-		return data.user;
-	} else {
-		const errorData = await response.json();
-		throw new Error(errorData.message || 'Signup failed');
+	try {
+		const response = await csrfFetch('/api/users', {
+			method: 'POST',
+			body: JSON.stringify(userData),
+		});
+		const { user } = await response.json()
+		dispatch(createProfile(user));
+		return user
+	} catch (err) {
+		const error = await err.json()
+		throw error
 	}
 };
 

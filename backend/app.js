@@ -125,7 +125,7 @@ app.use((err, _req, _res, next) => {
   next(err);
 });
 
-// Error formatter
+// // Error formatter
 app.use((err, _req, res, _next) => {
   res.status(err.status || 500);
   console.error(err);

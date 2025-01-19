@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { AsYouType } from 'libphonenumber-js';
 
 const PhoneInput = ({ value, onChange }) => {

@@ -6,6 +6,17 @@ import NavBar from './components/NavBar';
 import LoginModal from './components/Modals/LoginModal';
 import SignupModal from './components/Modals/SignupModal';
 import { ModalProvider } from './context/ModalContext';
+import {
+	Profile,
+	Dashboard,
+	Portfolios,
+	Preview,
+	Projects,
+	Favorites,
+	Activity,
+	Create,
+	Settings,
+} from './components/Pages';
 
 const Layout = () => {
 	const dispatch = useDispatch();
@@ -27,7 +38,12 @@ const Layout = () => {
 
 const routes = [
 	{
-		element: (<ModalProvider> <Layout /> </ModalProvider> ),
+		element: (
+			<ModalProvider>
+				{' '}
+				<Layout />{' '}
+			</ModalProvider>
+		),
 		children: [
 			{
 				path: '/',
@@ -40,6 +56,42 @@ const routes = [
 			{
 				path: '/signup',
 				element: <SignupModal />,
+			},
+			{
+				path: '/profile',
+				element: <Profile />,
+			},
+			{
+				path: '/dashboard',
+				element: <Dashboard />,
+			},
+			{
+				path: '/portfolios',
+				element: <Portfolios />,
+			},
+			{
+				path: '/preview',
+				element: <Preview />,
+			},
+			{
+				path: '/projects',
+				element: <Projects />,
+			},
+			{
+				path: '/favorites',
+				element: <Favorites />,
+			},
+			{
+				path: '/activity',
+				element: <Activity />,
+			},
+			{
+				path: '/create',
+				element: <Create />,
+			},
+			{
+				path: '/settings',
+				element: <Settings />,
 			},
 			{
 				path: 'test',

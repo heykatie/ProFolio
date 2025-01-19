@@ -62,21 +62,7 @@ router.post(
   }
 );
 
-// Restore session user
-
-// router.get('/', restoreUser, async (req, res) => {
-// 	try {
-// 		console.log('User in session:', req.user); // Debugging
-// 		if (!req.user) {
-// 			return res.status(404).json({ message: 'No session user found' });
-// 		}
-// 		res.json(req.user);
-// 	} catch (error) {
-// 		console.error('Error fetching session user:', error);
-// 		res.status(500).json({ error: 'Internal server error' });
-// 	}
-// });
-
+// Restore user session
 router.get(
   '/',
   (req, res) => {

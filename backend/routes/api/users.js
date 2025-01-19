@@ -6,7 +6,6 @@ const {
 	getUserProfile,
 	updateUserProfile,
 	deleteUserProfile,
-	getUserProfileById,
 } = require('../../controllers/users');
 
 const router = express.Router();
@@ -15,10 +14,7 @@ const router = express.Router();
 router.post('/', validateSignup, createUser);
 
 // Get user profile by username
-router.get('/:username', getUserProfile);
-
-// Get user profile by id
-router.get('/:userId', getUserProfileById);
+router.get('/:id', getUserProfile);
 
 // Update user profile
 router.put('/:userId', requireAuth, updateUserProfile);

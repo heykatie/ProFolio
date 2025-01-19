@@ -35,43 +35,13 @@ const createUser = async (req, res, next) => {
 	}
 };
 
-// Get User Profile by Username
+// Get User Profile
 const getUserProfile = async (req, res, next) => {
-	const { username } = req.params;
+	const { id } = req.params;
 
 	try {
 		const user = await User.findOne({
-			where: { username },
-			attributes: [
-				'id',
-				'username',
-				'email',
-				'firstName',
-				'lastName',
-				'bio',
-				'avatarUrl',
-			],
-		});
-
-		if (!user) {
-			const err = new Error('User not found');
-			err.status = 404;
-			throw err;
-		}
-
-		res.json({ user });
-	} catch (err) {
-		next(err);
-	}
-};
-
-// Get User Profile by Id
-const getUserProfileById = async (req, res, next) => {
-	const { userId } = req.params;
-
-	try {
-		const user = await User.findOne({
-			where: { userId },
+			where: { id },
 			attributes: [
 				'id',
 				'username',
@@ -184,7 +154,6 @@ const deleteUserProfile = async (req, res, next) => {
 module.exports = {
 	createUser,
 	getUserProfile,
-	getUserProfileById,
 	updateUserProfile,
 	deleteUserProfile,
 };

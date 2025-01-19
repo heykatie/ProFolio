@@ -1,17 +1,17 @@
 import { csrfFetch } from './csrf';
 
 /* --- Action Types --- */
-const SET_USER = 'session/setUser';
-const REMOVE_USER = 'session/removeUser';
+const CREATE_SESSION = 'session/createSession';
+const DELETE_SESSION = 'session/deleteSession';
 
 /* --- Action Creators --- */
-const setUser = (user) => ({
-  type: SET_USER,
-  payload: user,
+const createSession = (user) => ({
+	type: CREATE_SESSION,
+	payload: user,
 });
 
-const removeUser = () => ({
-  type: REMOVE_USER,
+const deleteSession = () => ({
+	type: DELETE_SESSION,
 });
 
 /* --- Thunks --- */
@@ -29,7 +29,7 @@ export const login = (userData) => async (dispatch) => {
 
   if (response.ok) {
     const data = await response.json();
-    dispatch(setUser(data.user));
+    dispatch(createSession(data.user));
     return data.user;
   }
 };
@@ -40,7 +40,7 @@ export const restoreUser = () => async (dispatch) => {
 
   if (response.ok) {
     const data = await response.json();
-    dispatch(setUser(data.user));
+    dispatch(createSession(data.user));
     return data.user;
   }
 };
@@ -52,7 +52,7 @@ export const logout = () => async (dispatch) => {
   });
 
   if (response.ok) {
-    dispatch(removeUser());
+    dispatch(deleteSession());
   }
 };
 
@@ -62,12 +62,12 @@ const initialState = { user: null };
 
 const sessionReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_USER:
-      return { ...state, user: action.payload };
-    case REMOVE_USER:
-      return { ...state, user: null };
-    default:
-      return state;
+		case CREATE_SESSION:
+			return { ...state, user: action.payload };
+		case DELETE_SESSION:
+			return { ...state, user: null };
+		default:
+			return state;
   }
 };
 

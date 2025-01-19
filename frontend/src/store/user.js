@@ -27,7 +27,6 @@ const deleteUser = () => ({
 });
 
 /* --- Thunks --- */
-
 // Sign up
 export const signup = (userData) => async (dispatch) => {
 	const response = await csrfFetch('/api/users', {
@@ -46,20 +45,7 @@ export const signup = (userData) => async (dispatch) => {
 };
 
 // Get user by username
-export const getUser = (username) => async (dispatch) => {
-	const response = await csrfFetch(`/api/users/${username}`);
-
-	if (response.ok) {
-		const data = await response.json();
-		dispatch(readUser(data.user));
-		return data.user;
-	} else {
-		const errorData = await response.json();
-		throw new Error(errorData.message || 'User not found');
-	}
-};
-
-export const getUserById = (userId) => async (dispatch) => {
+export const getUser = (userId) => async (dispatch) => {
 	const response = await csrfFetch(`/api/users/${userId}`);
 
 	if (response.ok) {

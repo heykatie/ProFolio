@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { signup } from '../../../store/user';
+import { signup } from '../../../store/profile';
+import { login } from '../../../store/session';
 import googleLogo from '../../../../../images/google.png';
 import linkedinLogo from '../../../../../images/linkedin.png';
 import githubLogo from '../../../../../images/github.png';
@@ -56,7 +57,7 @@ const SignupModal = () => {
 		const lastName = nameParts.slice(1).join(' ') || '';
 
 		try {
-			await dispatch(
+			const user = await dispatch(
 				signup({
 					email,
 					password,
@@ -66,6 +67,7 @@ const SignupModal = () => {
 					phone,
 				})
 			);
+			await dispatch(login({credential: user.email, password}))
 			closeModal();
 		} catch (err) {
 			if (err.errors) {

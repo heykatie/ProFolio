@@ -72,7 +72,6 @@ const SignupModal = () => {
 				setServerErrors(error.errors || [])
 			}
 		} catch (err) {
-			console.log('KATIE', err)
 			setServerErrors(
 				Object.entries(err.errors || {}).map(
 					([field, message]) => `${field}: ${message}`

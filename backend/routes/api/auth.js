@@ -20,19 +20,6 @@ router.get(
 	}
 );
 
-// router.get(
-// 	'/google',
-// 	passport.authenticate('google', { scope: ['profile', 'email'] })
-// );
-// router.get(
-// 	'/google/callback',
-// 	passport.authenticate('google', { failureRedirect: '/login' }),
-// 	(req, res) => {
-// 		res.redirect('/'); // Redirect user to home or dashboard
-// 	}
-// );
-
-
 // Configure LinkedIn OAuth
 router.get(
   '/linkedin',
@@ -49,15 +36,6 @@ router.get(
 	}
 );
 
-// router.get('/linkedin', passport.authenticate('linkedin'));
-// router.get(
-// 	'/linkedin/callback',
-// 	passport.authenticate('linkedin', { failureRedirect: '/login' }),
-// 	(req, res) => {
-// 		res.redirect('/');
-// 	}
-// );
-
 // GitHub Routes
 router.get(
 	'/github',
@@ -73,17 +51,5 @@ router.get(
 		res.redirect('/');
 	}
 );
-
-// router.get(
-// 	'/github',
-// 	passport.authenticate('github', { scope: ['user:email'] })
-// );
-// router.get(
-// 	'/github/callback',
-// 	passport.authenticate('github', { failureRedirect: '/login' }),
-// 	(req, res) => {
-// 		res.redirect('/');
-// 	}
-// );
 
 module.exports = router;

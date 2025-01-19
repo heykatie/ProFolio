@@ -1,9 +1,15 @@
 import { csrfFetch } from './csrf';
 
 // Action Types
+const GET_THEME = 'theme/GET_THEME';
 const SET_THEME = 'theme/SET_THEME';
 
 // Action Creators
+export const getTheme = (theme) => ({
+	type: GET_THEME,
+	theme,
+});
+
 export const setTheme = (theme) => ({
 	type: SET_THEME,
 	theme,

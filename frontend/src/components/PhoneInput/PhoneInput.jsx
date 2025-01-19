@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { AsYouType } from 'libphonenumber-js';
 
-const PhoneInput = ({ value, onChange }) => {
+const PhoneInput = ({phone, value, onChange }) => {
 	const [formattedPhone, setFormattedPhone] = useState(value || '');
 	const [error, setError] = useState('');
 
@@ -28,9 +28,13 @@ const PhoneInput = ({ value, onChange }) => {
 				type='text'
 				value={formattedPhone}
 				onChange={handleChange}
-				placeholder='Phone Number (Optional)'
-				onFocus={(e) => (e.target.placeholder = '1 (234) 567-8901')}
-				onBlur={(e) => (e.target.placeholder = 'Phone Number (Optional)')}
+				placeholder={phone || 'Phone Number (Optional)'}
+				onFocus={(e) =>
+					phone || (e.target.placeholder = '1 (234) 567-8901')
+				}
+				onBlur={(e) =>
+					phone || (e.target.placeholder = 'Phone Number (Optional)')
+				}
 				className='form-input'
 			/>
 			<div className='h-1'>

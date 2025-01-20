@@ -4,12 +4,14 @@ import sessionReducer from './session';
 import themeReducer from './theme.js';
 import profileReducer from './profile.js';
 import fileReducer from './file.js'
+import feedbackReducer from './feedback.js'
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   theme: themeReducer,
   profile: profileReducer,
-  file: fileReducer
+  file: fileReducer,
+  feedback: feedbackReducer
 });
 
 // set to different store enhancers depending on whether the Node environment

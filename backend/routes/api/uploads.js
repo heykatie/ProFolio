@@ -6,7 +6,10 @@ const {
 	generateGetPresignedUrl,
 	generatePutPresignedUrl,
 } = require('../../utils/s3.js');
-const getUniqueFilename = require('../../utils/filename');
+const {
+	getUniqueFilename,
+	validateFileExtension,
+} = require('../../utils/filename');
 
 const router = express.Router();
 
@@ -16,20 +19,31 @@ const upload = multer({ storage });
 
 // Generate a presigned URL for file upload
 router.get('/upload-url', async (req, res) => {
-  const { key, contentType } = req.query;
+	const { key, contentType } = req.query;
 
-  if (!key || !contentType) {
-    return res.status(400).json({ error: 'Key and contentType are required' });
-  }
+	if (!key || !contentType) {
+		return res
+			.status(400)
+			.json({ error: 'Key and contentType are required' });
+	}
 
-  try {
-    const uniqueKey = `uploads/${getUniqueFilename(key)}`;
-    const url = await generatePutPresignedUrl(uniqueKey, contentType);
-    return res.status(200).json({ url, uniqueKey });
-  } catch (error) {
-    console.error('Error generating upload URL:', error);
-    return res.status(500).json({ error: 'Failed to generate upload URL' });
-  }
+	// Validate file extension
+	if (!validateFileExtension(key)) {
+		return res
+			.status(400)
+			.json({
+				error: 'Invalid file extension. Allowed extensions are png, jpg, jpeg, gif.',
+			});
+	}
+
+	try {
+		const uniqueKey = `uploads/${getUniqueFilename(key)}`;
+		const url = await generatePutPresignedUrl(uniqueKey, contentType);
+		return res.status(200).json({ url, uniqueKey });
+	} catch (error) {
+		console.error('Error generating upload URL:', error);
+		return res.status(500).json({ error: 'Failed to generate upload URL' });
+	}
 });
 
 // Generate a presigned URL for file download
@@ -55,6 +69,15 @@ router.post('/upload', upload.single('file'), async (req, res) => {
 
 	if (!file) {
 		return res.status(400).json({ error: 'No file uploaded' });
+	}
+
+	// Validate file extension
+	if (!validateFileExtension(file.originalname)) {
+		return res
+			.status(400)
+			.json({
+				error: 'Invalid file extension. Allowed extensions are png, jpg, jpeg, gif.',
+			});
 	}
 
 	try {

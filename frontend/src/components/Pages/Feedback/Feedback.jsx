@@ -2,8 +2,8 @@ import { useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import {
 	getFeedbackForUser,
-	createFeedback,
-	updateFeedback,
+	// createFeedback,
+	// updateFeedback,
 	deleteFeedback,
 } from '../../../store/feedback';
 import FeedbackModal from '../../Modals/FeedbackModal';
@@ -19,23 +19,23 @@ const FeedbackList = ({ userId }) => {
 	}, [dispatch, userId]);
 
 	// Create feedback
-	const handleCreate = async () => {
-		await dispatch(
-			createFeedback({
-				userId,
-				authorName: 'John',
-				message: 'Great job!',
-				rating: 5,
-			})
-		);
-	};
+	// const handleCreate = async () => {
+	// 	await dispatch(
+	// 		createFeedback({
+	// 			userId,
+	// 			authorName: 'John',
+	// 			message: 'Great job!',
+	// 			rating: 5,
+	// 		})
+	// 	);
+	// };
 
 	// Update feedback
-	const handleUpdate = async (feedbackId) => {
-		await dispatch(
-			updateFeedback(feedbackId, { message: 'Updated feedback' })
-		);
-	};
+	// const handleUpdate = async (feedbackId) => {
+	// 	await dispatch(
+	// 		updateFeedback(feedbackId, { message: 'Updated feedback' })
+	// 	);
+	// };
 
 	// Delete feedback
 	const handleDelete = async (feedbackId) => {

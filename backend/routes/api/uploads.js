@@ -7,7 +7,7 @@ const {
 	getUniqueFilename,
 	validateFileExtension,
 } = require('../../utils/filename');
-const { User } = require('../../db/models');
+const { User, File } = require('../../db/models');
 
 const router = express.Router();
 
@@ -20,15 +20,7 @@ router.get('/upload-url', async (req, res) => {
 			.json({ error: 'Key, contentType, and fileSize are required' });
 	}
 
-	if (!validateFileExtension(key)) {
-		return res
-			.status(400)
-			.json({
-				error: 'Invalid file extension. Allowed extensions: png, jpg, jpeg, gif',
-			});
-	}
-
-	const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+	const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB limit
 	if (parseInt(fileSize, 10) > MAX_FILE_SIZE) {
 		return res
 			.status(400)
@@ -36,17 +28,19 @@ router.get('/upload-url', async (req, res) => {
 	}
 
 	try {
-		const uniqueKey = `uploads/${getUniqueFilename(key)}`;
+		const uniqueKey = `uploads/${key}`;
 		const url = await generatePutPresignedUrl(uniqueKey, contentType);
-		res.status(200).json({ url, uniqueKey });
-	} catch (error) {
-		console.error('Error generating upload URL:', error);
-		res.status(500).json({ error: 'Failed to generate upload URL' });
+		return res.status(200).json({ url, uniqueKey });
+	} catch (err) {
+		console.error('Error generating presigned URL:', err);
+		return res
+			.status(500)
+			.json({ error: 'Failed to generate presigned URL' });
 	}
 });
 
 router.post('/upload', async (req, res) => {
-	const { userId, fileUrl } = req.body;
+	const { userId, fileUrl, type } = req.body;
 
 	if (!userId || !fileUrl) {
 		return res
@@ -74,9 +68,18 @@ router.post('/upload', async (req, res) => {
 			return res.status(404).json({ error: 'User not found' });
 		}
 
-		// Save the S3 URL with the correct bucket and region
-		user.profileImageUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
-		await user.save();
+		if (type === 'profile_picture') {
+			// Save profile picture in the Users table
+			user.profileImageUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+			await user.save();
+		} else {
+			// Save other files in the Files table
+			await File.create({
+				userId,
+				fileUrl: `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`,
+				fileType: type,
+			});
+		}
 
 		res.status(200).json({
 			message: 'File key saved successfully',

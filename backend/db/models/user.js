@@ -21,7 +21,11 @@ schema
 module.exports = (sequelize, DataTypes) => {
 	class User extends Model {
 		static associate(models) {
-			// define association here
+			User.hasMany(models.File, {
+				foreignKey: 'userId',
+				as: 'files',
+				onDelete: 'CASCADE',
+			});
 		}
 	}
 

@@ -21,26 +21,32 @@ const s3 = new S3Client({
 // Generate a presigned URL for downloading a file (GET)
 const generateGetPresignedUrl = async (key) => {
   const params = {
-    Bucket: process.env.AWS_BUCKET_NAME,
-    Key: key, // File path in the bucket
+		Bucket: process.env.AWS_BUCKET_NAME,
+		Key: key, // File path in the bucket
   };
 
   const command = new GetObjectCommand(params);
   const url = await getSignedUrl(s3, command, { expiresIn: 3600 }); // 1-hour expiration
-  return url;
+	return url;
 };
 
 // Generate a presigned URL for uploading a file (PUT)
 const generatePutPresignedUrl = async (key, contentType) => {
   const params = {
-    Bucket: process.env.AWS_BUCKET_NAME,
-    Key: key, // File path in the bucket
-    ContentType: contentType, // Ensure correct content type
+		Bucket: process.env.AWS_BUCKET_NAME,
+		Key: key, // File path in the bucket
+		ContentType: contentType, // Ensure correct content type
   };
 
   const command = new PutObjectCommand(params);
-  const url = await getSignedUrl(s3, command, { expiresIn: 3600 }); // 1-hour expiration
-  return url;
+	try {
+		const url = await getSignedUrl(s3, command, { expiresIn: 3600 }); // 1-hour expiration
+		console.log('Generated Presigned URL:', url); // Debug output
+		return url;
+	} catch (error) {
+		console.error('Error generating presigned URL:', error);
+		throw new Error('Failed to generate upload URL');
+	}
 };
 
 const uploadToS3 = async (fileBuffer, key, contentType) => {
@@ -80,6 +86,20 @@ const deleteFromS3 = async (key) => {
 		throw error;
 	}
 };
+
+// const testGeneratePutPresignedUrl = async () => {
+// 	try {
+// 		const url = await generatePutPresignedUrl(
+// 			'test-file.png', // Example key
+// 			'image/png' // Example content type
+// 		);
+// 		console.log('Test Presigned URL:', url);
+// 	} catch (error) {
+// 		console.error('Test Error:', error.message);
+// 	}
+// };
+
+// testGeneratePutPresignedUrl();
 
 module.exports = {
 	uploadToS3,

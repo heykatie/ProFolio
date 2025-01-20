@@ -9,6 +9,7 @@ const { ValidationError } = require('sequelize');
 const passport = require('./config/passport');
 const session = require('express-session'); // Required for persistent sessions
 const pgSession = require('connect-pg-simple')(session);
+const uploadRoutes = require('./routes/api/uploads.js');
 
 // Create a variable called isProduction that will be true if the environment
 // is in production or not by checking the environment key in the configuration
@@ -50,9 +51,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session()); // Persistent login sessions
 
-// import routes
-const routes = require('./routes');
-
 // Connect the morgan middleware for logging information about requests and
 // responses:
 app.use(morgan('dev'));
@@ -73,16 +71,18 @@ React and Express resources will come from the same origin. CORS */
 /* Enable better overall security with the helmet middleware */
 
 if (!isProduction) {
-  // enable cors only in development
-  app.use(cors());
+	// enable cors only in development
+	app.use(cors());
 }
 
 // helmet helps set a variety of headers to better secure your app
 app.use(
-  helmet.crossOriginResourcePolicy({
-    policy: "cross-origin"  // allow images with URLs to render in deployment
-  })
+	helmet.crossOriginResourcePolicy({
+		policy: 'cross-origin', // allow images with URLs to render in deployment
+	})
 );
+
+app.use('/api/uploads', uploadRoutes);
 
 // csurf middleware adds a hidden CSRF token to forms or API requests.
 // Set the _csrf token and create req.csrfToken method
@@ -96,45 +96,54 @@ app.use(
 			sameSite: isProduction && 'Lax', // Prevents cross-site usage of the cookie unless coming from the same site
 			httpOnly: true, // Prevents JavaScript from reading the cookie (for security)
 		},
+		ignoreMethods: ['GET', 'HEAD', 'OPTIONS'],
 	})
 );
 
+// Exclude specific routes from CSRF protection
+app.use('/api/uploads/upload-url', (req, res, next) => {
+  next(); // Skip CSRF protection for presigned URL generation
+});
+
+// import routes
+const routes = require('./routes');
+
 // connect all the routes
-app.use(routes)
+app.use(routes);
 
 // middleware: catch unhandled requests and forward to error handler.
 app.use((_req, _res, next) => {
-  const err = new Error("The requested resource couldn't be found.");
-  err.title = "Resource Not Found";
-  err.errors = { message: "The requested resource couldn't be found." };
-  err.status = 404;
-  next(err);
+	const err = new Error("The requested resource couldn't be found.");
+	err.title = 'Resource Not Found';
+	err.errors = { message: "The requested resource couldn't be found." };
+	err.status = 404;
+	next(err);
 });
 
 // error-handling middleware: process sequelize errors
 app.use((err, _req, _res, next) => {
-  // check if error is a Sequelize error:
-  if (err instanceof ValidationError) {
-    let errors = {};
-    for (let error of err.errors) {
-      errors[error.path] = error.message;
-    }
-    err.title = 'Validation error';
-    err.errors = errors;
-  }
-  next(err);
+	// check if error is a Sequelize error:
+	if (err instanceof ValidationError) {
+		let errors = {};
+		for (let error of err.errors) {
+			errors[error.path] = error.message;
+		}
+		err.title = 'Validation error';
+		err.errors = errors;
+	}
+	next(err);
 });
 
-// // Error formatter
+// Error formatter
 app.use((err, _req, res, _next) => {
-  res.status(err.status || 500);
-  console.error(err);
-  res.json({
-    title: err.title || 'Server Error',
-    message: err.message,
-    errors: err.errors,
-    stack: isProduction ? null : err.stack
-  });
+	res.status(err.status || 500);
+	console.error(err);
+	res.json({
+		title: err.title || 'Server Error',
+		message: err.message,
+		errors: err.errors,
+		stack: isProduction ? null : err.stack,
+	});
 });
 
 // export app

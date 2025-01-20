@@ -1,7 +1,8 @@
 // create express router
 const express = require('express');
-const router = express.Router();
 const apiRouter = require('./api'); // import api router
+
+const router = express.Router();
 
 router.use('/api', apiRouter); // add api router to express router
 

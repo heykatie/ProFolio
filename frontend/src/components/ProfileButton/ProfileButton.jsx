@@ -46,6 +46,36 @@ const ProfileButton = () => {
 		navigate('/');
 	};
 
+	// Keyboard navigation for dropdown items
+	useEffect(() => {
+		if (!showMenu) return;
+
+		const handleKeyDown = (e) => {
+			const focusableItems =
+				dropdownRef.current?.querySelectorAll('[role="menuitem"]');
+			if (!focusableItems || focusableItems.length === 0) return;
+
+			const currentIndex = Array.from(focusableItems).indexOf(
+				document.activeElement
+			);
+
+			if (e.key === 'ArrowDown') {
+				e.preventDefault();
+				const nextIndex = (currentIndex + 1) % focusableItems.length;
+				focusableItems[nextIndex].focus();
+			} else if (e.key === 'ArrowUp') {
+				e.preventDefault();
+				const prevIndex =
+					(currentIndex - 1 + focusableItems.length) %
+					focusableItems.length;
+				focusableItems[prevIndex].focus();
+			}
+		};
+
+		document.addEventListener('keydown', handleKeyDown);
+		return () => document.removeEventListener('keydown', handleKeyDown);
+	}, [showMenu]);
+
 	// Dropdown menu items
 	const dropdownItems = [
 		{ label: 'Dashboard', path: '/dashboard' },
@@ -79,25 +109,35 @@ const ProfileButton = () => {
 			{showMenu && (
 				<div
 					className='absolute right-0 mt-2 w-56 bg-surface rounded-md shadow-lg border border-gray-200 dark:bg-surface-dark dark:border-gray-600 dropdown-enter dropdown-enter-active'
-					ref={dropdownRef}>
+					ref={dropdownRef}
+					role='menu'
+					aria-labelledby='profile-button'>
 					<ul className='py-2 text-sm text-text-primary dark:text-text-primary-dark'>
 						<li className='px-4 py-2 font-semibold'>
 							{sessionUser.username}
 						</li>
-						<li className='px-4 py-2'>{`${sessionUser.firstName} ${sessionUser.lastName}`}</li>
+						<li className='px-4 py-2'>
+							{`${sessionUser.firstName} ${sessionUser.lastName}`}
+						</li>
 						<hr className='border-gray-200 dark:border-gray-600' />
 						{dropdownItems.map((item, idx) => (
-							<li
-								key={idx}
-								className='dropdown-item'
-								onClick={() =>
-									navigate(item.path) && setShowMenu(false)
-								}>
-								{item.label}
+							<li key={idx} role='menuitem' tabIndex={0}>
+								<button
+									className='dropdown-item w-full text-left px-4 py-2 focus:outline-none hover:bg-primary dark:hover:bg-primary-dark'
+									onClick={() => {
+										navigate(item.path);
+										setShowMenu(false);
+									}}>
+									{item.label}
+								</button>
 							</li>
 						))}
-						<li className='dropdown-item-logout' onClick={handleLogout}>
-							Logout
+						<li role='menuitem' tabIndex={0}>
+							<button
+								className='dropdown-item-logout w-full text-left px-4 py-2 focus:outline-none hover:bg-error dark:hover:bg-error-dark'
+								onClick={handleLogout}>
+								Logout
+							</button>
 						</li>
 					</ul>
 				</div>

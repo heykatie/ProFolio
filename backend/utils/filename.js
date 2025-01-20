@@ -23,4 +23,4 @@ const getUniqueFilename = (originalFilename) => {
 	return `${uuid}-${Date.now()}.${fileExtension}`; // Combine UUID, timestamp, and extension
 };
 
-module.exports = getUniqueFilename;
+module.exports = { getUniqueFilename, validateFileExtension }

@@ -1,34 +1,14 @@
+// import axios from 'axios';
 import { useState } from 'react';
-import axios from 'axios';
+import './FileUpload.css';
 
 const FileUpload = () => {
 	const [file, setFile] = useState(null);
 	const [uploadedUrl, setUploadedUrl] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
 
 	const handleFileChange = (e) => {
 		setFile(e.target.files[0]);
-	};
-
-	const handleUpload = async () => {
-		if (!file) {
-			alert('Please select a file first');
-			return;
-		}
-
-		const formData = new FormData();
-		formData.append('file', file);
-
-		try {
-			const response = await axios.post('/api/uploads/upload', formData, {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
-			});
-			setUploadedUrl(response.data.url);
-		} catch (err) {
-			console.error(err);
-			alert('Failed to upload file');
-		}
 	};
 
 	const uploadFile = async () => {
@@ -37,6 +17,7 @@ const FileUpload = () => {
 			return;
 		}
 
+		setIsLoading(true);
 		try {
 			// Step 1: Fetch presigned URL
 			console.log('Uploading file:', file.name); // Debugging log
@@ -44,9 +25,18 @@ const FileUpload = () => {
 				`/api/uploads/upload-url?key=uploads/${file.name}&contentType=${file.type}`
 			);
 
+			if (!response.ok) {
+				const errorData = await response.json();
+				console.error('Error from backend:', errorData);
+				alert(errorData.error || 'Failed to get presigned URL');
+				setIsLoading(false);
+				return;
+			}
+
 			const { url } = await response.json();
 			if (!url) {
 				console.error('Failed to get presigned URL');
+				setIsLoading(false);
 				return;
 			}
 
@@ -66,13 +56,21 @@ const FileUpload = () => {
 			}
 		} catch (err) {
 			console.error('Error during upload:', err);
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
 	return (
 		<div>
 			<input type='file' onChange={handleFileChange} />
-			<button onClick={uploadFile}>Upload</button>
+			<button onClick={uploadFile} disabled={isLoading}>
+				{isLoading ? 'Uploading...' : 'Upload'}
+			</button>
+
+			{isLoading && <div className="spinner"></div> && <p>Uploading your file, please wait...</p>}
+
+
 			{uploadedUrl && (
 				<div>
 					<p>File uploaded successfully:</p>
@@ -86,3 +84,26 @@ const FileUpload = () => {
 };
 
 export default FileUpload;
+
+
+	// const handleUpload = async () => {
+	// 	if (!file) {
+	// 		alert('Please select a file first');
+	// 		return;
+	// 	}
+
+	// 	const formData = new FormData();
+	// 	formData.append('file', file);
+
+	// 	try {
+	// 		const response = await axios.post('/api/uploads/upload', formData, {
+	// 			headers: {
+	// 				'Content-Type': 'multipart/form-data',
+	// 			},
+	// 		});
+	// 		setUploadedUrl(response.data.url);
+	// 	} catch (err) {
+	// 		console.error(err);
+	// 		alert('Failed to upload file');
+	// 	}
+	// };

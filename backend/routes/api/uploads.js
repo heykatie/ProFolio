@@ -28,7 +28,8 @@ router.get('/upload-url', async (req, res) => {
 	}
 
 	// Validate file extension
-	if (!validateFileExtension(key)) {
+  if (!validateFileExtension(key)) {
+    console.log('Invalid file extension:', key);
 		return res
 			.status(400)
 			.json({

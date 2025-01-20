@@ -34,9 +34,6 @@ module.exports = (sequelize, DataTypes) => {
 			profileImageUrl: {
 				type: DataTypes.STRING,
 				allowNull: true,
-				validate: {
-					isUrl: true,
-				},
 			},
 			username: {
 				type: DataTypes.STRING,
@@ -161,16 +158,10 @@ module.exports = (sequelize, DataTypes) => {
 			avatarUrl: {
 				type: DataTypes.STRING,
 				allowNull: true,
-				validate: {
-					isUrl: true,
-				},
 			},
 			resumeUrl: {
 				type: DataTypes.STRING,
 				allowNull: true,
-				validate: {
-					isUrl: true,
-				},
 			},
 			socialLinks: {
 				type: DataTypes.JSON,
@@ -197,16 +188,10 @@ module.exports = (sequelize, DataTypes) => {
 			githubUrl: {
 				type: DataTypes.STRING,
 				allowNull: true,
-				validate: {
-					isUrl: true,
-				},
 			},
 			linkedinUrl: {
 				type: DataTypes.STRING,
 				allowNull: true,
-				validate: {
-					isUrl: true,
-				},
 			},
 			githubAccessToken: {
 				type: DataTypes.STRING,

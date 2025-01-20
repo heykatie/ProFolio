@@ -1,14 +1,14 @@
 import { csrfFetch } from './csrf';
 
 /* --- Action Types --- */
-const CREATE_PROFILE = 'profile/createProfile';
+const SET_PROFILE = 'profile/setProfile';
 const READ_PROFILE = 'profile/readProfile';
 const UPDATE_PROFILE = 'profile/updateProfile';
 const DELETE_PROFILE = 'profile/deleteProfile';
 
 /* --- Action Creators --- */
-const createProfile = (user) => ({
-	type: CREATE_PROFILE,
+export const setProfile = (user) => ({
+	type: SET_PROFILE,
 	payload: user,
 });
 
@@ -35,7 +35,7 @@ export const signup = (userData) => async (dispatch) => {
 			body: JSON.stringify(userData),
 		});
 		const { user } = await response.json()
-		dispatch(createProfile(user));
+		dispatch(setProfile(user));
 		return user
 	} catch (err) {
 		const error = await err.json()
@@ -43,7 +43,7 @@ export const signup = (userData) => async (dispatch) => {
 	}
 };
 
-// Get user by username
+// Get user by id
 export const getUser = (userId) => async (dispatch) => {
 	try {
 		const response = await csrfFetch(`/api/users/${userId}`);
@@ -52,7 +52,7 @@ export const getUser = (userId) => async (dispatch) => {
 		return(data.user)
 	} catch (err) {
 		const error = await err.json()
-		console.error(error || 'Failed to get user')
+		console.error(error.errors || 'Failed to get user')
 	}
 };
 
@@ -95,7 +95,7 @@ const initialState = {user: null};
 
 const profileReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case CREATE_PROFILE:
+		case SET_PROFILE:
 		case READ_PROFILE:
 		case UPDATE_PROFILE:
 			return { ...state, user: action.payload };

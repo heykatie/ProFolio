@@ -1,5 +1,6 @@
 import { csrfFetch } from './csrf';
-import { readProfile } from './profile';
+import { getUser } from './profile';
+import {setTheme } from './theme'
 
 /* --- Action Types --- */
 const CREATE_SESSION = 'session/createSession';
@@ -31,7 +32,8 @@ export const login = (userData) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(createSession(data.user));
-    dispatch(readProfile(data.user));
+    const user = dispatch(getUser(data.user.id));
+    dispatch(setTheme(user.themePreference))
     return data.user;
   }
 };
@@ -43,6 +45,8 @@ export const restoreUser = () => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(createSession(data.user));
+    const user = dispatch(getUser(data.user.id));
+    dispatch(setTheme(user.themePreference));
     return data.user;
   }
 };

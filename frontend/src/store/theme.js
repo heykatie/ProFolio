@@ -16,11 +16,12 @@ export const setTheme = (theme) => ({
 });
 
 // Thunks
+
+// get user's theme & set to slice
 export const fetchTheme = (userId) => async (dispatch) => {
 	try {
 		const response = await csrfFetch(`/api/theme/${userId}`);
-		const data = await response.json();
-		const theme = data.themePreferences || 'light';
+		const theme = await response.json();
 		dispatch(setTheme(theme));
 		return theme;
 	} catch (error) {
@@ -29,6 +30,7 @@ export const fetchTheme = (userId) => async (dispatch) => {
 	}
 };
 
+// update theme slice & user's preference
 export const updateTheme = (theme) => async (dispatch) => {
 	try {
 		await csrfFetch('/api/theme/update', {

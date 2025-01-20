@@ -9,18 +9,19 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
 		await queryInterface.addColumn(
-			'Users',
+			{ tableName: 'Users', schema: options.schema }, // Include schema in table reference
 			'profileImageUrl',
 			{
 				type: Sequelize.STRING,
 				allowNull: true, // Allow null initially if not all users will have an image
-			},
-			options
+			}
 		);
 	},
 
-  down: async (queryInterface, Sequelize) => {
-    options.tableName = 'Users';
-		await queryInterface.removeColumn('Users', 'profileImageUrl');
+	down: async (queryInterface, Sequelize) => {
+		await queryInterface.removeColumn(
+			{ tableName: 'Users', schema: options.schema }, // Ensure schema consistency
+			'profileImageUrl'
+		);
 	},
 };

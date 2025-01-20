@@ -31,33 +31,48 @@ const FileUpload = () => {
 		}
 	};
 
-	const uploadFile = async (file) => {
-		// Step 1: Fetch presigned URL
-		const response = await fetch(
-			`/api/uploads/upload-url?key=uploads/${file.name}&contentType=${file.type}`
-		);
-		const { url } = await response.json();
+	const uploadFile = async () => {
+		if (!file) {
+			alert('Please select a file first');
+			return;
+		}
 
-		// Step 2: Upload file to S3
-		const uploadResponse = await fetch(url, {
-			method: 'PUT',
-			headers: {
-				'Content-Type': file.type,
-			},
-			body: file,
-		});
+		try {
+			// Step 1: Fetch presigned URL
+			console.log('Uploading file:', file.name); // Debugging log
+			const response = await fetch(
+				`/api/uploads/upload-url?key=uploads/${file.name}&contentType=${file.type}`
+			);
 
-		if (uploadResponse.ok) {
-			console.log('File uploaded successfully');
-		} else {
-			console.error('Error uploading file');
+			const { url } = await response.json();
+			if (!url) {
+				console.error('Failed to get presigned URL');
+				return;
+			}
+
+			// Step 2: Upload file to S3
+			const uploadResponse = await fetch(url, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': file.type,
+				},
+				body: file,
+			});
+
+			if (uploadResponse.ok) {
+				console.log('File uploaded successfully');
+			} else {
+				console.error('Error uploading file', await uploadResponse.text());
+			}
+		} catch (err) {
+			console.error('Error during upload:', err);
 		}
 	};
 
 	return (
 		<div>
 			<input type='file' onChange={handleFileChange} />
-			<button onClick={handleUpload}>Upload</button>
+			<button onClick={uploadFile}>Upload</button>
 			{uploadedUrl && (
 				<div>
 					<p>File uploaded successfully:</p>

@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { deleteAccount, editProfile, getUser } from '../../../store/profile';
 import PhoneInput from '/Users/ktl/aA/24week/projects/capstone/ProFolio/frontend/src/components/PhoneInput/PhoneInput.jsx';
-import {logout} from '../../../store/session'
+import { logout } from '../../../store/session'
+import FileUpload from '../../FileUpload'
 
 const Profile = () => {
 	const dispatch = useDispatch();
@@ -102,6 +103,7 @@ const Profile = () => {
 	return (
 		<div className='container mx-auto px-4 py-8 max-w-4xl'>
 			<h1 className='text-3xl font-heading font-bold mb-6'>Your Profile</h1>
+			<FileUpload />
 			<form
 				onSubmit={handleSubmit}
 				className='grid grid-cols-1 sm:grid-cols-2 gap-6'>

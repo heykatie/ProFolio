@@ -6,6 +6,7 @@ const {
 	generateGetPresignedUrl,
 	generatePutPresignedUrl,
 } = require('../../utils/s3.js');
+const getUniqueFilename = require('../../utils/filename');
 
 const router = express.Router();
 
@@ -22,28 +23,29 @@ router.get('/upload-url', async (req, res) => {
   }
 
   try {
-    const url = await generatePutPresignedUrl(key, contentType);
-    return res.status(200).json({ url });
+    const uniqueKey = `uploads/${getUniqueFilename(key)}`;
+    const url = await generatePutPresignedUrl(uniqueKey, contentType);
+    return res.status(200).json({ url, uniqueKey });
   } catch (error) {
     console.error('Error generating upload URL:', error);
     return res.status(500).json({ error: 'Failed to generate upload URL' });
   }
 });
 
-// Generate a presigned URL for file upload
-router.get('/upload-url', async (req, res) => {
-  const { key, contentType } = req.query;
+// Generate a presigned URL for file download
+router.get('/download-url', async (req, res) => {
+  const { key } = req.query;
 
-  if (!key || !contentType) {
-    return res.status(400).json({ error: 'Key and contentType are required' });
+  if (!key) {
+    return res.status(400).json({ error: 'Key is required' });
   }
 
   try {
-    const url = await generatePutPresignedUrl(key, contentType);
+    const url = await generateGetPresignedUrl(key);
     return res.status(200).json({ url });
   } catch (error) {
-    console.error('Error generating upload URL:', error);
-    return res.status(500).json({ error: 'Failed to generate upload URL' });
+    console.error('Error generating download URL:', error);
+    return res.status(500).json({ error: 'Failed to generate download URL' });
   }
 });
 
@@ -56,7 +58,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
 	}
 
 	try {
-		const key = `uploads/${file.originalname}`; // Define the file path in the bucket
+		const key = `uploads/${getUniqueFilename(file.originalname)}`; // Define the file path in the bucket
 		const result = await uploadToS3(file.buffer, key, file.mimetype);
 
 		return res.status(200).json({

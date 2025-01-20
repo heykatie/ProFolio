@@ -28,12 +28,15 @@ const Navbar = () => {
 		} else {
 			dispatch(setTheme(newTheme));
 		}
+		localStorage.setItem('theme', newTheme);
 	};
 
 	// Fetch theme on mount
 	useEffect(() => {
 		if (sessionUser) {
 			dispatch(fetchTheme(sessionUser.id));
+		} else {
+			dispatch(setTheme(localStorage.getItem('theme')));
 		}
 	}, [dispatch, sessionUser]);
 

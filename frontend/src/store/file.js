@@ -3,8 +3,14 @@ import { csrfFetch } from './csrf';
 // Action Types
 const SET_UPLOADED_URLS = 'files/SET_UPLOADED_URLS';
 const SET_IS_LOADING = 'files/SET_IS_LOADING';
-
+const SET_ERROR = 'files/SET_ERROR';
 // Action Creators
+
+export const setError = (error) => ({
+	type: SET_ERROR,
+	error,
+});
+
 export const setUploadedUrls = (urls) => ({
 	type: SET_UPLOADED_URLS,
 	urls,
@@ -17,7 +23,7 @@ export const setIsLoading = (isLoading) => ({
 
 // Thunks
 export const uploadFileToS3 =
-	(file, folder, userId, bucket, region) => async () => {
+	(file, folder, userId, bucket, region) => async (dispatch) => {
 		try {
 			// Fetch presigned URL
 			const response = await csrfFetch(
@@ -26,7 +32,7 @@ export const uploadFileToS3 =
 			const { url, uniqueKey } = await response.json();
 
 			// Upload file to S3
-				const uploadResponse = csrfFetch(url, {
+				const uploadResponse = await fetch(url, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': file.type,
@@ -55,6 +61,7 @@ export const uploadFileToS3 =
 			};
 		} catch (error) {
 			console.error('Error uploading file:', error);
+			dispatch(setError(error.message));
 			throw error;
 		}
 	};
@@ -111,11 +118,14 @@ export const uploadFiles =
 const initialState = {
 	uploadedUrls: [],
 	isLoading: false,
+	error: null,
 };
 
 // Reducer
 const fileReducer = (state = initialState, action) => {
 	switch (action.type) {
+		case 'files/SET_ERROR':
+			return { ...state, error: action.error };
 		case SET_UPLOADED_URLS:
 			return {
 				...state,

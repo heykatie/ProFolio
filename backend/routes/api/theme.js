@@ -30,7 +30,8 @@ router.put('/update', requireAuth, async (req, res) => {
         return res.status(404).json({ error: 'User not found' });
     }
 
-    user.themePreference = theme;
+  user.themePreference = theme;
+  user.save()
     return await res.json( user.themePreference );
 });
 

@@ -48,9 +48,9 @@ const Profile = () => {
 					career: data.career || '',
 					socialLinks: data.socialLinks || '',
 					username: data.username || '',
-					githubUrl: data.githubUrl || null,
-					linkedinUrl: data.linkedinUrl || null,
-					resumeUrl: data.resumeUrl || null,
+					githubUrl: data.githubUrl || '',
+					linkedinUrl: data.linkedinUrl || '',
+					resumeUrl: data.resumeUrl || '',
 				});
 			});
 		} else {
@@ -181,7 +181,7 @@ const Profile = () => {
 						Phone Number
 					</label>
 					<PhoneInput
-						phone={formData.phone}
+						phone={formData.phone || ''}
 						value={formData.phone || ''}
 						onChange={handleChange}
 					/>
@@ -259,7 +259,7 @@ const Profile = () => {
 						id='githubUrl'
 						name='githubUrl'
 						type='url'
-						value={formData.githubUrl || null}
+						value={formData.githubUrl || ''}
 						onChange={handleChange}
 						className='form-input'
 					/>
@@ -272,7 +272,7 @@ const Profile = () => {
 						id='linkedinUrl'
 						name='linkedinUrl'
 						type='url'
-						value={formData.linkedinUrl || null}
+						value={formData.linkedinUrl || ''}
 						onChange={handleChange}
 						className='form-input'
 					/>
@@ -285,7 +285,7 @@ const Profile = () => {
 						id='resumeUrl'
 						name='resumeUrl'
 						type='url'
-						value={formData.resumeUrl || null}
+						value={formData.resumeUrl || ''}
 						onChange={handleChange}
 						className='form-input'
 					/>

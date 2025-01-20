@@ -33,7 +33,6 @@ export const uploadFileToS3 =
 						'Content-Type': file.type,
 					},
 					body: file,
-					mode: 'cors',
 				});
 				if (!uploadResponse.ok) {
 					throw new Error('Failed to upload file to S3.');

@@ -26,16 +26,29 @@ export const uploadFileToS3 =
 			const { url, uniqueKey } = await response.json();
 
 			// Upload file to S3
-			const uploadResponse = await fetch(url, {
-				method: 'PUT',
-				headers: {
-					'Content-Type': file.type,
-				},
-				body: file,
-			});
-
-			if (!uploadResponse.ok) {
-				throw new Error('Failed to upload file to S3.');
+			if (import.meta.env.MODE === 'production') {
+				const uploadResponse = csrfFetch(url, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': file.type,
+					},
+					body: file,
+					mode: 'cors',
+				});
+				if (!uploadResponse.ok) {
+					throw new Error('Failed to upload file to S3.');
+				}
+			} else {
+				const uploadResponse = await csrfFetch(url, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': file.type,
+					},
+					body: file,
+				});
+				if (!uploadResponse.ok) {
+					throw new Error('Failed to upload file to S3.');
+				}
 			}
 
 			// Save file info in the backend

@@ -1,11 +1,13 @@
 // import axios from 'axios';
 import { useState } from 'react';
+import {useSelector} from 'react-redux';
 import './FileUpload.css';
 
 const FileUpload = () => {
 	const [file, setFile] = useState(null);
 	const [uploadedUrl, setUploadedUrl] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
+	const sessionUser = useSelector((state) => state.session.user);
 
 	const handleFileChange = (e) => {
 		setFile(e.target.files[0]);
@@ -17,12 +19,14 @@ const FileUpload = () => {
 			return;
 		}
 
+		const userId = sessionUser.id;
+
 		setIsLoading(true);
 		try {
 			// Step 1: Fetch presigned URL
 			console.log('Uploading file:', file.name); // Debugging log
 			const response = await fetch(
-				`/api/uploads/upload-url?key=uploads/${file.name}&contentType=${file.type}`
+				`/api/uploads/upload-url?key=uploads/${file.name}&contentType=${file.type}&userId=${userId}`
 			);
 
 			if (!response.ok) {
@@ -51,6 +55,29 @@ const FileUpload = () => {
 
 			if (uploadResponse.ok) {
 				console.log('File uploaded successfully');
+
+				// Step 3: Notify the backend to save the S3 URL to the database
+				const saveResponse = await fetch('/api/uploads/upload', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						userId: sessionUser.id, 
+						fileUrl: url,
+					}),
+				});
+
+				if (!saveResponse.ok) {
+					console.error(
+						'Error saving file URL:',
+						await saveResponse.text()
+					);
+				} else {
+					const saveResult = await saveResponse.json();
+					setUploadedUrl(saveResult.url); // Display the uploaded URL
+				}
+
 			} else {
 				console.error('Error uploading file', await uploadResponse.text());
 			}

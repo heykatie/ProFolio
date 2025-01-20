@@ -45,8 +45,12 @@ export const restoreUser = () => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(createSession(data.user));
-    const user = dispatch(getUser(data.user.id));
-    dispatch(setTheme(user.themePreference));
+
+    if (data.user) {
+      const user = dispatch(getUser(data.user.id));
+      dispatch(setTheme(user.themePreference));
+    }
+    
     return data.user;
   }
 };

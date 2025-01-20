@@ -1,8 +1,7 @@
 const express = require('express');
 const multer = require('multer');
-// const uploadToS3 = require('../../utils/s3.js').uploadToS3;
 const {
-	uploadToS3,
+	// uploadToS3,
 	generateGetPresignedUrl,
 	generatePutPresignedUrl,
 } = require('../../utils/s3.js');
@@ -10,12 +9,13 @@ const {
 	getUniqueFilename,
 	validateFileExtension,
 } = require('../../utils/filename');
+const { User } = require('../../db/models');
 
 const router = express.Router();
 
 // Configure multer
-const storage = multer.memoryStorage(); // Store files in memory before uploading to S3
-const upload = multer({ storage });
+// const storage = multer.memoryStorage(); // Store files in memory before uploading to S3
+// const upload = multer({ storage });
 
 // Generate a presigned URL for file upload
 router.get('/upload-url', async (req, res) => {
@@ -28,8 +28,7 @@ router.get('/upload-url', async (req, res) => {
 	}
 
 	// Validate file extension
-  if (!validateFileExtension(key)) {
-    console.log('Invalid file extension:', key);
+	if (!validateFileExtension(key)) {
 		return res
 			.status(400)
 			.json({
@@ -64,35 +63,57 @@ router.get('/download-url', async (req, res) => {
   }
 });
 
-// File upload endpoint
-router.post('/upload', upload.single('file'), async (req, res) => {
-	const file = req.file;
+router.post('/upload', async (req, res) => {
+	const { userId, fileUrl } = req.body;
 
-	if (!file) {
-		return res.status(400).json({ error: 'No file uploaded' });
-	}
-
-	// Validate file extension
-	if (!validateFileExtension(file.originalname)) {
+	// Validate input
+	if (!userId || !fileUrl) {
 		return res
 			.status(400)
-			.json({
-				error: 'Invalid file extension. Allowed extensions are png, jpg, jpeg, gif.',
-			});
+			.json({ error: 'User ID and file URL are required' });
 	}
 
 	try {
-		const key = `uploads/${getUniqueFilename(file.originalname)}`; // Define the file path in the bucket
-		const result = await uploadToS3(file.buffer, key, file.mimetype);
+		// Find the user in the database
+		const user = await User.findByPk(userId);
+		if (!user) {
+			return res.status(404).json({ error: 'User not found' });
+		}
+
+		// Update the user's profile image URL
+		user.profileImageUrl = fileUrl;
+		await user.save();
 
 		return res.status(200).json({
-			message: 'File uploaded successfully',
-			url: result.Location, // S3 URL
+			message: 'File URL saved successfully',
+			url: fileUrl,
 		});
-	} catch (err) {
-		console.error(err);
-		return res.status(500).json({ error: 'Failed to upload file' });
+	} catch (error) {
+		console.error('Error saving file URL:', error);
+		return res.status(500).json({ error: 'Failed to save file URL' });
 	}
 });
 
 module.exports = router;
+
+// // File upload endpoint
+// router.post('/upload', upload.single('file'), async (req, res) => {
+// 	const file = req.file;
+
+// 	if (!file) {
+// 		return res.status(400).json({ error: 'No file uploaded' });
+//   }
+
+// 	try {
+// 		const key = `uploads/${getUniqueFilename(file.originalname)}`; // Define the file path in the bucket
+// 		const result = await uploadToS3(file.buffer, key, file.mimetype);
+
+// 		return res.status(200).json({
+// 			message: 'File uploaded successfully',
+// 			url: result.Location, // S3 URL
+// 		});
+// 	} catch (err) {
+// 		console.error(err);
+// 		return res.status(500).json({ error: 'Failed to upload file' });
+// 	}
+// });

@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
 
 	User.init(
 		{
+			profileImageUrl: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
 			username: {
 				type: DataTypes.STRING,
 				allowNull: true,
@@ -119,9 +123,7 @@ module.exports = (sequelize, DataTypes) => {
 							return; // Allow empty string
 						}
 						if (value && value.length < 10) {
-							throw new Error(
-								'Phone must be a valid number.'
-							);
+							throw new Error('Phone must be a valid number.');
 						}
 					},
 				},
@@ -173,7 +175,7 @@ module.exports = (sequelize, DataTypes) => {
 				validate: {
 					isIn: [['light', 'dark', 'system']], // Ensures the value is one of "light" or "dark"
 				},
-				defaultValue: 'light'
+				defaultValue: 'light',
 			},
 			githubConnected: {
 				type: DataTypes.BOOLEAN,

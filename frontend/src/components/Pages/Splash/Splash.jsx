@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Splash = () => {
 	return (
 		<div className='splash-page bg-background text-text-primary dark:bg-background-dark dark:text-text-primary-dark'>
@@ -46,7 +44,7 @@ const Splash = () => {
 				</div>
 				<div className='trusted-by text-center mt-16'>
 					<p className='text-lg font-body mb-4'>
-						Recruited & trusted by the world's leading tech companies.
+						{"Recruited & trusted by the world's leading tech companies."}
 					</p>
 					<div className='logos flex justify-center space-x-8'>
 						<img

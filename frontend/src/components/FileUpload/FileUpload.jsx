@@ -1,14 +1,16 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { uploadFiles } from '../../store/file';
 import './FileUpload.css';
 
 const FileUpload = () => {
-	const [isLoading, setIsLoading] = useState(false);
+	const dispatch = useDispatch();
+	const isLoading = useSelector((state) => state.file.isLoading);
+	const uploadedUrls = useSelector((state) => state.file.uploadedUrls);
 	const sessionUser = useSelector((state) => state.session.user);
 
 	const [profilePicture, setProfilePicture] = useState(null);
-	const [otherFiles, setOtherFiles] = useState([]);
-	const [uploadedUrls, setUploadedUrls] = useState([]); // To store uploaded URLs
+	const [files, setFiles] = useState([]);
 	const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB limit
 
 	const handleProfilePictureChange = (e) => {
@@ -27,7 +29,7 @@ const FileUpload = () => {
 		setProfilePicture(selectedFile);
 	};
 
-	const handleOtherFilesChange = (e) => {
+	const handleFilesChange = (e) => {
 		const selectedFiles = Array.from(e.target.files);
 
 		const validFiles = selectedFiles.filter(
@@ -41,80 +43,19 @@ const FileUpload = () => {
 			);
 		}
 
-		setOtherFiles((prev) => [...prev, ...validFiles]); // Append new files to the existing array
+		setFiles((prev) => [...prev, ...validFiles]);
 	};
 
-	const uploadFiles = async () => {
-		if (!profilePicture && otherFiles.length === 0) {
-			alert('Please select files to upload.');
-			return;
-		}
-
-		setIsLoading(true);
-
-		try {
-			// Upload profile picture
-			if (profilePicture) {
-				const profileResponse = await uploadFileToS3(
-					profilePicture,
-					'profile_picture'
-				);
-				console.log('Profile Picture URL:', profileResponse.url);
-			}
-
-			// Upload other files
-			if (otherFiles.length > 0) {
-				const otherFilesResponses = await Promise.all(
-					otherFiles.map((file) => uploadFileToS3(file, 'other_files'))
-				);
-				console.log('Other Files URLs:', otherFilesResponses);
-				setUploadedUrls(otherFilesResponses.map((res) => res.url));
-			}
-		} catch (err) {
-			console.error('Error uploading files:', err);
-			alert('Failed to upload files.');
-		} finally {
-			setIsLoading(false);
-		}
-	};
-
-	const uploadFileToS3 = async (file, folder, type) => {
-		const response = await fetch(
-			`/api/uploads/upload-url?key=${folder}/${file.name}&contentType=${file.type}&fileSize=${file.size}`
-		);
-		const { url, uniqueKey } = await response.json();
-
-		const uploadResponse = await fetch(url, {
-			method: 'PUT',
-			headers: {
-				'Content-Type': file.type,
-			},
-			body: file,
-		});
-
-		if (!uploadResponse.ok) {
-			throw new Error('Failed to upload file to S3.');
-		}
-
-		await fetch('/api/uploads/upload', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				userId: sessionUser.id,
-				fileUrl: `https://${import.meta.env.VITE_S3_BUCKET}.s3.${
-					import.meta.env.VITE_AWS_REGION
-				}.amazonaws.com/${uniqueKey}`,
-				type, // Specify file type
-			}),
-		});
-
-		return {
-			url: `https://${import.meta.env.VITE_S3_BUCKET}.s3.${
+	const handleUpload = () => {
+		dispatch(
+			uploadFiles(
+				profilePicture,
+				files,
+				sessionUser.id,
+				import.meta.env.VITE_S3_BUCKET,
 				import.meta.env.VITE_AWS_REGION
-			}.amazonaws.com/${uniqueKey}`,
-		};
+			)
+		);
 	};
 
 	return (
@@ -130,9 +71,9 @@ const FileUpload = () => {
 				type='file'
 				accept='.pdf,.doc,.docx,.png,.jpg,.jpeg'
 				multiple
-				onChange={handleOtherFilesChange}
+				onChange={handleFilesChange}
 			/>
-			<button onClick={uploadFiles} disabled={isLoading}>
+			<button onClick={handleUpload} disabled={isLoading}>
 				{isLoading ? 'Uploading...' : 'Upload Files'}
 			</button>
 

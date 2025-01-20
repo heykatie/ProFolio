@@ -3,11 +3,13 @@ import { thunk } from 'redux-thunk';
 import sessionReducer from './session';
 import themeReducer from './theme.js';
 import profileReducer from './profile.js';
+import fileReducer from './file.js'
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   theme: themeReducer,
-  profile: profileReducer
+  profile: profileReducer,
+  file: fileReducer
 });
 
 // set to different store enhancers depending on whether the Node environment

@@ -31,6 +31,7 @@ router.get('/upload-url', async (req, res) => {
 	try {
 		const uniqueKey = `uploads/${key}`;
 		const url = await generatePutPresignedUrl(uniqueKey, contentType);
+		console.log('Generated Pre-Signed URL:', url);
 		return res.status(200).json({ url, uniqueKey });
 	} catch (err) {
 		console.error('Error generating presigned URL:', err);

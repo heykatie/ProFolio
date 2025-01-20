@@ -48,9 +48,9 @@ const Profile = () => {
 					career: data.career || '',
 					socialLinks: data.socialLinks || '',
 					username: data.username || '',
-					githubUrl: data.githubUrl || '',
-					linkedinUrl: data.linkedinUrl || '',
-					resumeUrl: data.resumeUrl || '',
+					githubUrl: data.githubUrl || null,
+					linkedinUrl: data.linkedinUrl || null,
+					resumeUrl: data.resumeUrl || null,
 				});
 			});
 		} else {
@@ -259,7 +259,7 @@ const Profile = () => {
 						id='githubUrl'
 						name='githubUrl'
 						type='url'
-						value={formData.githubUrl || ''}
+						value={formData.githubUrl || null}
 						onChange={handleChange}
 						className='form-input'
 					/>
@@ -272,7 +272,7 @@ const Profile = () => {
 						id='linkedinUrl'
 						name='linkedinUrl'
 						type='url'
-						value={formData.linkedinUrl || ''}
+						value={formData.linkedinUrl || null}
 						onChange={handleChange}
 						className='form-input'
 					/>
@@ -285,7 +285,7 @@ const Profile = () => {
 						id='resumeUrl'
 						name='resumeUrl'
 						type='url'
-						value={formData.resumeUrl || ''}
+						value={formData.resumeUrl || null}
 						onChange={handleChange}
 						className='form-input'
 					/>

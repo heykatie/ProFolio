@@ -7,7 +7,7 @@ const CREATE_SESSION = 'session/createSession';
 const DELETE_SESSION = 'session/deleteSession';
 
 /* --- Action Creators --- */
-const createSession = (user) => ({
+export const createSession = (user) => ({
 	type: CREATE_SESSION,
 	payload: user,
 });
@@ -50,7 +50,7 @@ export const restoreUser = () => async (dispatch) => {
       const user = dispatch(getUser(data.user.id));
       dispatch(setTheme(user.themePreference));
     }
-    
+
     return data.user;
   }
 };

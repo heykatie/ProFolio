@@ -10,7 +10,18 @@ const FileUpload = () => {
 	const sessionUser = useSelector((state) => state.session.user);
 
 	const handleFileChange = (e) => {
-		setFile(e.target.files[0]);
+		const selectedFile = e.target.files[0];
+		const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB limit
+
+		if (selectedFile.size > MAX_FILE_SIZE) {
+			alert(
+				'File size exceeds the 5MB limit. Please choose a smaller file.'
+			);
+			setFile(null); // Reset the file state
+			return;
+		}
+
+		setFile(selectedFile);
 	};
 
 	const uploadFile = async () => {
@@ -25,8 +36,11 @@ const FileUpload = () => {
 		try {
 			// Step 1: Fetch presigned URL
 			console.log('Uploading file:', file.name); // Debugging log
+			console.log(
+				`/api/uploads/upload-url?key=${file.name}&contentType=${file.type}&fileSize=${file.size}&userId=${userId}`
+			);
 			const response = await fetch(
-				`/api/uploads/upload-url?key=uploads/${file.name}&contentType=${file.type}&userId=${userId}`
+				`/api/uploads/upload-url?key=${file.name}&contentType=${file.type}&fileSize=${file.size}&userId=${userId}`
 			);
 
 			if (!response.ok) {
@@ -43,7 +57,7 @@ const FileUpload = () => {
 				setIsLoading(false);
 				return;
 			}
-
+			console.log('KATIE', url)
 			// Step 2: Upload file to S3
 			const uploadResponse = await fetch(url, {
 				method: 'PUT',
@@ -63,7 +77,7 @@ const FileUpload = () => {
 						'Content-Type': 'application/json',
 					},
 					body: JSON.stringify({
-						userId: sessionUser.id, 
+						userId: sessionUser.id,
 						fileUrl: url,
 					}),
 				});

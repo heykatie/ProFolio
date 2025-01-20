@@ -19,9 +19,9 @@ const router = express.Router();
 
 // Generate a presigned URL for file upload
 router.get('/upload-url', async (req, res) => {
-	const { key, contentType } = req.query;
+	const { key, contentType, fileSize } = req.query;
 
-	if (!key || !contentType) {
+	if (!key || !contentType || !fileSize) {
 		return res
 			.status(400)
 			.json({ error: 'Key and contentType are required' });
@@ -36,8 +36,15 @@ router.get('/upload-url', async (req, res) => {
 			});
 	}
 
+	const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+	if (parseInt(fileSize, 10) > MAX_FILE_SIZE) {
+		return res
+			.status(400)
+			.json({ error: 'File size exceeds the 5MB limit.' });
+	}
+
 	try {
-		const uniqueKey = `uploads/${getUniqueFilename(key)}`;
+		const uniqueKey = getUniqueFilename(key);
 		const url = await generatePutPresignedUrl(uniqueKey, contentType);
 		return res.status(200).json({ url, uniqueKey });
 	} catch (error) {
@@ -73,6 +80,16 @@ router.post('/upload', async (req, res) => {
 			.json({ error: 'User ID and file URL are required' });
 	}
 
+	// Extract the key from the fileUrl
+	const urlPath = new URL(fileUrl).pathname; // Extract the path from the URL
+	const key = urlPath.startsWith('/') ? urlPath.slice(1) : urlPath; // Remove leading slash
+
+	// Validate key prefix
+	const expectedPrefix = 'uploads/';
+	if (!key.startsWith(expectedPrefix)) {
+		return res.status(400).json({ error: 'Invalid file URL format' });
+	}
+
 	try {
 		// Find the user in the database
 		const user = await User.findByPk(userId);
@@ -80,19 +97,57 @@ router.post('/upload', async (req, res) => {
 			return res.status(404).json({ error: 'User not found' });
 		}
 
-		// Update the user's profile image URL
-		user.profileImageUrl = fileUrl;
+		// Save the key instead of the full URL
+		user.profileImageUrl = key;
 		await user.save();
 
 		return res.status(200).json({
-			message: 'File URL saved successfully',
-			url: fileUrl,
+			message: 'File key saved successfully',
+			key,
 		});
 	} catch (error) {
-		console.error('Error saving file URL:', error);
-		return res.status(500).json({ error: 'Failed to save file URL' });
+		console.error('Error saving file key:', error);
+		return res.status(500).json({ error: 'Failed to save file key' });
 	}
 });
+
+// router.post('/upload', async (req, res) => {
+// 	const { userId, fileUrl } = req.body;
+// 	const expectedPrefix = 'uploads/';
+// 	const urlPath = new URL(fileUrl).pathname; // Extract the path from the URL
+// 	const key = urlPath.startsWith('/') ? urlPath.slice(1) : urlPath; // Remove leading slash
+
+// 	if (!key.startsWith(expectedPrefix)) {
+// 		return res.status(400).json({ error: 'Invalid file URL format' });
+// 	}
+
+// 	// Validate input
+// 	if (!userId || !fileUrl) {
+// 		return res
+// 			.status(400)
+// 			.json({ error: 'User ID and file URL are required' });
+// 	}
+
+// 	try {
+// 		// Find the user in the database
+// 		const user = await User.findByPk(userId);
+// 		if (!user) {
+// 			return res.status(404).json({ error: 'User not found' });
+// 		}
+
+// 		// Update the user's profile image URL
+// 		user.profileImageUrl = fileUrl;
+// 		await user.save();
+
+// 		return res.status(200).json({
+// 			message: 'File URL saved successfully',
+// 			url: fileUrl,
+// 		});
+// 	} catch (error) {
+// 		console.error('Error saving file URL:', error);
+// 		return res.status(500).json({ error: 'Failed to save file URL' });
+// 	}
+// });
 
 module.exports = router;
 

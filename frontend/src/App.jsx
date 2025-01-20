@@ -16,6 +16,7 @@ import {
 	Activity,
 	Create,
 	Settings,
+	Splash
 } from './components/Pages';
 
 const Layout = () => {
@@ -47,7 +48,7 @@ const routes = [
 		children: [
 			{
 				path: '/',
-				element: <h1> herro </h1>,
+				element: <Splash />,
 			},
 			{
 				path: '/login',

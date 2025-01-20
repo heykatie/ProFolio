@@ -55,6 +55,17 @@ const Navbar = () => {
 					ProFolio
 				</NavLink>
 			</div>
+			<nav className='nav-links flex space-x-6'>
+				<a href='#features' className='hover:text-primary-hover'>
+					Features
+				</a>
+				<a href='#resources' className='hover:text-primary-hover'>
+					Resources
+				</a>
+				<a href='#plans' className='hover:text-primary-hover'>
+					Plans
+				</a>
+			</nav>
 
 			{/* Actions Section */}
 			<div className='flex flex-col items-start w-full mt-4 space-y-4 md:mt-0 md:flex-row md:items-center md:w-auto md:space-y-0 md:space-x-4'>

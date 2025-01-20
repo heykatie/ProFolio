@@ -17,14 +17,17 @@ module.exports = (sequelize, DataTypes) => {
 			userId: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
+				field: 'userId', // This explicitly maps the attribute to the database column
 			},
 			fileUrl: {
 				type: DataTypes.STRING,
 				allowNull: false,
+				field: 'fileUrl', // Map to the correct database column
 			},
 			fileType: {
 				type: DataTypes.STRING,
-				allowNull: true, // Optional
+				allowNull: true,
+				field: 'fileType', // Map to the correct database column
 			},
 		},
 		{
@@ -32,7 +35,9 @@ module.exports = (sequelize, DataTypes) => {
 			modelName: 'File',
 			tableName: 'Files', // Explicitly match the table name
 			timestamps: true, // Automatically adds `createdAt` and `updatedAt`
-			underscored: true, // Uses snake_case for column names in DB
+			createdAt: 'createdAt', // Explicitly map `createdAt`
+			updatedAt: 'updatedAt',
+			// underscored: true, // Uses snake_case for column names in DB
 		}
 	);
 

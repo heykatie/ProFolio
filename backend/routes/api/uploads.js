@@ -2,6 +2,7 @@ const express = require('express');
 const {
 	generateGetPresignedUrl,
 	generatePutPresignedUrl,
+	deleteFromS3,
 } = require('../../utils/s3.js');
 const {
 	getUniqueFilename,
@@ -88,6 +89,27 @@ router.post('/upload', async (req, res) => {
 	} catch (error) {
 		console.error('Error saving file key:', error);
 		res.status(500).json({ error: 'Failed to save file key' });
+	}
+});
+
+router.delete('/delete', async (req, res) => {
+	const { key } = req.body;
+
+	if (!key) {
+		return res.status(400).json({ error: 'File key is required' });
+	}
+
+	try {
+		const result = await deleteFromS3(key);
+
+		if (!result.success) {
+			return res.status(500).json({ error: result.error });
+		}
+
+		return res.status(200).json({ message: 'File deleted successfully' });
+	} catch (error) {
+		console.error('Error deleting file:', error);
+		return res.status(500).json({ error: 'Failed to delete file' });
 	}
 });
 

@@ -3,8 +3,6 @@ import { useSelector } from 'react-redux';
 import './FileUpload.css';
 
 const FileUpload = () => {
-	const [file, setFile] = useState(null);
-	const [uploadedUrl, setUploadedUrl] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 	const sessionUser = useSelector((state) => state.session.user);
 

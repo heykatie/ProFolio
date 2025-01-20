@@ -17,7 +17,7 @@ export const setIsLoading = (isLoading) => ({
 
 // Thunks
 export const uploadFileToS3 =
-	(file, folder, userId, bucket, region) => async (dispatch) => {
+	(file, folder, userId, bucket, region) => async () => {
 		try {
 			// Fetch presigned URL
 			const response = await csrfFetch(
@@ -61,8 +61,8 @@ export const uploadFileToS3 =
 	};
 
 export const uploadFiles =
-	(profilePicture, Files, userId, bucket, region) => async (dispatch) => {
-		if (!profilePicture && Files.length === 0) {
+	(profilePicture, files, userId, bucket, region) => async (dispatch) => {
+		if (!profilePicture && files.length === 0) {
 			alert('Please select files to upload.');
 			return;
 		}
@@ -87,16 +87,16 @@ export const uploadFiles =
 			}
 
 			// Upload  files
-			if (Files.length > 0) {
-				const FilesResponses = await Promise.all(
-					Files.map((file) =>
+			if (files.length > 0) {
+				const filesResponses = await Promise.all(
+					files.map((file) =>
 						dispatch(
 							uploadFileToS3(file, '_files', userId, bucket, region)
 						)
 					)
 				);
-				console.log(' Files URLs:', FilesResponses);
-				uploadedUrls.push(...FilesResponses.map((res) => res.url));
+				console.log(' Files URLs:', filesResponses);
+				uploadedUrls.push(...filesResponses.map((res) => res.url));
 			}
 
 			dispatch(setUploadedUrls(uploadedUrls));
